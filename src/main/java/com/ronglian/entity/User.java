@@ -19,33 +19,45 @@ public class User implements Serializable{
 	    @Column(name = "user_id")    
 	    private int userId;
 
-	    @Column(nullable = false, name="password") 
+	    @Column(name="password") 
 	    // 这里说一下，我使用指定数据库列的时�?�，使用小写会不起作用，修改为大写便正常了�?�不知道为何，如果遇到一样问题的可以尝试下�??
 	    private String passWord;
 
-	    @Column(nullable = false, name="nickname")
+	    @Column(name="nickname")
 	    private String nickName;
 
-	    @Column(nullable = false,name="email")
+	    @Column(name="email")
 	    private String email;
 
-	    @Column(nullable = false, name="openid")
-	    private String openId;
+	    @Column(name="openid")
+	    private String openid;
 	    
-	    @Column(nullable = false, name="tw_openid")
+	    @Column(name="tw_openid")
 	    private String twOpenid;
 	    
-	    @Column(nullable = false, name="wb_openid")
-	    private String wbOpenid;
+	    @Column(name="face_openid")
+	    private String faceOpenid;
 	    
-	    @Column(nullable = false, name="user_photo")
-	    private String userPhoto;
+	    @Column(name="photo_url")
+	    private String photoUrl;
 	    
-	    @Column(nullable = false, name="create_time")
+	    @Column(name="create_time")
 	    private Date createTime;
 	    
-	    @Column(nullable = false, name="modify_time")
+	    @Column(name="modify_time")
 	    private Date modifyTime;
+	    
+	    @Column(name="sex")
+	    private int sex;
+	    
+	    @Column(name="country")
+	    private String country;
+	    
+	    @Column(name="province")
+	    private String province;
+	    
+	    @Column(name="city")
+	    private String city;
 
 		public int getUserId() {
 			return userId;
@@ -67,6 +79,62 @@ public class User implements Serializable{
 			return nickName;
 		}
 
+		public String getOpenid() {
+			return openid;
+		}
+
+		public void setOpenid(String openid) {
+			this.openid = openid;
+		}
+
+		public String getFaceOpenid() {
+			return faceOpenid;
+		}
+
+		public void setFaceOpenid(String faceOpenid) {
+			this.faceOpenid = faceOpenid;
+		}
+
+		public String getPhotoUrl() {
+			return photoUrl;
+		}
+
+		public void setPhotoUrl(String photoUrl) {
+			this.photoUrl = photoUrl;
+		}
+
+		public int getSex() {
+			return sex;
+		}
+
+		public void setSex(int sex) {
+			this.sex = sex;
+		}
+
+		public String getCountry() {
+			return country;
+		}
+
+		public void setCountry(String country) {
+			this.country = country;
+		}
+
+		public String getProvince() {
+			return province;
+		}
+
+		public void setProvince(String province) {
+			this.province = province;
+		}
+
+		public String getCity() {
+			return city;
+		}
+
+		public void setCity(String city) {
+			this.city = city;
+		}
+
 		public void setNickName(String nickName) {
 			this.nickName = nickName;
 		}
@@ -79,13 +147,7 @@ public class User implements Serializable{
 			this.email = email;
 		}
 
-		public String getOpenId() {
-			return openId;
-		}
-
-		public void setOpenId(String openId) {
-			this.openId = openId;
-		}
+	
 
 		public String getTwOpenid() {
 			return twOpenid;
@@ -95,21 +157,6 @@ public class User implements Serializable{
 			this.twOpenid = twOpenid;
 		}
 
-		public String getWbOpenid() {
-			return wbOpenid;
-		}
-
-		public void setWbOpenid(String wbOpenid) {
-			this.wbOpenid = wbOpenid;
-		}
-
-		public String getUserPhoto() {
-			return userPhoto;
-		}
-
-		public void setUserPhoto(String userPhoto) {
-			this.userPhoto = userPhoto;
-		}
 
 		public Date getCreateTime() {
 			return createTime;
@@ -126,6 +173,17 @@ public class User implements Serializable{
 		public void setModifyTime(Date modifyTime) {
 			this.modifyTime = modifyTime;
 		}
-	   
-	    
+
+		//非关联数据库的属性
+		private int type;
+
+		public int getType() {
+			return type;
+		}
+
+		public void setType(int type) {
+			this.type = type;
+		}
+		
+		
 }
