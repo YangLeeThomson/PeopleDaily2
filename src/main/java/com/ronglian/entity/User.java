@@ -17,7 +17,7 @@ public class User implements Serializable{
 
 	    @Id
 	    @Column(name = "user_id")    
-	    private int userId;
+	    private String userId;
 
 	    @Column(name="password") 
 	    // 这里说一下，我使用指定数据库列的时�?�，使用小写会不起作用，修改为大写便正常了�?�不知道为何，如果遇到一样问题的可以尝试下�??
@@ -59,11 +59,12 @@ public class User implements Serializable{
 	    @Column(name="city")
 	    private String city;
 
-		public int getUserId() {
+
+		public String getUserId() {
 			return userId;
 		}
 
-		public void setUserId(int userId) {
+		public void setUserId(String userId) {
 			this.userId = userId;
 		}
 
