@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.ronglian.interceptor.LoginInterceptor;
 import com.ronglian.interceptor.SignInterceptor;
 /**
  * @author liyang
@@ -24,7 +25,7 @@ public class InterceptorConfiguration extends WebMvcConfigurerAdapter{
 //	       registry.addInterceptor(new SignInterceptor())
 //	       .addPathPatterns("/**").excludePathPatterns("/oauth/*");
 		
-		
+		   registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**");
 	       registry.addInterceptor(new SignInterceptor()).addPathPatterns("/**");
 	       super.addInterceptors(registry);
 	}
@@ -35,5 +36,9 @@ public class InterceptorConfiguration extends WebMvcConfigurerAdapter{
     @Bean
     public SignInterceptor signInterceptor(){
         return new SignInterceptor();
+    }
+    @Bean
+    public LoginInterceptor loginInterceptor(){
+        return new LoginInterceptor();
     }
 }
