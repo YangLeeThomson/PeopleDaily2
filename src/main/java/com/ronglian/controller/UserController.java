@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,27 +26,29 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
-	private UserDao userDao;
-	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("/users")
-	public List<User> getUserList(){
-		logger.info("从数据库读取User集合");
-		return userDao.getList();
-	}
 	/**
 	 * 用户登录注册接口
 	 * */
-	@RequestMapping(value="/1.0/userslogin",method=RequestMethod.POST)
-	public RongLianResult loginOrRegist(String photoUrl,String nickName,String openId,String deviceId){
-		return this.userService.login(photoUrl, nickName, openId,deviceId);
+	@RequestMapping(value="/1.0/userlogin",method=RequestMethod.POST)
+	public RongLianResult loginOrRegist(@RequestBody User user){
+		return this.userService.login(user);
 	}
 	/**
-	 * 用户退出系统
+	 * 用户个人信息接口
+	 * @param accessToken
+	 * @return
+	 */
+	@RequestMapping(value="/1.0/userinfo",method=RequestMethod.GET)
+	public RongLianResult getUserInfo(String accessToken){
+		return this.userService.getUserInfo(accessToken);
+	}
+	/**
+	 * 用户退出系统接口
 	 * */
-	@RequestMapping(value="/1.0/userlogout",method=RequestMethod.POST)
-	public RongLianResult quitOut(String tokenId){
-		return RongLianResult.ok();
+	@RequestMapping(value="/1.0/userlogout",method=RequestMethod.GET)
+	public RongLianResult quitOut(String accessToken){
+		return this.userService.quit(accessToken);
 	}
 }
