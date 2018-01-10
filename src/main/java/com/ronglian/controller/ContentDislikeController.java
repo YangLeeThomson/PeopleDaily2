@@ -4,10 +4,12 @@
 package com.ronglian.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ronglian.entity.NewsInfoDislike;
 import com.ronglian.service.ContentDislikeService;
 import com.ronglian.utils.RongLianResult;
 
@@ -29,7 +31,7 @@ public class ContentDislikeController {
 	@Autowired
 	private ContentDislikeService contentDislikeService;
 	@RequestMapping(value="/1.0/contentdislike",method=RequestMethod.POST)
-	public RongLianResult contentDisLike(String newsId,String deviceId,String userId){
-		return RongLianResult.ok();
+	public RongLianResult contentDisLike(@RequestBody NewsInfoDislike newsinfoDislike){
+		return contentDislikeService.addContentDislike(newsinfoDislike);
 	}
 }
