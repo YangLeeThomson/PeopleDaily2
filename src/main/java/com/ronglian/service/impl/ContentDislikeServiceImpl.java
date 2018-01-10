@@ -3,6 +3,9 @@
  */
 package com.ronglian.service.impl;
 
+import java.util.UUID;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +29,18 @@ public class ContentDislikeServiceImpl implements ContentDislikeService {
 	 */
 	@Override
 	public RongLianResult addContentDislike(NewsInfoDislike obj) {
-		// TODO Auto-generated method stub
-		if(obj != null){
-			String id = 
+		// 数据补全校验
+		if(obj != null && StringUtils.isNotBlank(obj.getNewsId())
+				&& StringUtils.isNotBlank(obj.getDeviceId())
+				){
+			String id = UUID.randomUUID().toString().replaceAll("-", "");
+			obj.setId(id);
+			NewsInfoDislike newsInfoDislike = newsInfoDislikeDao.save(obj);
+			return RongLianResult.ok(newsInfoDislike);
+		}else{
+			return RongLianResult.build(500, "请求参数有问题");
 		}
-		return null;
+		
 	} 
 	
 }
