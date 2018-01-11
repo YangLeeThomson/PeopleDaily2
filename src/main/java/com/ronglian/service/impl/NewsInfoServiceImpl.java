@@ -115,7 +115,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	public RongLianResult addNewsInfo(String newsStr) throws JsonParseException, JsonMappingException, IOException, NumberFormatException, ParseException{
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
-		try{
+		/*try{*/
 		Map map = mapper.readValue(newsStr, Map.class);
 		if(map != null){
 			if(map.get("newsId")==null){
@@ -146,8 +146,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		}else{
 			return RongLianResult.build(500, "未传参数或参数格式不对");
 		}
-		}catch(Exception e){
+		/*}catch(Exception e){
 			return RongLianResult.build(500, e.getMessage());
-		}
+		}*/
 	}
 }

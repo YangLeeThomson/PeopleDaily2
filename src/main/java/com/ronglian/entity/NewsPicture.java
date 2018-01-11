@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+
 
 /**
  * The persistent class for the news_picture database table.
@@ -16,7 +18,8 @@ public class NewsPicture implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
+	/*@GeneratedValue(generator="system_uuid")  
+    @GenericGenerator(name="system_uuid",strategy="uuid")  */
 	@Column(name="picture_id")
 	private String pictureId;
 
