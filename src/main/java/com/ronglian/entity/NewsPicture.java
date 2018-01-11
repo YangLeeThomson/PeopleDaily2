@@ -1,6 +1,7 @@
 package com.ronglian.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -34,6 +35,9 @@ public class NewsPicture implements Serializable {
 
 	@Column(name="picture_sort")
 	private int pictureSort;
+	
+	@Column(name="picture_title")
+	private String pictureTitle;
 
 	public NewsPicture() {
 	}
@@ -86,4 +90,19 @@ public class NewsPicture implements Serializable {
 		this.pictureSort = pictureSort;
 	}
 
+	public String getPictureTitle() {
+		return pictureTitle;
+	}
+
+	public void setPictureTitle(String pictureTitle) {
+		this.pictureTitle = pictureTitle;
+	}
+
+	public NewsPicture(String pictureId, String imagePath, String pictureDesc,String pictureTitle) {
+		super();
+		this.pictureId = pictureId;
+		this.imagePath = imagePath;
+		this.pictureDesc = pictureDesc;
+		this.pictureTitle = pictureTitle;
+	}
 }
