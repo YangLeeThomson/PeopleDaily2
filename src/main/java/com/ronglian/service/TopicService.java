@@ -3,6 +3,8 @@
  */
 package com.ronglian.service;
 
+import java.util.Map;
+
 import com.ronglian.entity.NewsTopic;
 import com.ronglian.utils.RongLianResult;
 
@@ -13,4 +15,6 @@ import com.ronglian.utils.RongLianResult;
 public interface TopicService {
 
 	public RongLianResult addTopic(NewsTopic topic);
+	
+	public RongLianResult addTopicMap(Map requestMap);
 }

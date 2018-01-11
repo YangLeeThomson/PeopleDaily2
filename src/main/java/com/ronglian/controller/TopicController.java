@@ -37,32 +37,7 @@ public class TopicController {
 	 * */
 	@RequestMapping(value="/1.0/setTopic",method=RequestMethod.POST)
 	public RongLianResult addTopic(@RequestBody Map requestMap){
-		//获取请求参数
-		int topicId = (int) requestMap.get("topicId");
-		int channelId = (int) requestMap.get("channelId");
-		int dataStatus = (int) requestMap.get("dataStatus");
-		String title = (String) requestMap.get("title");
-		String desc = (String) requestMap.get("desc");
-		String bannerPhoto = (String) requestMap.get("bannerPhoto");
-		String coverPhoto = (String) requestMap.get("coverPhoto");
-		String uniqueID = (String) requestMap.get("uniqueID");
-		//补全数据
-		NewsTopic topic = new NewsTopic();
-		Date createTime = new Date();
-		Date modifyTime = new Date();
-		topic.setTopicId(topicId);
-		topic.setBannerImage(bannerPhoto);
-		topic.setChannelId(channelId);
-		topic.setCreateTime(createTime);
-		topic.setListImage(coverPhoto);
-		topic.setModifyTime(modifyTime);
-//		topic.setNewsInfos(newsInfos);
-		topic.setTopicDesc(desc);
-		topic.setTopicStatus((byte) dataStatus);
-		topic.setTopicTitle(title);
-		
-//		return topicService.addTopic(topic);
-		return RongLianResult.ok();
+		return topicService.addTopicMap(requestMap);
 	}
 	/**
 	 * 提供从iMedia专题对应内容关系的接口
