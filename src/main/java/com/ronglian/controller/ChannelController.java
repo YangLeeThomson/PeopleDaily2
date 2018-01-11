@@ -22,7 +22,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017年12月22日
+ * @createTime 2017骞�12鏈�22鏃�
  */
 @RestController
 @RequestMapping("/api")
@@ -32,37 +32,19 @@ public class ChannelController {
 	@Autowired
 	private ChannelService channelService;
 	/**
-	 * 栏目列表接口
+	 * 鏍忕洰鍒楄〃鎺ュ彛
 	 * */
 	@RequestMapping(value="/1.0/channels",method=RequestMethod.GET)
 	public RongLianResult getChannel(){
-		   logger.info("读取Channel集合");
+		   logger.info("璇诲彇Channel闆嗗悎");
 	        return channelService.getChannelList();
 	}
 	/**
-	 * iMedia后台同步栏目接口
+	 * iMedia设置channel
 	 * */
 	@RequestMapping(value="/1.0/setChannel",method=RequestMethod.POST)
 	public RongLianResult addChannel(@RequestBody Map requestMap){
-		//获取request请求参数
-		int id = (int) requestMap.get("id");
-		String name = (String) requestMap.get("name");
-		String uniqueID = (String) requestMap.get("uniqueID");
-		int sort = (int) requestMap.get("sort");
-		int dataStatus = (int) requestMap.get("dataStatus");
-		//封装channel,补全数据
-		Channel channel = new Channel();
-		Date createTime = new Date();
-		Date modiyTime = new Date();
-		channel.setChannelId(id);
-		channel.setChannelName(name);
-		channel.setChannelSort(sort);
-		channel.setIsShow(dataStatus);
-		channel.setCreateTime(createTime);
-		channel.setModiyTime(modiyTime);
-		
-//		return channelService.addChannel(channel);
-		return RongLianResult.ok();
+		return channelService.addChannelMap(requestMap);
 	}
 	@RequestMapping(value="/1.0/channels",method=RequestMethod.DELETE)
 	public String deleteChannel(HttpServletRequest request){

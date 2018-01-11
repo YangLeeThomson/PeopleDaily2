@@ -1,7 +1,9 @@
 package com.ronglian.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 
 
@@ -16,35 +18,40 @@ public class Channel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
 	@Column(name="channel_id")
-	private int channelId;
+	private Integer channelId;
 
 	@Column(name="channel_name")
 	private String channelName;
 
 	@Column(name="channel_sort")
-	private int channelSort;
+	private Integer channelSort;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
 	private Date createTime;
 
 	@Column(name="is_show")
-	private int isShow;
+	private Integer isShow;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="modiy_time")
 	private Date modiyTime;
+	
+	@Column(name="unique_id")
+	private String uniqueID;
+	
+	@Column(name="data_status")
+	private Integer dataStatus;
 
 	public Channel() {
 	}
 
-	public int getChannelId() {
+	public Integer getChannelId() {
 		return this.channelId;
 	}
 
-	public void setChannelId(int channelId) {
+	public void setChannelId(Integer channelId) {
 		this.channelId = channelId;
 	}
 
@@ -56,11 +63,11 @@ public class Channel implements Serializable {
 		this.channelName = channelName;
 	}
 
-	public int getChannelSort() {
+	public Integer getChannelSort() {
 		return this.channelSort;
 	}
 
-	public void setChannelSort(int channelSort) {
+	public void setChannelSort(Integer channelSort) {
 		this.channelSort = channelSort;
 	}
 
@@ -72,11 +79,11 @@ public class Channel implements Serializable {
 		this.createTime = createTime;
 	}
 
-	public int getIsShow() {
+	public Integer getIsShow() {
 		return this.isShow;
 	}
 
-	public void setIsShow(int isShow) {
+	public void setIsShow(Integer isShow) {
 		this.isShow = isShow;
 	}
 
@@ -88,4 +95,30 @@ public class Channel implements Serializable {
 		this.modiyTime = modiyTime;
 	}
 
+	public String getUniqueID() {
+		return uniqueID;
+	}
+
+	public void setUniqueID(String uniqueID) {
+		this.uniqueID = uniqueID;
+	}
+
+	public Integer getDataStatus() {
+		return dataStatus;
+	}
+
+	public void setDataStatus(Integer dataStatus) {
+		this.dataStatus = dataStatus;
+	}
+
+	public Channel(Integer channelId, String channelName, Integer channelSort,
+			String uniqueID, Integer dataStatus) {
+		super();
+		this.channelId = channelId;
+		this.channelName = channelName;
+		this.channelSort = channelSort;
+		this.uniqueID = uniqueID;
+		this.dataStatus = dataStatus;
+	}
+	
 }

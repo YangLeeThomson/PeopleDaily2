@@ -124,15 +124,15 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				NewsInfo newsInfo=new NewsInfo(map.get("newsId").toString(), (map.get("canComment")!=null)?map.get("canComment").toString():null, (map.get("channelId")!=null)?map.get("channelId").toString():null,
 						(map.get("channelName")!=null)?map.get("channelName").toString():null, null, null,
 						null, (map.get("createTime")!=null)?sdf.parse(map.get("createTime").toString()):null, (map.get("editExpire")!=null)?sdf.parse(map.get("editExpire").toString()):null,
-						null, (map.get("isEditRecom")!=null)?(Boolean.getBoolean(map.get("isEditRecom").toString())?(byte)1:(byte)0):null, (map.get("isToTop")!=null)?(Boolean.getBoolean(map.get("isToTop").toString())?(byte)1:(byte)0):null , (map.get("isTopic")!=null)?Integer.valueOf(map.get("isTopic").toString()):null,
+						null, (map.get("isEditRecom")!=null)?(Boolean.getBoolean(map.get("isEditRecom").toString())?(byte)1:(byte)0):null, (map.get("isToTop")!=null)?(Boolean.getBoolean(map.get("isToTop").toString())?(byte)1:(byte)0):null , (map.get("isTopic")!=null)?(int)map.get("isTopic"):null,
 						null, null, null,
 						(map.get("modifyTime")!=null)?sdf.parse(map.get("modifyTime").toString()):null, (map.get("newsAuthors")!=null)?map.get("newsAuthors").toString():null, (map.get("newsContent")!=null)?map.get("newsContent").toString():null,
-								(map.get("newsOrganization")!=null)?map.get("newsOrganization").toString():null, (map.get("newsOriginal")!=null)?Integer.valueOf(map.get("newsOriginal").toString()):null, (map.get("newsSort")!=null)?Integer.valueOf(map.get("newsSort").toString()):null,
+								(map.get("newsOrganization")!=null)?map.get("newsOrganization").toString():null, (map.get("newsOriginal")!=null)?(int)map.get("newsOriginal"):null, (map.get("newsSort")!=null)?(int)map.get("newsSort"):null,
 										(map.get("newsSource")!=null)?map.get("newsSource").toString():null, (map.get("newsSourceUrl")!=null)?map.get("newsSourceUrl").toString():null, null,
 												(map.get("newsSummary")!=null)?map.get("newsSummary").toString():null, (map.get("newsTags")!=null)?map.get("newsTags").toString():null, (map.get("newsTitle")!=null)?map.get("newsTitle").toString():null,
 														(map.get("publishTime")!=null)?sdf.parse(map.get("publishTime").toString()):null, (map.get("topExpire")!=null)?sdf.parse(map.get("topExpire").toString()):null, null,null, null,
 																
-																(map.get("dataStatus")!=null)?Integer.valueOf(map.get("dataStatus").toString()):null, (map.get("showType")!=null)?Integer.valueOf(map.get("showType").toString()):null,(map.get("fullColumnImgUrl")!=null)?map.get("fullColumnImgUrl").toString():null,
+																(map.get("dataStatus")!=null)?(int)map.get("dataStatus"):null, (map.get("showType")!=null)?(int)map.get("showType"):null,(map.get("fullColumnImgUrl")!=null)?map.get("fullColumnImgUrl").toString():null,
 																		(map.get("hasVideo")!=null)?(Boolean.getBoolean(map.get("hasVideo").toString())?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(Boolean.getBoolean(map.get("isLive").toString())?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(Boolean.getBoolean(map.get("isLiveReplay").toString())?(byte)1:(byte)0):null);
 				String imageJson=newsStr.substring(newsStr.lastIndexOf("["), newsStr.lastIndexOf("]")+1);
 				List<ImageInfo> imageList = JSONArray.parseArray(imageJson, ImageInfo.class);
