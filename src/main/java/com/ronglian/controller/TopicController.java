@@ -44,8 +44,7 @@ public class TopicController {
 	 * */
 	@RequestMapping(value="/1.0/setNewsOfTopic",method=RequestMethod.POST)
 	public RongLianResult addTopicAndNews(@RequestBody List<TopicAndNews> requestList){
-//		return this.topicNewsService.addTopicNews(requestList);
-		return RongLianResult.ok();
+		return this.topicNewsService.addTopicNews(requestList);
 	}
 
 	/**
@@ -59,8 +58,7 @@ public class TopicController {
 				list.add((String) map.get("topicUniqueID"));
 			}
 		}
-//		return this.topicNewsService.deleteTopicNewsByByTopicUniqueID(list);
-		return RongLianResult.ok();
+		return this.topicNewsService.deleteTopicNewsByByTopicUniqueID(list);
 	}
 	/**
 	 * 根据内容，删除对应所有专题 映射
@@ -73,7 +71,6 @@ public class TopicController {
 				list.add((String) map.get("newsID"));
 			}
 		}
-//		return this.topicNewsService.deleteTopicNewsByNewsID(list);
-		return RongLianResult.ok();
+		return this.topicNewsService.deleteTopicNewsByNewsID(list);
 	}
 }
