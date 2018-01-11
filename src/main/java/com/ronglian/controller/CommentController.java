@@ -31,8 +31,8 @@ public class CommentController {
 	@Autowired
 	private CommentService commentService;
 	@RequestMapping(value="/1.0/usercomments",method=RequestMethod.GET)
-	public RongLianResult getComments(String deviceId,String newsId){
-		Map resultMap = new Hashtable();
+	public RongLianResult getComments(String deviceId,String userId){
+		/*Map resultMap = new Hashtable();
 		resultMap.put("commentid", "4411513789");
 		resultMap.put("newsid", "446544354");
 		resultMap.put("newsTitle", "china is very good");
@@ -56,14 +56,13 @@ public class CommentController {
 		List data = new LinkedList<>();
 		data.add(resultMap2);
 		data.add(resultMap1);
-		data.add(resultMap);
-		return RongLianResult.ok(data);
+		data.add(resultMap);*/
+		return  this.commentService.getComments(deviceId, userId);
 	}
 	
 	@RequestMapping(value="/1.0/contentcomment",method=RequestMethod.POST)
 	public RongLianResult addComment(@RequestBody NewsComment comment){
-//		return this.commentService.addComment(comment);
-		return RongLianResult.ok();
+		return this.commentService.addComment(comment);
 	}
 	//讨论一下用户评论接口是否要做？？？
 	@RequestMapping(value="/1.0/comments",method=RequestMethod.GET)

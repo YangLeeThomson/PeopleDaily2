@@ -38,7 +38,7 @@ public class User implements Serializable{
 	    @Column(name="face_openid")
 	    private String faceOpenid;
 	    
-	    @Column(name="photo_url")
+	    @Column(name="user_photo")
 	    private String photoUrl;
 	    
 	    @Column(name="create_time")
@@ -175,14 +175,15 @@ public class User implements Serializable{
 			this.modifyTime = modifyTime;
 		}
 
-		//非关联数据库的属性
-		private int type;
+		//登录方式0：微信，1：twinnter，2：facebook
+		@Column(name="type")
+		private Integer type;
 
-		public int getType() {
+		public Integer getType() {
 			return type;
 		}
 
-		public void setType(int type) {
+		public void setType(Integer type) {
 			this.type = type;
 		}
 		

@@ -16,5 +16,5 @@ public interface UserChannelConfigService {
 
 	public RongLianResult addUserChannelConfig(List<UserChannelConfig> list);
 	
-	public RongLianResult getUserChannelConfig(String deviceId,String tokenId,String userId);
+	public RongLianResult getUserChannelConfig(String deviceId,String userId);
 }

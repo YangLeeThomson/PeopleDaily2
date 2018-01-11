@@ -15,13 +15,9 @@ import com.ronglian.entity.User;
  * @author liyang
  * @createTime 2017Äê12ÔÂ22ÈÕ
  */
-public interface UserDao extends CrudRepository<User, Integer>{
+public interface UserDao extends CrudRepository<User, String>{
 
-    @Transactional
-    @Modifying
-    @Query("update User u set u.userPhoto = :userPhoto where u.userId = :userId")
-    int updateScoreById(@Param("userPhoto") float userPhoto, @Param("userId") int userId);
-
+   
     @Query("select u from User u ")
     List<User> getList();
     

@@ -20,37 +20,17 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 @SpringBootApplication
 @ServletComponentScan
 @EnableTransactionManagement
-public class PeopleDaily2Application implements TransactionManagementConfigurer{
-
+public class PeopleDaily2Application {
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PeopleDaily2Application.class, args);
 	}
-	 @Resource(name="txManager2")
-	    private PlatformTransactionManager txManager2;
-	    
-	    // 创建事务管理器1
 	    /*
 	     *  配置事务管理器txManager
 	     *  其中 dataSource 框架会自动为我们注入
 	     */
-	    @Bean(name = "txManager1")
+	    @Bean(name = "transactionManager")
 	    public PlatformTransactionManager txManager(DataSource dataSource) {
 	        return new DataSourceTransactionManager(dataSource);
 	    }
-
-	    // 创建事务管理器2
-	    @Bean(name = "txManager2")
-	    public PlatformTransactionManager txManager2(EntityManagerFactory factory) {
-	        return new JpaTransactionManager(factory);
-	    }
-
-	    /*
-	     * 实现接口 TransactionManagementConfigurer 方法，
-	     * 其返回值代表在拥有多个事务管理器的情况下默认使用的事务管理器(txManager2)
-	     */
-	    @Override
-	    public PlatformTransactionManager annotationDrivenTransactionManager() {
-	        return txManager2;
-	    }
-
 }

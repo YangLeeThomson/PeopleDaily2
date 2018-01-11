@@ -25,7 +25,6 @@ import com.ronglian.utils.RongLianResult;
  * @createTime 2017Äê12ÔÂ29ÈÕ
  */
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
 	/* (non-Javadoc)

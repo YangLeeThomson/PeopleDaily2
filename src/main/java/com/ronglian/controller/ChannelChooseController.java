@@ -29,12 +29,11 @@ public class ChannelChooseController {
 	@Autowired
 	private UserChannelConfigService configService;
 	/**
-	 * 设置用户自定义订阅栏目
+	 * 用户订阅栏目管理接口
 	 * */
 	@RequestMapping(value="/1.0/channelfavorites",method=RequestMethod.POST)
 	public RongLianResult chooseChannels(@RequestBody List<UserChannelConfig> list){
-//		return configService.addUserChannelConfig(list);
-		return RongLianResult.ok();
+		return configService.addUserChannelConfig(list);
 	}
 	
 	/**
@@ -42,20 +41,6 @@ public class ChannelChooseController {
 	 */ 
 	@RequestMapping(value="/1.0/getUserChannelFavorites",method=RequestMethod.GET)
 	public RongLianResult getChannels(String deviceId,String userId){
-//		return this.configService.getUserChannelConfig(deviceId,tokenId,userId);
-        Map map = new HashMap();
-        map.put("channelId", 4);
-        map.put("channelName","TopNews");
-        map.put("selfSort",5);
-        
-        Map map2 = new HashMap();
-        map2.put("channelId", 6);
-        map2.put("channelName","China");
-        map2.put("selfSort",4);
-        
-        List list = new LinkedList();
-        list.add(map2);
-        list.add(map);
-		return RongLianResult.ok(list);
+		return this.configService.getUserChannelConfig(deviceId,userId);
 	}
 }

@@ -16,14 +16,13 @@ public class NewsComment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
 	@Column(name="comment_id")
 	private String commentId;
 	
 	@Column(name="device_id")
 	private String deviceId;
 
-	@Lob
+
 	@Column(name="comment_content")
 	private String commentContent;
 
@@ -38,9 +37,23 @@ public class NewsComment implements Serializable {
 	@Column(name="news_id")
 	private String newsId;
 
-	private String nickname;
+	@Column(name="nickname")
+	private String nickName;
 
+	public int getAppriseNum() {
+		return appriseNum;
+	}
+
+	public void setAppriseNum(int appriseNum) {
+		this.appriseNum = appriseNum;
+	}
+
+	//	×´Ì¬0£ºÎ´ÉóºË£¬1£ºÒÑÉóºË',3:É¾³ý
+	@Column(name="status")
 	private int status;
+	
+	@Column(name="apprise_num")
+	private int appriseNum;
 
 	@Column(name="user_id")
 	private String userId;
@@ -91,12 +104,22 @@ public class NewsComment implements Serializable {
 		this.newsId = newsId;
 	}
 
-	public String getNickname() {
-		return this.nickname;
+	
+
+	public String getDeviceId() {
+		return deviceId;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	public int getStatus() {

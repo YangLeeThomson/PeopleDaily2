@@ -5,6 +5,7 @@ package com.ronglian.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,17 +29,35 @@ public class UserChannelConfigServiceImpl implements UserChannelConfigService {
 	@Override
 	public RongLianResult addUserChannelConfig(List<UserChannelConfig> list) {
 		// TODO Auto-generated method stub
-		List<UserChannelConfig> result = (List<UserChannelConfig>) this.userChannelConfigDao.save(list);
-		return RongLianResult.ok();
+		if(list !=null && list.size() > 0){
+			List<UserChannelConfig> result = (List<UserChannelConfig>) this.userChannelConfigDao.save(list);
+			if(result == null){
+				return RongLianResult.build(500, "save用户自定义栏目失败！");
+			}
+			return RongLianResult.ok();
+		}else{
+			return RongLianResult.build(500, "请求数据为空或不正确");
+		}
+		
+		
 	}
 	/* (non-Javadoc)
 	 * @see com.ronglian.service.UserChannelConfigService#getUserChannelConfig(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public RongLianResult getUserChannelConfig(String deviceId, String tokenId, String userId) {
+	public RongLianResult getUserChannelConfig(String deviceId, String userId) {
 		// TODO Auto-generated method stub
-		List<UserChannelConfig> result = this.userChannelConfigDao.selectUserChannelConfig(deviceId,userId);
-		return RongLianResult.ok(result);
+		List<UserChannelConfig> result = null;
+		if(StringUtils.isNotBlank(deviceId)  ){
+			if(StringUtils.isNotBlank(userId)){
+				result = this.userChannelConfigDao.selectUserChannelConfigByUserId(userId);
+				return RongLianResult.ok(result);
+			}
+			result = this.userChannelConfigDao.selectUserChannelConfigByDeviceId(deviceId);
+			return RongLianResult.ok(result);
+		}else{
+			return RongLianResult.build(500, "请求参数不正确");
+		}
 	}
 
 }

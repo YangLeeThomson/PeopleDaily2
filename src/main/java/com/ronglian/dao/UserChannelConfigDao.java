@@ -15,8 +15,13 @@ import com.ronglian.entity.UserChannelConfig;
  * @author liyang
  * @createTime 2017Äê12ÔÂ29ÈÕ
  */
-public interface UserChannelConfigDao extends CrudRepository<UserChannelConfig, String> {
+public interface UserChannelConfigDao extends CrudRepository<UserChannelConfig, Integer> {
 
-	@Query("select config from UserChannelConfig config where config.deviceId = :deviceId and config.userId = :userId")
-	public List< UserChannelConfig> selectUserChannelConfig(@Param("deviceId")String deviceId,@Param("userId") String userId);
+	@Query("select config from UserChannelConfig config where config.deviceId = :deviceId ")
+	public List< UserChannelConfig> selectUserChannelConfigByDeviceId(@Param("deviceId")String deviceId);
+
+	@Query("select config from UserChannelConfig config where config.userId = :userId")
+	public List< UserChannelConfig> selectUserChannelConfigByUserId(@Param("userId") String userId);
+
+	
 }

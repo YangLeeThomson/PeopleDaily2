@@ -15,9 +15,9 @@ public class UserChannelConfig implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="config_id")
-	private String configId;
+	private Integer configId;
 
 	@Column(name="channel_id")
 	private int channelId;
@@ -34,11 +34,12 @@ public class UserChannelConfig implements Serializable {
 	public UserChannelConfig() {
 	}
 
-	public String getConfigId() {
-		return this.configId;
-	}
 
-	public void setConfigId(String configId) {
+
+	public Integer getConfigId() {
+		return configId;
+	}
+	public void setConfigId(Integer configId) {
 		this.configId = configId;
 	}
 
