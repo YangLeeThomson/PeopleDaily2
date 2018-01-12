@@ -138,9 +138,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 																		(map.get("hasVideo")!=null)?(Boolean.getBoolean(map.get("hasVideo").toString())?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(Boolean.getBoolean(map.get("isLive").toString())?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(Boolean.getBoolean(map.get("isLiveReplay").toString())?(byte)1:(byte)0):null);
 				
 				String[] imgs=getImgs(newsInfo.getNewsContent());
-				for(int i=0;i<imgs.length;i++){
-					NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId()+"_"+i,imgs[i],i);
-		        	newsPictureDao.save(newsPicture);
+				if(imgs!=null){
+					for(int i=0;i<imgs.length;i++){
+						NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId()+"_"+i,imgs[i],i);
+						newsPictureDao.save(newsPicture);
+					}
 				}
 				String imageJson=newsStr.substring(newsStr.lastIndexOf("["), newsStr.lastIndexOf("]")+1);
 				List<ImageInfo> imageList = JSONArray.parseArray(imageJson, ImageInfo.class);
