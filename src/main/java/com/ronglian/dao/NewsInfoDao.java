@@ -29,7 +29,7 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 
 	@Query(value="select news from news_info news where news.news_id in (: list) limit (pageNo - 1)*pageSize,pageSize",nativeQuery= true)
 	List<NewsInfo> selectTopicNewsByNewsInfoId(@Param("list") List<String> list,@Param(value = "pageSize") int pageSize, @Param(value = "pageNo") int pageNo);
-
+	
 	@Modifying
 	@Query(value="update news_info  set apprise_up_num = apprise_up_num + 1 where news_Id = :newsId",nativeQuery= true)
 	void updateAppriseUpNum(@Param("newsId")String newsId);
@@ -43,5 +43,4 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	@Modifying
 	@Query(value="update news_info  set apprise_down_num = apprise_down_num - 1 where news_Id = :newsId",nativeQuery= true)
 	void deleteAppriseDownNum(@Param("newsId")String newsId);
-	
 }

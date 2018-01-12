@@ -1,7 +1,11 @@
 package com.ronglian.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +21,8 @@ public class NewsInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
+	/*@GeneratedValue(generator="system_uuid")  
+    @GenericGenerator(name="system_uuid",strategy="uuid")  */
 	@Column(name="news_id")
 	private String newsId;
 
@@ -38,8 +43,7 @@ public class NewsInfo implements Serializable {
 	@Column(name="channel_name")
 	private String channelName;
 
-	@Column(name="comment_num")
-	private int commentNum;
+
 	
 	@Column(name="apprise_up_num")
 	private Integer appriseUpNum;
@@ -63,11 +67,14 @@ public class NewsInfo implements Serializable {
 		this.appriseDownNum = appriseDownNum;
 	}
 
+	@Column(name="comment_num")
+	private Integer commentNum;
+
 	@Column(name="content_id")
 	private String contentId;
 
 	@Column(name="content_type")
-	private int contentType;
+	private Integer contentType;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
@@ -78,22 +85,22 @@ public class NewsInfo implements Serializable {
 	private Date editExpire;
 
 	@Column(name="image_list")
-	private int imageList;
+	private Integer imageList;
 
 	@Column(name="is_edit_recom")
-	private byte isEditRecom;
+	private Byte isEditRecom;
 
 	@Column(name="is_to_top")
-	private byte isToTop;
+	private Byte isToTop;
 
 	@Column(name="is_topic")
-	private int isTopic;
+	private Integer isTopic;
 
 	@Column(name="is_topnews")
-	private int isTopnews;
+	private Integer isTopnews;
 
 	@Column(name="is_topnews_totop")
-	private byte isTopnewsTotop;
+	private Byte isTopnewsTotop;
 
 	private String keywords;
 
@@ -112,10 +119,10 @@ public class NewsInfo implements Serializable {
 	private String newsOrganization;
 
 	@Column(name="news_original")
-	private int newsOriginal;
+	private Integer newsOriginal;
 
 	@Column(name="news_sort")
-	private int newsSort;
+	private Integer newsSort;
 
 	@Column(name="news_source")
 	private String newsSource;
@@ -124,7 +131,7 @@ public class NewsInfo implements Serializable {
 	private String newsSourceUrl;
 
 	@Column(name="news_status")
-	private int newsStatus;
+	private Integer newsStatus;
 
 	@Column(name="news_summary")
 	private String newsSummary;
@@ -144,13 +151,12 @@ public class NewsInfo implements Serializable {
 	private Date topExpire;
 
 	@Column(name="topnews_sort")
-	private int topnewsSort;
+	private Integer topnewsSort;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="topnews_top_expire")
 	private Date topnewsTopExpire;
-
-	//bi-directional many-to-many association to NewsTopic
+	
 	@ManyToMany
 	@JoinTable(
 		name="topic_news"
@@ -163,6 +169,21 @@ public class NewsInfo implements Serializable {
 		)
 	private List<NewsTopic> newsTopics;
 
+/*20180111Ìí¼ÓµÄ×Ö¶Î*/
+	
+	@Column(name="data_status")
+	private Integer dataStatus;
+	@Column(name="show_type")
+	private Integer showType;
+	@Column(name="full_column_img_url")
+	private String fullColumnImgUrl;
+	@Column(name="has_video")
+	private Byte hasVideo;
+	@Column(name="is_live")
+	private Byte isLive;
+	@Column(name="is_live_replay")
+	private Byte isLiveReplay;
+	
 	public NewsInfo() {
 	}
 
@@ -190,11 +211,11 @@ public class NewsInfo implements Serializable {
 		this.channelName = channelName;
 	}
 
-	public int getCommentNum() {
+	public Integer getCommentNum() {
 		return this.commentNum;
 	}
 
-	public void setCommentNum(int commentNum) {
+	public void setCommentNum(Integer commentNum) {
 		this.commentNum = commentNum;
 	}
 
@@ -206,11 +227,11 @@ public class NewsInfo implements Serializable {
 		this.contentId = contentId;
 	}
 
-	public int getContentType() {
+	public Integer getContentType() {
 		return this.contentType;
 	}
 
-	public void setContentType(int contentType) {
+	public void setContentType(Integer contentType) {
 		this.contentType = contentType;
 	}
 
@@ -230,51 +251,51 @@ public class NewsInfo implements Serializable {
 		this.editExpire = editExpire;
 	}
 
-	public int getImageList() {
+	public Integer getImageList() {
 		return this.imageList;
 	}
 
-	public void setImageList(int imageList) {
+	public void setImageList(Integer imageList) {
 		this.imageList = imageList;
 	}
 
-	public byte getIsEditRecom() {
+	public Byte getIsEditRecom() {
 		return this.isEditRecom;
 	}
 
-	public void setIsEditRecom(byte isEditRecom) {
+	public void setIsEditRecom(Byte isEditRecom) {
 		this.isEditRecom = isEditRecom;
 	}
 
-	public byte getIsToTop() {
+	public Byte getIsToTop() {
 		return this.isToTop;
 	}
 
-	public void setIsToTop(byte isToTop) {
+	public void setIsToTop(Byte isToTop) {
 		this.isToTop = isToTop;
 	}
 
-	public int getIsTopic() {
+	public Integer getIsTopic() {
 		return this.isTopic;
 	}
 
-	public void setIsTopic(int isTopic) {
+	public void setIsTopic(Integer isTopic) {
 		this.isTopic = isTopic;
 	}
 
-	public int getIsTopnews() {
+	public Integer getIsTopnews() {
 		return this.isTopnews;
 	}
 
-	public void setIsTopnews(int isTopnews) {
+	public void setIsTopnews(Integer isTopnews) {
 		this.isTopnews = isTopnews;
 	}
 
-	public byte getIsTopnewsTotop() {
+	public Byte getIsTopnewsTotop() {
 		return this.isTopnewsTotop;
 	}
 
-	public void setIsTopnewsTotop(byte isTopnewsTotop) {
+	public void setIsTopnewsTotop(Byte isTopnewsTotop) {
 		this.isTopnewsTotop = isTopnewsTotop;
 	}
 
@@ -318,19 +339,19 @@ public class NewsInfo implements Serializable {
 		this.newsOrganization = newsOrganization;
 	}
 
-	public int getNewsOriginal() {
+	public Integer getNewsOriginal() {
 		return this.newsOriginal;
 	}
 
-	public void setNewsOriginal(int newsOriginal) {
+	public void setNewsOriginal(Integer newsOriginal) {
 		this.newsOriginal = newsOriginal;
 	}
 
-	public int getNewsSort() {
+	public Integer getNewsSort() {
 		return this.newsSort;
 	}
 
-	public void setNewsSort(int newsSort) {
+	public void setNewsSort(Integer newsSort) {
 		this.newsSort = newsSort;
 	}
 
@@ -350,11 +371,11 @@ public class NewsInfo implements Serializable {
 		this.newsSourceUrl = newsSourceUrl;
 	}
 
-	public int getNewsStatus() {
+	public Integer getNewsStatus() {
 		return this.newsStatus;
 	}
 
-	public void setNewsStatus(int newsStatus) {
+	public void setNewsStatus(Integer newsStatus) {
 		this.newsStatus = newsStatus;
 	}
 
@@ -398,11 +419,11 @@ public class NewsInfo implements Serializable {
 		this.topExpire = topExpire;
 	}
 
-	public int getTopnewsSort() {
+	public Integer getTopnewsSort() {
 		return this.topnewsSort;
 	}
 
-	public void setTopnewsSort(int topnewsSort) {
+	public void setTopnewsSort(Integer topnewsSort) {
 		this.topnewsSort = topnewsSort;
 	}
 
@@ -422,4 +443,158 @@ public class NewsInfo implements Serializable {
 		this.newsTopics = newsTopics;
 	}
 
+	
+	
+	public Integer getDataStatus() {
+		return dataStatus;
+	}
+
+	public void setDataStatus(Integer dataStatus) {
+		this.dataStatus = dataStatus;
+	}
+
+	public Integer getShowType() {
+		return showType;
+	}
+
+	public void setShowType(Integer showType) {
+		this.showType = showType;
+	}
+
+	public String getFullColumnImgUrl() {
+		return fullColumnImgUrl;
+	}
+
+	public void setFullColumnImgUrl(String fullColumnImgUrl) {
+		this.fullColumnImgUrl = fullColumnImgUrl;
+	}
+
+	public Byte getHasVideo() {
+		return hasVideo;
+	}
+
+	public void setHasVideo(Byte hasVideo) {
+		this.hasVideo = hasVideo;
+	}
+
+	public Byte getIsLive() {
+		return isLive;
+	}
+
+	public void setIsLive(Byte isLive) {
+		this.isLive = isLive;
+	}
+
+	public Byte getIsLiveReplay() {
+		return isLiveReplay;
+	}
+
+	public void setIsLiveReplay(Byte isLiveReplay) {
+		this.isLiveReplay = isLiveReplay;
+	}
+
+	public NewsInfo(String newsId, String canComment, String channelId,
+			String channelName, Integer commentNum, String contentId,
+			Integer contentType, Date createTime, Date editExpire,
+			Integer imageList, Byte isEditRecom, Byte isToTop, Integer isTopic,
+			Integer isTopnews, Byte isTopnewsTotop, String keywords,
+			Date modifyTime, String newsAuthors, String newsContent,
+			String newsOrganization, Integer newsOriginal, Integer newsSort,
+			String newsSource, String newsSourceUrl, Integer newsStatus,
+			String newsSummary, String newsTags, String newsTitle,
+			Date publishTime, Date topExpire, Integer topnewsSort,
+			Date topnewsTopExpire, List<NewsTopic> newsTopics) {
+		super();
+		this.newsId = newsId;
+		this.canComment = canComment;
+		this.channelId = channelId;
+		this.channelName = channelName;
+		this.commentNum = commentNum;
+		this.contentId = contentId;
+		this.contentType = contentType;
+		this.createTime = createTime;
+		this.editExpire = editExpire;
+		this.imageList = imageList;
+		this.isEditRecom = isEditRecom;
+		this.isToTop = isToTop;
+		this.isTopic = isTopic;
+		this.isTopnews = isTopnews;
+		this.isTopnewsTotop = isTopnewsTotop;
+		this.keywords = keywords;
+		this.modifyTime = modifyTime;
+		this.newsAuthors = newsAuthors;
+		this.newsContent = newsContent;
+		this.newsOrganization = newsOrganization;
+		this.newsOriginal = newsOriginal;
+		this.newsSort = newsSort;
+		this.newsSource = newsSource;
+		this.newsSourceUrl = newsSourceUrl;
+		this.newsStatus = newsStatus;
+		this.newsSummary = newsSummary;
+		this.newsTags = newsTags;
+		this.newsTitle = newsTitle;
+		this.publishTime = publishTime;
+		this.topExpire = topExpire;
+		this.topnewsSort = topnewsSort;
+		this.topnewsTopExpire = topnewsTopExpire;
+		this.newsTopics = newsTopics;
+	}
+
+	public NewsInfo(String newsId, String canComment, String channelId,
+			String channelName, Integer commentNum, String contentId,
+			Integer contentType, Date createTime, Date editExpire,
+			Integer imageList, Byte isEditRecom, Byte isToTop, Integer isTopic,
+			Integer isTopnews, Byte isTopnewsTotop, String keywords,
+			Date modifyTime, String newsAuthors, String newsContent,
+			String newsOrganization, Integer newsOriginal, Integer newsSort,
+			String newsSource, String newsSourceUrl, Integer newsStatus,
+			String newsSummary, String newsTags, String newsTitle,
+			Date publishTime, Date topExpire, Integer topnewsSort,
+			Date topnewsTopExpire, List<NewsTopic> newsTopics,
+			Integer dataStatus, Integer showType, String fullColumnImgUrl,
+			Byte hasVideo, Byte isLive, Byte isLiveReplay) {
+		super();
+		this.newsId = newsId;
+		this.canComment = canComment;
+		this.channelId = channelId;
+		this.channelName = channelName;
+		this.commentNum = commentNum;
+		this.contentId = contentId;
+		this.contentType = contentType;
+		this.createTime = createTime;
+		this.editExpire = editExpire;
+		this.imageList = imageList;
+		this.isEditRecom = isEditRecom;
+		this.isToTop = isToTop;
+		this.isTopic = isTopic;
+		this.isTopnews = isTopnews;
+		this.isTopnewsTotop = isTopnewsTotop;
+		this.keywords = keywords;
+		this.modifyTime = modifyTime;
+		this.newsAuthors = newsAuthors;
+		this.newsContent = newsContent;
+		this.newsOrganization = newsOrganization;
+		this.newsOriginal = newsOriginal;
+		this.newsSort = newsSort;
+		this.newsSource = newsSource;
+		this.newsSourceUrl = newsSourceUrl;
+		this.newsStatus = newsStatus;
+		this.newsSummary = newsSummary;
+		this.newsTags = newsTags;
+		this.newsTitle = newsTitle;
+		this.publishTime = publishTime;
+		this.topExpire = topExpire;
+		this.topnewsSort = topnewsSort;
+		this.topnewsTopExpire = topnewsTopExpire;
+		this.newsTopics = newsTopics;
+		this.dataStatus = dataStatus;
+		this.showType = showType;
+		this.fullColumnImgUrl = fullColumnImgUrl;
+		this.hasVideo = hasVideo;
+		this.isLive = isLive;
+		this.isLiveReplay = isLiveReplay;
+	}
+
+	
+	
 }

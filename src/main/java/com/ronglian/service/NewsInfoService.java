@@ -3,8 +3,12 @@
  */
 package com.ronglian.service;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.ronglian.entity.NewsInfo;
 import com.ronglian.utils.PageResult;
 import com.ronglian.utils.RongLianResult;
@@ -26,4 +30,6 @@ public interface NewsInfoService {
 	public PageResult findTopicNewsList(List<String> list,int pageSize,int pageNo);
 	
 	public RongLianResult getNewsInfoContent(String newsId);
+	
+	public RongLianResult addNewsInfo(String newsStr) throws JsonParseException, JsonMappingException, IOException, NumberFormatException, ParseException;
 }

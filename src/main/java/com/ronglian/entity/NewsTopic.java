@@ -1,7 +1,9 @@
 package com.ronglian.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -17,15 +19,14 @@ public class NewsTopic implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
 	@Column(name="topic_id")
-	private int topicId;
+	private Integer topicId;
 
 	@Column(name="banner_image")
 	private String bannerImage;
 
 	@Column(name="channel_id")
-	private int channelId;
+	private String channelId;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
@@ -43,7 +44,7 @@ public class NewsTopic implements Serializable {
 	private String topicDesc;
 
 	@Column(name="topic_status")
-	private byte topicStatus;
+	private Byte topicStatus;
 
 	@Column(name="topic_title")
 	private String topicTitle;
@@ -51,15 +52,18 @@ public class NewsTopic implements Serializable {
 	//bi-directional many-to-many association to NewsInfo
 	@ManyToMany(mappedBy="newsTopics")
 	private List<NewsInfo> newsInfos;
+	
+	@Column(name="unique_id")
+	private String uniqueId;
 
 	public NewsTopic() {
 	}
 
-	public int getTopicId() {
+	public Integer getTopicId() {
 		return this.topicId;
 	}
 
-	public void setTopicId(int topicId) {
+	public void setTopicId(Integer topicId) {
 		this.topicId = topicId;
 	}
 
@@ -71,11 +75,11 @@ public class NewsTopic implements Serializable {
 		this.bannerImage = bannerImage;
 	}
 
-	public int getChannelId() {
+	public String getChannelId() {
 		return this.channelId;
 	}
 
-	public void setChannelId(int channelId) {
+	public void setChannelId(String channelId) {
 		this.channelId = channelId;
 	}
 
@@ -111,11 +115,11 @@ public class NewsTopic implements Serializable {
 		this.topicDesc = topicDesc;
 	}
 
-	public byte getTopicStatus() {
+	public Byte getTopicStatus() {
 		return this.topicStatus;
 	}
 
-	public void setTopicStatus(byte topicStatus) {
+	public void setTopicStatus(Byte topicStatus) {
 		this.topicStatus = topicStatus;
 	}
 
@@ -135,4 +139,29 @@ public class NewsTopic implements Serializable {
 		this.newsInfos = newsInfos;
 	}
 
+	public String getUniqueId() {
+		return uniqueId;
+	}
+
+	public void setUniqueId(String uniqueId) {
+		this.uniqueId = uniqueId;
+	}
+
+	public NewsTopic(Integer topicId, String bannerImage, String channelId,
+			Date createTime, String listImage, Date modifyTime,
+			String topicDesc, Byte topicStatus, String topicTitle,
+			 String uniqueId) {
+		super();
+		this.topicId = topicId;
+		this.bannerImage = bannerImage;
+		this.channelId = channelId;
+		this.createTime = createTime;
+		this.listImage = listImage;
+		this.modifyTime = modifyTime;
+		this.topicDesc = topicDesc;
+		this.topicStatus = topicStatus;
+		this.topicTitle = topicTitle;
+		this.uniqueId = uniqueId;
+	}
+	
 }

@@ -3,7 +3,9 @@
  */
 package com.ronglian.service.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,4 +56,24 @@ public class ChannelServiceImpl implements ChannelService {
 		}
 	}
 
+	@Override
+	public RongLianResult addChannelMap(Map requestMap) {
+		if(requestMap.get("id")==null||requestMap.get("name")==null||requestMap.get("sort")==null
+				||requestMap.get("dataStatus")==null||requestMap.get("uniqueID")==null){
+			return RongLianResult.build(500, "È±ÉÙÊý¾Ý");
+		}
+		Channel channel=new Channel((int)requestMap.get("id"), requestMap.get("name").toString(),
+				(int)requestMap.get("sort"),requestMap.get("uniqueID").toString(), (int)requestMap.get("dataStatus"));
+		Date createTime = new Date();
+		Date modiyTime = new Date();
+		channel.setCreateTime(createTime);
+		channel.setModiyTime(modiyTime);
+		Channel result = null;
+		result = channelDao.save(channel);
+		if(result != null){
+			return RongLianResult.build(0, "ok");
+		}else{
+			return RongLianResult.build(500, "saved error!");
+		}
+	}
 }

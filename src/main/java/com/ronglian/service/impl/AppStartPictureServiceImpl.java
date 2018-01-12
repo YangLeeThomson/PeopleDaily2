@@ -19,15 +19,10 @@ import com.ronglian.utils.RongLianResult;
  */
 @Service
 public class AppStartPictureServiceImpl implements AppStartPictureService {
-
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.AppStartPictureService#addAppStartPicture(com.ronglian.entity.AppStartPicture)
-	 */
 	@Autowired
 	private AppStartPictureDao appStartPictureDao;
 	@Override
 	public RongLianResult addAppStartPicture(AppStartPicture appStartPicture) {
-		// TODO Auto-generated method stub
 		AppStartPicture result = null;
 		result = this.appStartPictureDao.save(appStartPicture);
 		if(result != null){
@@ -36,12 +31,8 @@ public class AppStartPictureServiceImpl implements AppStartPictureService {
 			return RongLianResult.build(500, "error");
 		}
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.AppStartPictureService#getStartPicture()
-	 */
 	@Override
 	public RongLianResult getStartPicture() {
-		// TODO Auto-generated method stub
 		List<AppStartPicture> list = (List<AppStartPicture>) this.appStartPictureDao.findAll();
 		return RongLianResult.ok(list);
 	}
