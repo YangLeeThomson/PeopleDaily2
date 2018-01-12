@@ -31,17 +31,7 @@ public class AppStartPictureController {
 	
 	@RequestMapping("/1.0/setAppStartPicture")
 	public RongLianResult addAppStartPicture(@RequestBody AppStartPicture appStartPicture){
-		
-//		return this.appStartPictureService.addAppStartPicture(appStartPicture);
-		/*{
-		    "id": " 7432659874232",
-		    "lastTime": 3,
-		    "imageUrl": " Õº∆¨µÿ÷∑",
-		    "to": "id|http:www",
-		    "dataStatus": 0
-		}*/
-
-		return RongLianResult.ok();
+		return this.appStartPictureService.addAppStartPicture(appStartPicture);
 	}
 	@RequestMapping(value="/1.0/appStartPictures",method=RequestMethod.GET)
 	public RongLianResult getAppStartPicture(){

@@ -11,6 +11,6 @@ import com.ronglian.entity.AppStartPicture;
  * @author liyang
  * @createTime 2017Äê12ÔÂ28ÈÕ
  */
-public interface AppStartPictureDao extends CrudRepository<AppStartPicture, Integer> {
+public interface AppStartPictureDao extends CrudRepository<AppStartPicture, String> {
 
 }

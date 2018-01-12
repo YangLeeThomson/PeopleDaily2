@@ -30,9 +30,7 @@ public class SlideShowController {
 	private NewsSlideShowService slideShowService;
 	@RequestMapping(value="/1.0/setSlideShow",method=RequestMethod.POST)
 	public RongLianResult addNewsSlideShow(@RequestBody NewsSlideshow slideShow){
-//		NewsSlideshow slideShow = null;
-//		return this.slideShowService.addSlideShow(slideShow);
-		return RongLianResult.ok();
+		return this.slideShowService.addSlideShow(slideShow);
 	}
 	//栏目轮播图列表输出接口
 	@RequestMapping(value="/1.0/channelSlidePictures",method=RequestMethod.GET)

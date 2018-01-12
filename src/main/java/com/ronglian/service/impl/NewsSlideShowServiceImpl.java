@@ -3,6 +3,7 @@
  */
 package com.ronglian.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,11 @@ import com.ronglian.utils.RongLianResult;
  */
 @Service
 public class NewsSlideShowServiceImpl implements NewsSlideShowService {
-
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.NewsSlideShowService#addSlideShow(com.ronglian.entity.NewsSlideshow)
-	 */
 	@Autowired
 	private SlideShowDao slideShowDao;
 	@Override
 	public RongLianResult addSlideShow(NewsSlideshow slideShow) {
-		// TODO Auto-generated method stub
+		slideShow.setCreateTime((slideShowDao.findOne(slideShow.getSlideShowId())!=null)?slideShowDao.findOne(slideShow.getSlideShowId()).getCreateTime():(new Date()));
 		NewsSlideshow result = this.slideShowDao.save(slideShow);
 		if(result != null){
 			return RongLianResult.ok();

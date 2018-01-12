@@ -16,12 +16,11 @@ public class NewsSlideshow implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
 	@Column(name="slideshow_id")
-	private String slideshowId;
+	private String slideShowId;
 
 	@Column(name="channel_id")
-	private int channelId;
+	private String channelId;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
@@ -33,24 +32,34 @@ public class NewsSlideshow implements Serializable {
 	@Column(name="news_id")
 	private String newsId;
 
-	private int sort;
+	@Column(name="title")
+	private String title;
 
+	@Column(name="descript")
+	private String desc;
+	
+	@Column(name="data_status")
+	private String dataStatus;
+
+	@Column(name="sort")
+	private Integer sort;
+	
 	public NewsSlideshow() {
 	}
 
-	public String getSlideshowId() {
-		return this.slideshowId;
+	public String getSlideShowId() {
+		return this.slideShowId;
 	}
 
-	public void setSlideshowId(String slideshowId) {
-		this.slideshowId = slideshowId;
+	public void setSlideShowId(String slideShowId) {
+		this.slideShowId = slideShowId;
 	}
 
-	public int getChannelId() {
+	public String getChannelId() {
 		return this.channelId;
 	}
 
-	public void setChannelId(int channelId) {
+	public void setChannelId(String channelId) {
 		this.channelId = channelId;
 	}
 
@@ -78,11 +87,35 @@ public class NewsSlideshow implements Serializable {
 		this.newsId = newsId;
 	}
 
-	public int getSort() {
-		return this.sort;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setSort(int sort) {
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public String getDataStatus() {
+		return dataStatus;
+	}
+
+	public void setDataStatus(String dataStatus) {
+		this.dataStatus = dataStatus;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
 
