@@ -40,20 +40,29 @@ public class NewsComment implements Serializable {
 	@Column(name="nickname")
 	private String nickName;
 
-	public int getAppriseNum() {
-		return appriseNum;
-	}
-
-	public void setAppriseNum(int appriseNum) {
-		this.appriseNum = appriseNum;
-	}
 
 	//	×´Ì¬0£ºÎ´ÉóºË£¬1£ºÒÑÉóºË',3:É¾³ý
 	@Column(name="status")
-	private int status;
+	private Integer status;
 	
 	@Column(name="apprise_num")
-	private int appriseNum;
+	private Integer appriseNum;
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getAppriseNum() {
+		return appriseNum;
+	}
+
+	public void setAppriseNum(Integer appriseNum) {
+		this.appriseNum = appriseNum;
+	}
 
 	@Column(name="user_id")
 	private String userId;
@@ -122,13 +131,7 @@ public class NewsComment implements Serializable {
 		this.nickName = nickName;
 	}
 
-	public int getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
+	
 
 	public String getUserId() {
 		return this.userId;

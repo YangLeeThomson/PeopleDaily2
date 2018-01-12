@@ -40,6 +40,28 @@ public class NewsInfo implements Serializable {
 
 	@Column(name="comment_num")
 	private int commentNum;
+	
+	@Column(name="apprise_up_num")
+	private Integer appriseUpNum;
+
+	@Column(name="apprise_down_num")
+	private Integer appriseDownNum;
+	
+	public Integer getAppriseUpNum() {
+		return appriseUpNum;
+	}
+
+	public void setAppriseUpNum(Integer appriseUpNum) {
+		this.appriseUpNum = appriseUpNum;
+	}
+
+	public Integer getAppriseDownNum() {
+		return appriseDownNum;
+	}
+
+	public void setAppriseDownNum(Integer appriseDownNum) {
+		this.appriseDownNum = appriseDownNum;
+	}
 
 	@Column(name="content_id")
 	private String contentId;

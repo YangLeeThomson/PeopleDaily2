@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ronglian.entity.Collection;
 import com.ronglian.service.CollectionService;
 import com.ronglian.utils.RongLianResult;
 
@@ -27,29 +29,28 @@ public class CollectionController {
 	@Autowired
 	private CollectionService collectionService;
 
+	/**
+	 * 用户内容收藏接口
+	 * */
 	@RequestMapping(value="/1.0/usercollection",method=RequestMethod.POST)
-	public RongLianResult addCollection(String deviceId,String newsId,String userId){
-		
-		return RongLianResult.ok();
+	public RongLianResult addCollection(@RequestBody Collection collection){
+		try {
+			return collectionService.insertUserCollection(collection);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return RongLianResult.build(500, "保存收藏新闻失败");
+		}
 	}
 	
-	@RequestMapping(value="/1.0/collectionLists",method=RequestMethod.GET)
+	@RequestMapping(value="/1.0/collectionList",method=RequestMethod.GET)
 	public RongLianResult getCollection(String deviceId,String userId){
-		Map resultMap = new HashMap();
-		resultMap.put("collectionId", "472837594327432");
-		resultMap.put("newsid", "89347543434");
-		resultMap.put("newsTitle", "美国总统特朗普访华");
-		resultMap.put("createTime", "2017-12-13 17:53:22");
-		Map resultMap2 = new HashMap();
-		resultMap2.put("collectionId", "56145623115656");
-		resultMap2.put("newsid", "7879864564");
-		resultMap2.put("newsTitle", "日本首相安倍晋三访问俄罗斯");
-		resultMap2.put("createTime", "2017-12-13 17:53:36");
-		List resultData = new LinkedList();
-		resultData.add(resultMap2);
-		resultData.add(resultMap);
-		return RongLianResult.ok(resultData);
+		try {
+			return this.collectionService.getUserCollection(userId, deviceId);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return RongLianResult.build(500, "查询失败");
+		}
+		
 	}
-	
-	
+		
 }

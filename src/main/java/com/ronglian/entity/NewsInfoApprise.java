@@ -19,13 +19,15 @@ public class NewsInfoApprise implements Serializable {
 	@Column(name="apprise_id")
 	private String appriseId;
 
-	private int bad;
-
+	@Column(name="device_id")
+	private String deviceId;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
 	private Date createTime;
 
-	private int good;
+	@Column(name="good")
+	private Integer good;
 
 	@Column(name="news_id")
 	private String newsId;
@@ -44,13 +46,6 @@ public class NewsInfoApprise implements Serializable {
 		this.appriseId = appriseId;
 	}
 
-	public int getBad() {
-		return this.bad;
-	}
-
-	public void setBad(int bad) {
-		this.bad = bad;
-	}
 
 	public Date getCreateTime() {
 		return this.createTime;
@@ -60,14 +55,7 @@ public class NewsInfoApprise implements Serializable {
 		this.createTime = createTime;
 	}
 
-	public int getGood() {
-		return this.good;
-	}
-
-	public void setGood(int good) {
-		this.good = good;
-	}
-
+	
 	public String getNewsId() {
 		return this.newsId;
 	}
@@ -82,6 +70,23 @@ public class NewsInfoApprise implements Serializable {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
+
+
+	public Integer getGood() {
+		return good;
+	}
+
+	public void setGood(Integer good) {
+		this.good = good;
 	}
 
 }

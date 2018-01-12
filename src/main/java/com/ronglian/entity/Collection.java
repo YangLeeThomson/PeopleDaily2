@@ -1,6 +1,8 @@
 package com.ronglian.entity;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
 
 
@@ -15,35 +17,68 @@ public class Collection implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
-	@Column(name="slideshow_id")
-	private String slideshowId;
+	@Column(name="collection_id")
+	private String collectionId;
 
 	@Column(name="create_time")
-	private String createTime;
+	private Date createTime;
 
 	@Column(name="news_id")
 	private String newsId;
+	
+	@Column(name="news_title")
+	private String newsTitle;
+
+	public String getNewsTitle() {
+		return newsTitle;
+	}
+
+
+
+	public void setNewsTitle(String newsTitle) {
+		this.newsTitle = newsTitle;
+	}
 
 	@Column(name="user_id")
 	private String userId;
+	
+	@Column(name="device_id")
+	private String deviceId;
+	
+	public String getDeviceId() {
+		return deviceId;
+	}
+
+
+
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
+
+
 
 	public Collection() {
 	}
 
-	public String getSlideshowId() {
-		return this.slideshowId;
+
+
+	public String getCollectionId() {
+		return collectionId;
 	}
 
-	public void setSlideshowId(String slideshowId) {
-		this.slideshowId = slideshowId;
+
+
+	public void setCollectionId(String collectionId) {
+		this.collectionId = collectionId;
 	}
 
-	public String getCreateTime() {
-		return this.createTime;
+
+
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
