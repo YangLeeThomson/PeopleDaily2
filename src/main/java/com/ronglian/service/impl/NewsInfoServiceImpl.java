@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -134,6 +136,12 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 																
 																(map.get("dataStatus")!=null)?(int)map.get("dataStatus"):null, (map.get("showType")!=null)?(int)map.get("showType"):null,(map.get("fullColumnImgUrl")!=null)?map.get("fullColumnImgUrl").toString():null,
 																		(map.get("hasVideo")!=null)?(Boolean.getBoolean(map.get("hasVideo").toString())?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(Boolean.getBoolean(map.get("isLive").toString())?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(Boolean.getBoolean(map.get("isLiveReplay").toString())?(byte)1:(byte)0):null);
+				
+				String[] imgs=getImgs(newsInfo.getNewsContent());
+				for(int i=0;i<imgs.length;i++){
+					NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId()+"_"+i,imgs[i],i);
+		        	newsPictureDao.save(newsPicture);
+				}
 				String imageJson=newsStr.substring(newsStr.lastIndexOf("["), newsStr.lastIndexOf("]")+1);
 				List<ImageInfo> imageList = JSONArray.parseArray(imageJson, ImageInfo.class);
 		        for(ImageInfo imageInfo:imageList){
@@ -150,4 +158,35 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			return RongLianResult.build(500, e.getMessage());
 		}*/
 	}
+	
+	private String[] getImgs(String content) {  
+	    String img = "";  
+	    Pattern p_image;  
+	    Matcher m_image;  
+	    String str = "";  
+	    String[] images = null; 
+	    String regEx_img = "<(img|IMG)(.*?)(/>|></img>|>)";
+//	    String regEx_img = "(<img.*src\\s*=\\s*(.*?)[^>]*?>)";
+	    p_image = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);  
+	    m_image = p_image.matcher(content);  
+	    while (m_image.find()) {  
+	        img = m_image.group();  
+	        Matcher m = Pattern.compile("src\\s*=\\s*\"?(.*?)(\"|>|\\s+)").matcher(img);  
+	        while (m.find()) {  
+	            String tempSelected = m.group(1);  
+	  
+	            if ("".equals(str)) {  
+	                str = tempSelected;  
+	            } else {  
+	                String temp = tempSelected;  
+	                str = str + "," + temp;  
+	            }  
+	        }  
+	    }  
+	    if (!"".equals(str)) {  
+	        images = str.split(",");  
+	    }  
+	    return images;  
+	}  
+	
 }

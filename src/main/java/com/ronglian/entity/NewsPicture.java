@@ -27,7 +27,7 @@ public class NewsPicture implements Serializable {
 	private String imagePath;
 
 	@Column(name="is_cover")
-	private int isCover;
+	private Integer isCover;
 
 	@Column(name="news_id")
 	private String newsId;
@@ -37,7 +37,7 @@ public class NewsPicture implements Serializable {
 	private String pictureDesc;
 
 	@Column(name="picture_sort")
-	private int pictureSort;
+	private Integer pictureSort;
 	
 	@Column(name="picture_title")
 	private String pictureTitle;
@@ -61,11 +61,11 @@ public class NewsPicture implements Serializable {
 		this.imagePath = imagePath;
 	}
 
-	public int getIsCover() {
+	public Integer getIsCover() {
 		return this.isCover;
 	}
 
-	public void setIsCover(int isCover) {
+	public void setIsCover(Integer isCover) {
 		this.isCover = isCover;
 	}
 
@@ -85,11 +85,11 @@ public class NewsPicture implements Serializable {
 		this.pictureDesc = pictureDesc;
 	}
 
-	public int getPictureSort() {
+	public Integer getPictureSort() {
 		return this.pictureSort;
 	}
 
-	public void setPictureSort(int pictureSort) {
+	public void setPictureSort(Integer pictureSort) {
 		this.pictureSort = pictureSort;
 	}
 
@@ -108,4 +108,13 @@ public class NewsPicture implements Serializable {
 		this.pictureDesc = pictureDesc;
 		this.pictureTitle = pictureTitle;
 	}
+
+	public NewsPicture(String pictureId, String imagePath, Integer pictureSort) {
+		super();
+		this.pictureId = pictureId;
+		this.imagePath = imagePath;
+		this.pictureSort = pictureSort;
+	}
+	
+	
 }
