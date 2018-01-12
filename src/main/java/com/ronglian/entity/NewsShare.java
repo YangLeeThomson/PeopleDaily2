@@ -16,7 +16,6 @@ public class NewsShare implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE)
 	@Column(name="share_id")
 	private String shareId;
 
@@ -28,11 +27,14 @@ public class NewsShare implements Serializable {
 	private String newsId;
 
 	@Column(name="share_platform")
-	private String sharePlatform;
+	private Integer sharePlatform;
 
 	@Column(name="user_id")
 	private String userId;
-
+	
+	@Column(name="device_id")
+	private String deviceId;
+	
 	public NewsShare() {
 	}
 
@@ -60,12 +62,21 @@ public class NewsShare implements Serializable {
 		this.newsId = newsId;
 	}
 
-	public String getSharePlatform() {
-		return this.sharePlatform;
+
+	public Integer getSharePlatform() {
+		return sharePlatform;
 	}
 
-	public void setSharePlatform(String sharePlatform) {
+	public void setSharePlatform(Integer sharePlatform) {
 		this.sharePlatform = sharePlatform;
+	}
+
+	public String getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
 	}
 
 	public String getUserId() {

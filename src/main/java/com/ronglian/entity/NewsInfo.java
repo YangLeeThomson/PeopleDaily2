@@ -594,7 +594,16 @@ public class NewsInfo implements Serializable {
 		this.isLive = isLive;
 		this.isLiveReplay = isLiveReplay;
 	}
+//20180112Ôö¼Ó×Ö¶Î
+	@Column(name="share_num")
+	private Integer shareNum;
 
-	
+	public Integer getShareNum() {
+		return shareNum;
+	}
+
+	public void setShareNum(Integer shareNum) {
+		this.shareNum = shareNum;
+	}
 	
 }
