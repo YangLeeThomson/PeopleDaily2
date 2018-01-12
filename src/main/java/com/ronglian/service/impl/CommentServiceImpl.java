@@ -3,6 +3,7 @@
  */
 package com.ronglian.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,8 +62,11 @@ public class CommentServiceImpl implements CommentService {
 				&& StringUtils.isNotBlank(comment.getNewsId())
 				){
 			String commentId = UUID.randomUUID().toString();
+			Date date = new Date();
 			comment.setCommentId(commentId);
 			comment.setAppriseNum(0);
+			comment.setCreateTime(date);
+			comment.setModifyTime(date);
 			NewsComment result = this.commentDao.save(comment);
 			return RongLianResult.ok(result);
 		}else{
@@ -84,8 +88,12 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public RongLianResult delCommentById(String commentId) {
 		// TODO Auto-generated method stub
-		this.commentDao.delete(commentId);
-		return RongLianResult.ok();
+		if(StringUtils.isNotBlank(commentId)){
+			this.commentDao.delete(commentId);
+			return RongLianResult.ok();
+		}else{
+			return RongLianResult.build(500, "请求参数有问题");
+		}
 	}
 
 }

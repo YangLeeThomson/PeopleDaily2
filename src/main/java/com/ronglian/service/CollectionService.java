@@ -3,6 +3,7 @@
  */
 package com.ronglian.service;
 
+import com.ronglian.entity.Collection;
 import com.ronglian.utils.RongLianResult;
 
 /**
@@ -11,7 +12,7 @@ import com.ronglian.utils.RongLianResult;
  */
 public interface CollectionService {
 
-	public RongLianResult insertUserCollection(String deviceId,String newsId,String userId);
+	public RongLianResult insertUserCollection(Collection collect);
 
 	public RongLianResult getUserCollection(String userId,String deviceId);
 }
