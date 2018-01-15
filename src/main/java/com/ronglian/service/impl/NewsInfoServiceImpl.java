@@ -146,12 +146,14 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						newsPictureDao.save(newsPicture);
 					}
 				}
+				if(newsStr.lastIndexOf("imageList")>-1&&newsStr.lastIndexOf("[")>-1){
 				String imageJson=newsStr.substring(newsStr.lastIndexOf("["), newsStr.lastIndexOf("]")+1);
 				List<ImageInfo> imageList = JSONArray.parseArray(imageJson, ImageInfo.class);
 		        for(ImageInfo imageInfo:imageList){
 		        	NewsPicture newsPicture=new NewsPicture(imageInfo.getPictureId(),imageInfo.getPicPath(),imageInfo.getPicDesc(),imageInfo.getPicTitle());
 		        	newsPictureDao.save(newsPicture);
 		        }
+				}
 				this.newsInfoDao.save(newsInfo);
 				return RongLianResult.ok(newsInfo);
 			}
