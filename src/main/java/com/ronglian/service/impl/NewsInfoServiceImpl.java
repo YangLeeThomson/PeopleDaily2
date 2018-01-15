@@ -123,7 +123,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			if(map.get("newsId")==null){
 				return RongLianResult.build(500, "newsId不能为空");
 			}else{
-				if(map.get("newsAuthors")==null||map.get("channelId")==null||map.get("channelName")==null||map.get("newsContent")==null){
+				if(map.get("channelId")==null||map.get("channelName")==null){
 					return RongLianResult.build(500, "缺少参数");
 				}
 				
