@@ -27,7 +27,7 @@ public interface NewsInfoService {
 	
 	public RongLianResult findEditorNewsList(String channelId);
 	
-	public PageResult findTopicNewsList(List<String> list,int pageSize,int pageNo);
+	public PageResult findTopicNewsList(String topicId,int pageSize,int pageNo);
 	
 	public RongLianResult getNewsInfoContent(String newsId);
 	

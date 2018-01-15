@@ -58,7 +58,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 */
 	@Override
 	public PageResult findNewsList(int pageSize, int pageNo, String channelId) {
-		List<NewsInfo> list = this.newsInfoDao.selectNewsInfoByChannel(pageSize, pageNo, channelId);
+		List<NewsInfo> list = this.newsInfoDao.selectNewsInfoByChannel( channelId,(pageNo - 1)*pageSize,(pageNo*pageSize-1));
 		if(list !=null && list.size() > 0){
 			return PageResult.build(0, "ok", pageNo, pageSize, list);
 		}else{
@@ -93,8 +93,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * @see com.ronglian.service.NewsInfoService#findTopicNewsList(java.util.List)
 	 */
 	@Override
-	public PageResult findTopicNewsList(List<String> list,int pageSize,int pageNo) {
-		List<NewsInfo> newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(list,pageSize,pageNo);
+	public PageResult findTopicNewsList(String topicId,int pageSize,int pageNo) {
+		List<NewsInfo> newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(topicId,(pageNo - 1)*pageSize,(pageNo*pageSize-1));
 		if(newsInfoList !=null && newsInfoList.size() > 0){
 			return PageResult.build(0, "ok", pageNo, pageSize, newsInfoList);
 		}else{
