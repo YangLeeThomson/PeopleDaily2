@@ -45,7 +45,7 @@ public class TopicServiceImpl implements TopicService{
 		NewsTopic originTopic=topicDao.findOne((int)requestMap.get("topicId"));
 		Date date=new Date();
 		NewsTopic newsTopic=new NewsTopic((int)requestMap.get("topicId"), requestMap.get("bannerPhoto").toString(), requestMap.get("channelId")!=null?requestMap.get("channelId").toString():null,
-				originTopic!=null?originTopic.getCreateTime():date, requestMap.get("bannerPhoto").toString(), date,
+				originTopic!=null?originTopic.getCreateTime():date, requestMap.get("coverPhoto")!=null?requestMap.get("coverPhoto").toString():null, date,
 						requestMap.get("desc").toString(), (requestMap.get("dataStatus")!=null)?Byte.valueOf(requestMap.get("dataStatus").toString()):null, requestMap.get("title").toString(),
 						requestMap.get("uniqueID").toString());
 		NewsTopic result = topicDao.save(newsTopic);

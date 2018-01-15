@@ -1,79 +1,80 @@
-/**
- * 
- */
+
 package com.ronglian.service.impl;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ronglian.dao.NewsInfoDao;
+import com.ronglian.dao.TopicDao;
 import com.ronglian.dao.TopicNewsDao;
 import com.ronglian.entity.TopicAndNews;
+import com.ronglian.entity.TopicNewsKey;
 import com.ronglian.service.TopicNewsService;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.TopicNewsRelation;
 
-/**
- * @author liyang
- * @createTime 2017年12月27日
- */
 @Service
 public class TopicNewsServiceImpl implements TopicNewsService {
-
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.TopicNewsService#addTopicNews(com.ronglian.entity.TopicAndNews)
-	 */
 	@Autowired
 	private TopicNewsDao topicNewsDao;
+	@Autowired
+	private TopicDao topicDao;
+	@Autowired
+	private NewsInfoDao newsInfoDao;
 	@Override
-	public RongLianResult addTopicNews(List topicNewses) {
-		// TODO Auto-generated method stub
+	public RongLianResult addTopicNews(List<TopicNewsRelation> topicNewses) {
+		List<TopicAndNews> topicAndNewses=new LinkedList<TopicAndNews>();
+		for(TopicNewsRelation topicNewsRelation:topicNewses){
+			topicAndNewses.add(new TopicAndNews(new TopicNewsKey(topicNewsRelation)));
+		}
 		Iterable<TopicAndNews> entities = null; 
-		entities = topicNewsDao.save(topicNewses);
+		entities = topicNewsDao.save(topicAndNewses);
 		if(entities != null){
 			return RongLianResult.ok();
 		}else{
 			return RongLianResult.build(500, "saved error");
 		}
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.TopicNewsService#deleteTopicNews(java.util.List)
-	 */
 	@Override
-	public RongLianResult deleteTopicNewsByNewsID(List list) {
-		// TODO Auto-generated method stub
-		try {
+	public RongLianResult deleteTopicNewsByNewsID(List<String> list) {
+		if(list!=null){
+			List<String> topicList=new LinkedList<String>();
+			for(String newsId :list){
+				topicList.addAll(this.topicNewsDao.selectTopicByNewsInfoId(newsId));
+			}
+			newsInfoDao.deleteByNewsID(list);
+			if(topicList.size()>0){
+				topicDao.deleteByTopicUniqueID(topicList);
+			}
 			this.topicNewsDao.deleteByNewsID(list);
 			return RongLianResult.ok();
-		} catch (Exception e) {
-			// TODO: handle exception
-			return RongLianResult.build(500, "delete error");
+		}else{
+			return RongLianResult.build(500, "无数据");
 		}
-
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.TopicNewsService#deleteTopicNewsByByTopicUniqueID(java.util.List)
-	 */
 	@Override
-	public RongLianResult deleteTopicNewsByByTopicUniqueID(List list) {
-		// TODO Auto-generated method stub
-		try {
+	public RongLianResult deleteTopicNewsByByTopicUniqueID(List<String> list) {
+		if(list!=null){
+			List<String> newsList=new LinkedList<String>();
+			for(String topicId :list){
+				newsList.addAll(this.topicNewsDao.selectNewsInfoIdByTopic(topicId));
+			}
+			topicDao.deleteByTopicUniqueID(list);
+			if(newsList.size()>0){
+				newsInfoDao.deleteByNewsID(newsList);
+			}
 			this.topicNewsDao.deleteByTopicUniqueID(list);
 			return RongLianResult.ok();
-		} catch (Exception e) {
-			// TODO: handle exception
-			return RongLianResult.build(500, "delete error");
-		}
-
+	}else{
+		return RongLianResult.build(500, "无数据");
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.TopicNewsService#getNewsInfoId(java.lang.String)
-	 */
+	}
 	@Override
 	public List<String> getNewsInfoId(String topicId) {
-		// TODO Auto-generated method stub
 		List<String> list = this.topicNewsDao.selectNewsInfoIdByTopic(topicId);
 		return list;
 	}
-
 }

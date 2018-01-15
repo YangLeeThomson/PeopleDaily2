@@ -22,23 +22,23 @@ public class AppStartPicture implements Serializable {
 		@Column(name="picture_id",nullable=false)
 	    private String id;
 		@Column(name="last_time",nullable=false)
-	    private int lastTime;
+	    private Integer lastTime;
 		@Column(name="image_url",nullable=false)
 	    private String imageUrl;
 		@Column(name="go_url",nullable=false)
 	    private String to;
 		@Column(name="data_status",nullable=false)
-	    private int dataStatus;
+	    private Integer dataStatus;
 		public String getId() {
 			return id;
 		}
 		public void setId(String id) {
 			this.id = id;
 		}
-		public int getLastTime() {
+		public Integer getLastTime() {
 			return lastTime;
 		}
-		public void setLastTime(int lastTime) {
+		public void setLastTime(Integer lastTime) {
 			this.lastTime = lastTime;
 		}
 		public String getImageUrl() {
@@ -53,10 +53,10 @@ public class AppStartPicture implements Serializable {
 		public void setTo(String to) {
 			this.to = to;
 		}
-		public int getDataStatus() {
+		public Integer getDataStatus() {
 			return dataStatus;
 		}
-		public void setDataStatus(int dataStatus) {
+		public void setDataStatus(Integer dataStatus) {
 			this.dataStatus = dataStatus;
 		}
 

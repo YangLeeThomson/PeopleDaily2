@@ -5,6 +5,8 @@ package com.ronglian.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -47,4 +49,9 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	@Modifying
 	@Query(value="update news_info  set share_num = share_num + 1 where news_Id = :newsId",nativeQuery= true)
 	void updateShareNum(@Param("newsId")String newsId);
+	
+	@Transactional
+    @Modifying
+    @Query("delete from NewsInfo news where news.newsId in ( :list)")
+	int deleteByNewsID(@Param("list") List<String> list); 
 }

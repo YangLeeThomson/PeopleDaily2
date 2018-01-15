@@ -24,6 +24,10 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 	private SlideShowDao slideShowDao;
 	@Override
 	public RongLianResult addSlideShow(NewsSlideshow slideShow) {
+		if(slideShow.getSlideShowId()==null||slideShow.getImageUrl()==null||slideShow.getChannelId()==null
+				||slideShow.getTitle()==null||slideShow.getDesc()==null){
+			return RongLianResult.build(500, "È±ÉÙÊý¾Ý");
+		}
 		slideShow.setCreateTime((slideShowDao.findOne(slideShow.getSlideShowId())!=null)?slideShowDao.findOne(slideShow.getSlideShowId()).getCreateTime():(new Date()));
 		NewsSlideshow result = this.slideShowDao.save(slideShow);
 		if(result != null){
