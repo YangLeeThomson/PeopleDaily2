@@ -19,7 +19,6 @@ public class NewsShare implements Serializable {
 	@Column(name="share_id")
 	private String shareId;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
 	private Date createTime;
 

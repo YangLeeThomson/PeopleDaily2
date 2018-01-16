@@ -26,11 +26,9 @@ public class NewsComment implements Serializable {
 	@Column(name="comment_content")
 	private String commentContent;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
 	private Date createTime;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="modify_time")
 	private Date modifyTime;
 

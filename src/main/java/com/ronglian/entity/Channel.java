@@ -27,14 +27,12 @@ public class Channel implements Serializable {
 	@Column(name="channel_sort")
 	private Integer channelSort;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
 	private Date createTime;
 
 	@Column(name="is_show")
 	private Integer isShow;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="modiy_time")
 	private Date modiyTime;
 	

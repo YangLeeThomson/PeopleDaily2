@@ -28,14 +28,12 @@ public class NewsTopic implements Serializable {
 	@Column(name="channel_id")
 	private String channelId;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
 	private Date createTime;
 
 	@Column(name="list_image")
 	private String listImage;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="modify_time")
 	private Date modifyTime;
 

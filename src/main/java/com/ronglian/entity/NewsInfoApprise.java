@@ -22,7 +22,6 @@ public class NewsInfoApprise implements Serializable {
 	@Column(name="device_id")
 	private String deviceId;
 	
-	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
 	private Date createTime;
 
