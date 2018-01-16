@@ -4,16 +4,20 @@
 package com.ronglian.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ronglian.entity.NewsComment;
@@ -62,5 +66,18 @@ public class CommentController {
 			// TODO: handle exception
 			return RongLianResult.build(500, "删除失败，可能是该评论已被清除");
 		}
+	}
+	//审核评论相关的接口（供imedia交互）
+	@RequestMapping(value="/1.0/comment/{commentId}/{status}",method=RequestMethod.PUT)
+	public RongLianResult getCheckComment(@PathVariable("status")Integer status,@PathVariable("commentId")String commentId){
+		
+		return this.commentService.checkComment(status,commentId);
+	}
+	//评论相关的接口（供imedia交互）
+	@RequestMapping(value="/1.0/comment",method=RequestMethod.GET)
+	public RongLianResult searchCommentList(Integer status,String newsTitle,
+			@RequestParam(value="pageNo",defaultValue="1",required=false)int pageNo,
+			@RequestParam(value="pageSize",defaultValue="10",required=false)int pageSize){
+		return this.commentService.fingCommentList(status, newsTitle, pageNo, pageSize);
 	}
 }

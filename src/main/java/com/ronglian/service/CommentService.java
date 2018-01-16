@@ -19,4 +19,8 @@ public interface CommentService {
 	public RongLianResult getCommentList(String userId,String newsId,String deviceId);
 	
 	public RongLianResult delCommentById(String commentId);
+	
+	public RongLianResult checkComment(Integer status,String commentId);
+	
+	public RongLianResult fingCommentList(Integer status,String newsTitle,int pageNo,int pageSize);
 }

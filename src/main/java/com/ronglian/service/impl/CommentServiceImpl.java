@@ -10,6 +10,8 @@ import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ronglian.dao.CommentDao;
 import com.ronglian.entity.NewsComment;
@@ -103,6 +105,40 @@ public class CommentServiceImpl implements CommentService {
 			return RongLianResult.ok();
 		}else{
 			return RongLianResult.build(500, "请求参数有问题");
+		}
+	}
+	/* (non-Javadoc)
+	 * @see com.ronglian.service.CommentService#checkComment(java.lang.Integer, java.lang.String)
+	 */
+	@Override
+	@Transactional
+	public RongLianResult checkComment(Integer status, String commentId) {
+		// TODO Auto-generated method stub
+		if(status != null && StringUtils.isNotBlank(commentId)){
+			this.commentDao.updateStatusById(status,commentId);
+			return RongLianResult.ok();
+		}else{
+			return RongLianResult.build(500, "请求参数不能为空");
+		}
+	}
+	@Override
+	public RongLianResult fingCommentList(Integer status,String newsTitle,int pageNo,int pageSize){
+		int start = (pageNo - 1)*pageSize;
+		List<NewsComment> list = null;
+		if(status != null && StringUtils.isNotBlank(newsTitle)){
+			list = this.commentDao.selectCommentList(status, newsTitle, start, pageSize);
+		}else if(status == null && StringUtils.isBlank(newsTitle)){
+			list = this.commentDao.selectCommentListAll(start, pageSize);
+		}else if(status == null && StringUtils.isNotBlank(newsTitle)){
+			list = this.commentDao.selectCommentListByNewsTitle(newsTitle,start, pageSize);
+		}else if(status != null && StringUtils.isBlank(newsTitle)){
+			list=this.commentDao.selectCommentListByStatus(status, start, pageSize);
+		}
+		
+		if(list != null && list.size() > 0){
+			return RongLianResult.ok(list);
+		}else{
+			return RongLianResult.build(0, "评论列表为空");
 		}
 	}
 
