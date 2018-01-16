@@ -116,7 +116,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public RongLianResult addNewsInfo(String newsStr) throws JsonParseException, JsonMappingException, IOException, NumberFormatException, ParseException{
 		ObjectMapper mapper = new ObjectMapper();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-ddHH: mm: ss");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		/*try{*/
 		Map map = mapper.readValue(newsStr, Map.class);
 		if(map != null){
