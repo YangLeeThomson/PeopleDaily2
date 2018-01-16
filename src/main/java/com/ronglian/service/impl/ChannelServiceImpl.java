@@ -46,13 +46,11 @@ public class ChannelServiceImpl implements ChannelService {
 	@Override
 	public RongLianResult getChannelList() {
 		// TODO Auto-generated method stub
-//		Object obj = this.channelDao.findAll();		
-//		List<Channel> list = (List<Channel>) obj;
 		List<Channel> list = this.channelDao.getList();
 		if(list != null && list.size() > 0){
 			return RongLianResult.ok(list);
 		}else{
-			return RongLianResult.build(500, "find error");
+			return RongLianResult.build(500, "find null");
 		}
 	}
 

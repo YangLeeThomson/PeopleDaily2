@@ -77,9 +77,19 @@ public class CommentServiceImpl implements CommentService {
 	 * @see com.ronglian.service.CommentService#getCommentList(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public RongLianResult getCommentList(String userId, String newsId) {
+	public RongLianResult getCommentList(String userId, String newsId,String deviceId) {
 		// TODO Auto-generated method stub
-		List<NewsComment> list = this.commentDao.getUserCommentList(newsId, userId);
+		List<NewsComment> list = null;
+		if(StringUtils.isNotBlank(newsId) && 
+				StringUtils.isNotBlank(deviceId) ){
+			if(StringUtils.isNotBlank(userId)){//用户登录时
+				list = this.commentDao.getUserCommentListByUserId(newsId, userId);
+			}else{//用户没登录时
+				list = this.commentDao.getUserCommentListByDeviceId(newsId, deviceId);
+			}
+		}else{
+			return RongLianResult.build(500, "请补全必须请求参数");
+		}
 		return RongLianResult.ok(list);
 	}
 	/* (non-Javadoc)

@@ -32,11 +32,11 @@ public class ChannelController {
 	@Autowired
 	private ChannelService channelService;
 	/**
-	 * 鏍忕洰鍒楄〃鎺ュ彛
+	 * 栏目列表输出接口
 	 * */
 	@RequestMapping(value="/1.0/channels",method=RequestMethod.GET)
 	public RongLianResult getChannel(){
-		   logger.info("璇诲彇Channel闆嗗悎");
+		   logger.info("获取栏目列表");
 	        return channelService.getChannelList();
 	}
 	/**
@@ -46,12 +46,5 @@ public class ChannelController {
 	public RongLianResult addChannel(@RequestBody Map requestMap){
 		return channelService.addChannelMap(requestMap);
 	}
-	@RequestMapping(value="/1.0/channels",method=RequestMethod.DELETE)
-	public String deleteChannel(HttpServletRequest request){
-		return "";
-	}
-	@RequestMapping(value="/1.0/channels",method=RequestMethod.PUT)
-	public String updateChannel(HttpServletRequest request){
-		return "";
-	}
+	
 }

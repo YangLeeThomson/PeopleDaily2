@@ -30,7 +30,7 @@ public class NewsInfoContentController {
 	
 	@RequestMapping(value="/1.0/content",method=RequestMethod.GET)
 	public RongLianResult getNewsInfoContent(String newsId){
-		Map data = new HashMap();
+	/*	Map data = new HashMap();
 		data.put("incNo",32423 );
 		data.put("newsContent"," 新闻内容" );
 		data.put("newsOrganization", " 光明日报");
@@ -54,9 +54,8 @@ public class NewsInfoContentController {
 		photo1.put("picDesc", "特朗普、习近平北京游");
 		imageList.add(photo1);
 		imageList.add(photo);
-		data.put("imageList", imageList);
+		data.put("imageList", imageList);*/
 		
-		return RongLianResult.ok(data);
-//		return this.newsInfoService.getNewsInfoContent(newsId);
+		return this.newsInfoService.getNewsInfoContent(newsId);
 	}
 }

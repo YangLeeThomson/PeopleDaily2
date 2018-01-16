@@ -21,8 +21,6 @@ public class NewsInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	/*@GeneratedValue(generator="system_uuid")  
-    @GenericGenerator(name="system_uuid",strategy="uuid")  */
 	@Column(name="news_id")
 	private String newsId;
 
@@ -71,7 +69,7 @@ public class NewsInfo implements Serializable {
 	private Integer commentNum;
 
 	@Column(name="content_id")
-	private String contentId;
+	private Integer contentId;
 
 	@Column(name="content_type")
 	private Integer contentType;
@@ -219,11 +217,12 @@ public class NewsInfo implements Serializable {
 		this.commentNum = commentNum;
 	}
 
-	public String getContentId() {
-		return this.contentId;
+
+	public Integer getContentId() {
+		return contentId;
 	}
 
-	public void setContentId(String contentId) {
+	public void setContentId(Integer contentId) {
 		this.contentId = contentId;
 	}
 
@@ -494,7 +493,7 @@ public class NewsInfo implements Serializable {
 	}
 
 	public NewsInfo(String newsId, String canComment, String channelId,
-			String channelName, Integer commentNum, String contentId,
+			String channelName, Integer commentNum, Integer contentId,
 			Integer contentType, Date createTime, Date editExpire,
 			Integer imageList, Byte isEditRecom, Byte isToTop, Integer isTopic,
 			Integer isTopnews, Byte isTopnewsTotop, String keywords,
@@ -541,7 +540,7 @@ public class NewsInfo implements Serializable {
 	}
 
 	public NewsInfo(String newsId, String canComment, String channelId,
-			String channelName, Integer commentNum, String contentId,
+			String channelName, Integer commentNum, Integer contentId,
 			Integer contentType, Date createTime, Date editExpire,
 			Integer imageList, Byte isEditRecom, Byte isToTop, Integer isTopic,
 			Integer isTopnews, Byte isTopnewsTotop, String keywords,

@@ -34,7 +34,12 @@ public class AppStartPictureServiceImpl implements AppStartPictureService {
 	@Override
 	public RongLianResult getStartPicture() {
 		List<AppStartPicture> list = (List<AppStartPicture>) this.appStartPictureDao.findAll();
-		return RongLianResult.ok(list);
+		if(list != null && list.size() > 0){
+			return RongLianResult.ok(list);
+		}else{
+			return RongLianResult.build(500, "闪屏图不存在：系统未录入闪屏图");
+		}
+		
 	}
 
 }

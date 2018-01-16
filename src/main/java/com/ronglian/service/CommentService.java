@@ -16,7 +16,7 @@ public interface CommentService {
 	
 	public RongLianResult addComment(NewsComment comment);
 	
-	public RongLianResult getCommentList(String userId,String newsId);
+	public RongLianResult getCommentList(String userId,String newsId,String deviceId);
 	
 	public RongLianResult delCommentById(String commentId);
 }

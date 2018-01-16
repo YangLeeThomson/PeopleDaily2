@@ -34,25 +34,8 @@ public class SlideShowController {
 	}
 	//栏目轮播图列表输出接口
 	@RequestMapping(value="/1.0/channelSlidePictures",method=RequestMethod.GET)
-	public RongLianResult getChannelSlidePictureList(String ChannelId){
+	public RongLianResult getChannelSlidePictureList(String channelId){
 
-		Map map1 = new HashMap();
-		map1.put("slideShowId", "743265987432");
-		map1.put("imageUrl", "图片地址");
-		map1.put("title", "特朗普与习近平照片");
-		map1.put("desc", "特朗普与习近平故宫照");
-		map1.put("newsId", "237647824365743");
-		
-		Map map = new HashMap();
-		map.put("slideShowId", "7432659878998");
-		map.put("imageUrl", "图片地址2");
-		map.put("title", "习近平照片");
-		map.put("desc", "特朗普照");
-		map.put("newsId", "23764782489494");
-		List data = (List) new ArrayList();
-		data.add(map);
-		data.add(map1);
-		return RongLianResult.ok(data);
-//		return this.slideShowService.getSlideShowByChannel(ChannelId);
+		return this.slideShowService.getSlideShowByChannel(channelId);
 	}
 }

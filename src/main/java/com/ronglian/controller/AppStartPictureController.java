@@ -35,22 +35,6 @@ public class AppStartPictureController {
 	}
 	@RequestMapping(value="/1.0/appStartPictures",method=RequestMethod.GET)
 	public RongLianResult getAppStartPicture(){
-//		return this.appStartPictureService.getStartPicture();
-		
-		Map map = new HashMap();
-		map.put("id", "7432659874232");
-		map.put("lastTime", 3);
-		map.put("imageUrl", " Õº∆¨µÿ÷∑");
-		map.put("to", "id|http:www");
-		Map map2 = new HashMap();
-		map2.put("id", "7xe43265987432");
-		map2.put("lastTime", "3");
-		map2.put("imageUrl", "Õº∆¨µÿ÷∑2");
-		map2.put("to", "id|http:www");
-		
-		List list = new LinkedList<>();
-		list.add(map);
-		list.add(map2);
-		return RongLianResult.ok(list);
+		return this.appStartPictureService.getStartPicture();
 	}
 }

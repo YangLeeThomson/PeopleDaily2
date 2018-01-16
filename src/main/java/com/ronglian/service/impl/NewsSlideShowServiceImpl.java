@@ -6,6 +6,7 @@ package com.ronglian.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,12 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 	@Override
 	public RongLianResult getSlideShowByChannel(String channelId) {
 		// TODO Auto-generated method stub
-		List<NewsSlideshow> list = this.slideShowDao.selectSlideShowByChannel(channelId);
+		List<NewsSlideshow> list = null;
+		if(StringUtils.isNotBlank(channelId) ){
+			list = this.slideShowDao.selectSlideShowByChannel(channelId);
+		}else{
+			return RongLianResult.build(500, "请求参数channelId不可以为null");
+		}
 		return RongLianResult.ok(list);
 	}
 

@@ -58,47 +58,67 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 */
 	@Override
 	public PageResult findNewsList(int pageSize, int pageNo, String channelId) {
-		List<NewsInfo> list = this.newsInfoDao.selectNewsInfoByChannel(pageSize, pageNo, channelId);
-		if(list !=null && list.size() > 0){
-			return PageResult.build(0, "ok", pageNo, pageSize, list);
+		if(channelId != null){
+			pageNo = (pageNo-1)*pageSize;
+			List<NewsInfo> list = this.newsInfoDao.selectNewsInfoByChannel(channelId,pageNo,pageSize);
+			if(list != null && list.size() > 0){
+				return PageResult.build(0, "ok", pageNo, pageSize, list);
+			}else{
+				return PageResult.error(500, "查询结果为空或内容不存在", pageNo, pageSize);
+			}
 		}else{
-			return PageResult.error(500, "error", pageNo, pageSize);
+			return PageResult.error(500, "请求参数channelId不能为空", pageNo, pageSize);
 		}
+		
 	}
 	/* (non-Javadoc)
 	 * @see com.ronglian.service.NewsInfoService#findTopnewsList(java.lang.String)
 	 */
 	@Override
 	public RongLianResult findTopnewsList(String channelId) {
-		List<NewsInfo> list = this.newsInfoDao.selectTopnewsByChannel(channelId);
-		if(list != null && list.size() > 0){
-			return RongLianResult.ok(list);
+		if(channelId != null){
+			List<NewsInfo> list = this.newsInfoDao.selectTopnewsByChannel(channelId);
+			if(list != null && list.size() > 0){
+				return RongLianResult.ok(list);
+			}else{
+				return RongLianResult.build(500, "查询结果为空或内容不存在");
+			}
 		}else{
-			return RongLianResult.build(500, "error");
+			return RongLianResult.build(500, "请求参数channelId不能为空");
 		}
+		
 	}
 	/* (non-Javadoc)
 	 * @see com.ronglian.service.NewsInfoService#findEditorNewsList(java.lang.String)
 	 */
 	@Override
 	public RongLianResult findEditorNewsList(String channelId) {
-		List<NewsInfo> list = this.newsInfoDao.selectEditorNewsByChannel(channelId);
-		if(list != null && list.size() > 0){
-			return RongLianResult.ok(list);
+		if(channelId != null){
+			List<NewsInfo> list = this.newsInfoDao.selectEditorNewsByChannel(channelId);
+			if(list != null && list.size() > 0){
+				return RongLianResult.ok(list);
+			}else{
+				return RongLianResult.build(500, "查询结果为null");
+			}
 		}else{
-			return RongLianResult.build(500, "error");
+			return RongLianResult.build(500, "请求参数channelId不能为空");
 		}
+		
 	}
 	/* (non-Javadoc)
 	 * @see com.ronglian.service.NewsInfoService#findTopicNewsList(java.util.List)
 	 */
 	@Override
-	public PageResult findTopicNewsList(List<String> list,int pageSize,int pageNo) {
-		List<NewsInfo> newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(list,pageSize,pageNo);
-		if(newsInfoList !=null && newsInfoList.size() > 0){
+	public PageResult findTopicNewsList(List<String> list,int pageNo,int pageSize) {
+		if(list == null ){
+			return PageResult.build(500, "专题没有对应的新闻", pageNo, pageSize, list);
+		}
+		pageNo = (pageNo-1)*pageSize;
+		List<NewsInfo> newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(list,pageNo,pageSize);
+		if(newsInfoList != null && newsInfoList.size() > 0){
 			return PageResult.build(0, "ok", pageNo, pageSize, newsInfoList);
 		}else{
-			return PageResult.error(500, "error", pageNo, pageSize);
+			return PageResult.error(500, "专题对应的新闻内容不存在", pageNo, pageSize);
 		}
 	}
 	/* (non-Javadoc)
@@ -106,11 +126,14 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 */
 	@Override
 	public RongLianResult getNewsInfoContent(String newsId) {
+		if(newsId == null){
+			return RongLianResult.build(500, "请求参数newsId不可以为空");
+		}
 		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
 		if(newsInfo != null){
 			return RongLianResult.ok(newsInfo);
 		}else{
-			return RongLianResult.build(500, "error");
+			return RongLianResult.build(500, "所查询的新闻内容不存在");
 		}
 	}
 	@Override
@@ -188,5 +211,29 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	    }  
 	    return images;  
 	}  
+	@Override
+	public RongLianResult getPhotoNewsByNewsId(String newsID,Integer incNo){
+		if(incNo == null){
+			return RongLianResult.build(500, "请求参数incNo不能为null");
+		}
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(incNo+1);
+		list.add(incNo+2);
+		list.add(incNo-1);
+		list.add(incNo-2);
+		List<NewsInfo> resultList = this.newsInfoDao.selectNewsInfoNearByIncNo(list);
+		if(resultList != null && resultList.size() > 0){
+			//4条数据，2条数据、1条都输出
+			if(resultList.size() == 4 || resultList.size() == 2 || resultList.size() == 1){
+				return RongLianResult.ok(resultList);
+			}else{
+				//3条数据，删除1条，输出2条
+				resultList.remove(0);
+				return RongLianResult.ok(resultList);
+			}
+		}else{
+			return RongLianResult.build(500, "当前图集附近无其它图集");
+		}
+	}
 	
 }
