@@ -166,7 +166,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				String[] imgs=getImgs(newsInfo.getNewsContent());
 				if(imgs!=null){
 					for(int i=0;i<imgs.length;i++){
-						NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId()+"_"+i,imgs[i],i);
+						NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId(),newsInfo.getNewsId()+"_"+i,imgs[i],i);
 						newsPictureDao.save(newsPicture);
 					}
 				}
@@ -174,7 +174,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				String imageJson=newsStr.substring(newsStr.lastIndexOf("["), newsStr.lastIndexOf("]")+1);
 				List<ImageInfo> imageList = JSONArray.parseArray(imageJson, ImageInfo.class);
 		        for(ImageInfo imageInfo:imageList){
-		        	NewsPicture newsPicture=new NewsPicture(imageInfo.getPictureId(),imageInfo.getPicPath(),imageInfo.getPicDesc(),imageInfo.getPicTitle());
+		        	NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId(),imageInfo.getPictureId(),imageInfo.getPicPath(),imageInfo.getPicDesc(),imageInfo.getPicTitle());
 		        	newsPictureDao.save(newsPicture);
 		        }
 				}
