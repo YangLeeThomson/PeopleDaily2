@@ -22,6 +22,16 @@ public class NewsComment implements Serializable {
 	@Column(name="device_id")
 	private String deviceId;
 
+	@Column(name="news_title")
+	private String newsTitle;
+
+	public String getNewsTitle() {
+		return newsTitle;
+	}
+
+	public void setNewsTitle(String newsTitle) {
+		this.newsTitle = newsTitle;
+	}
 
 	@Column(name="comment_content")
 	private String commentContent;
