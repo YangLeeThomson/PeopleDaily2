@@ -58,9 +58,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 */
 	@Override
 	public PageResult findNewsList(int pageSize, int pageNo, String channelId) {
+		int start = 0;
 		if(channelId != null){
-			pageNo = (pageNo-1)*pageSize;
-			List<NewsInfo> list = this.newsInfoDao.selectNewsInfoByChannel(channelId,pageNo,pageSize);
+			start = (pageNo-1)*pageSize;
+			List<NewsInfo> list = this.newsInfoDao.selectNewsInfoByChannel(channelId,start,pageSize);
 			if(list != null && list.size() > 0){
 				return PageResult.build(0, "ok", pageNo, pageSize, list);
 			}else{

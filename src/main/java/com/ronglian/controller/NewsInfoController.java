@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -69,7 +70,8 @@ public class NewsInfoController {
 	 * 获取channel新闻列表接口
 	 * */
 	@RequestMapping(value="/1.0/getChannelNews",method=RequestMethod.GET)
-	public PageResult getNewsList(Integer pageSize,Integer pageNo,String channelId){
+	public PageResult getNewsList(@RequestParam(value="pageSize",defaultValue="5",required=false)Integer pageSize,
+			@RequestParam(value="pageNo",defaultValue="1",required=false)Integer pageNo,String channelId){
 		return this.newsInfoService.findNewsList(pageSize, pageNo, channelId);
 	}
 	
