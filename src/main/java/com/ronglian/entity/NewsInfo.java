@@ -71,7 +71,7 @@ public class NewsInfo implements Serializable {
 	private Integer commentNum;
 
 	@Column(name="content_id")
-	private String contentId;
+	private Integer contentId;
 
 	@Column(name="content_type")
 	private Integer contentType;
@@ -219,11 +219,11 @@ public class NewsInfo implements Serializable {
 		this.commentNum = commentNum;
 	}
 
-	public String getContentId() {
+	public Integer getContentId() {
 		return this.contentId;
 	}
 
-	public void setContentId(String contentId) {
+	public void setContentId(Integer contentId) {
 		this.contentId = contentId;
 	}
 
@@ -494,7 +494,7 @@ public class NewsInfo implements Serializable {
 	}
 
 	public NewsInfo(String newsId, String canComment, String channelId,
-			String channelName, Integer commentNum, String contentId,
+			String channelName, Integer commentNum, Integer contentId,
 			Integer contentType, Date createTime, Date editExpire,
 			Integer imageList, Byte isEditRecom, Byte isToTop, Integer isTopic,
 			Integer isTopnews, Byte isTopnewsTotop, String keywords,
@@ -541,7 +541,7 @@ public class NewsInfo implements Serializable {
 	}
 
 	public NewsInfo(String newsId, String canComment, String channelId,
-			String channelName, Integer commentNum, String contentId,
+			String channelName, Integer commentNum, Integer contentId,
 			Integer contentType, Date createTime, Date editExpire,
 			Integer imageList, Byte isEditRecom, Byte isToTop, Integer isTopic,
 			Integer isTopnews, Byte isTopnewsTotop, String keywords,

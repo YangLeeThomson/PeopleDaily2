@@ -128,7 +128,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				}
 				
 				NewsInfo newsInfo=new NewsInfo(map.get("newsId").toString(), (map.get("canComment")!=null)?map.get("canComment").toString():null, (map.get("channelId")!=null)?map.get("channelId").toString():null,
-						(map.get("channelName")!=null)?map.get("channelName").toString():null, null, null,
+						(map.get("channelName")!=null)?map.get("channelName").toString():null, null, (map.get("contentId")!=null)?(int)map.get("contentId"):null,
 						null, (map.get("createTime")!=null)?sdf.parse(map.get("createTime").toString()):null, (map.get("editExpire")!=null)?sdf.parse(map.get("editExpire").toString()):null,
 						null, (map.get("isEditRecom")!=null)?(map.get("isEditRecom").toString().toString().equals("1")?(byte)1:(byte)0):null, (map.get("isToTop")!=null)?(map.get("isToTop").toString().equals("1")?(byte)1:(byte)0):null , (map.get("isTopic")!=null)?(int)map.get("isTopic"):null,
 						null, null, null,
