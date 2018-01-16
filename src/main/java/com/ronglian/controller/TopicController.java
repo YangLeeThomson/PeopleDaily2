@@ -19,6 +19,7 @@ import com.ronglian.entity.TopicAndNews;
 import com.ronglian.service.TopicNewsService;
 import com.ronglian.service.TopicService;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.TopicNewsRelation;
 
 /**
  * @author liyang
@@ -43,7 +44,7 @@ public class TopicController {
 	 * 提供从iMedia专题对应内容关系的接口
 	 * */
 	@RequestMapping(value="/1.0/setNewsOfTopic",method=RequestMethod.POST)
-	public RongLianResult addTopicAndNews(@RequestBody List<TopicAndNews> requestList){
+	public RongLianResult addTopicAndNews(@RequestBody List<TopicNewsRelation> requestList){
 		return this.topicNewsService.addTopicNews(requestList);
 	}
 

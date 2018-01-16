@@ -22,7 +22,6 @@ public class NewsSlideshow implements Serializable {
 	@Column(name="channel_id")
 	private String channelId;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
 	private Date createTime;
 

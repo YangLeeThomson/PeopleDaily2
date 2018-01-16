@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.ronglian.entity.TopicAndNews;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.TopicNewsRelation;
 
 /**
  * @author liyang
@@ -14,11 +15,11 @@ import com.ronglian.utils.RongLianResult;
  */
 public interface TopicNewsService {
 
-	public RongLianResult addTopicNews(List topicNewses);
+	public RongLianResult addTopicNews(List<TopicNewsRelation> topicNewses);
 	
-	public RongLianResult deleteTopicNewsByNewsID(List list);
+	public RongLianResult deleteTopicNewsByNewsID(List<String> list);
 	
-	public RongLianResult deleteTopicNewsByByTopicUniqueID(List list);
+	public RongLianResult deleteTopicNewsByByTopicUniqueID(List<String> list);
 
 	/**
 	 * @param topicId

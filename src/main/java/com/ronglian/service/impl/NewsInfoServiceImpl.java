@@ -139,47 +139,50 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public RongLianResult addNewsInfo(String newsStr) throws JsonParseException, JsonMappingException, IOException, NumberFormatException, ParseException{
 		ObjectMapper mapper = new ObjectMapper();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		/*try{*/
 		Map map = mapper.readValue(newsStr, Map.class);
 		if(map != null){
 			if(map.get("newsId")==null){
 				return RongLianResult.build(500, "newsId不能为空");
 			}else{
+				if(map.get("channelId")==null||map.get("channelName")==null){
+					return RongLianResult.build(500, "缺少参数");
+				}
+				
 				NewsInfo newsInfo=new NewsInfo(map.get("newsId").toString(), (map.get("canComment")!=null)?map.get("canComment").toString():null, (map.get("channelId")!=null)?map.get("channelId").toString():null,
-						(map.get("channelName")!=null)?map.get("channelName").toString():null, null, null,
+						(map.get("channelName")!=null)?map.get("channelName").toString():null, null, (map.get("contentId")!=null)?(int)map.get("contentId"):null,
 						null, (map.get("createTime")!=null)?sdf.parse(map.get("createTime").toString()):null, (map.get("editExpire")!=null)?sdf.parse(map.get("editExpire").toString()):null,
-						null, (map.get("isEditRecom")!=null)?(Boolean.getBoolean(map.get("isEditRecom").toString())?(byte)1:(byte)0):null, (map.get("isToTop")!=null)?(Boolean.getBoolean(map.get("isToTop").toString())?(byte)1:(byte)0):null , (map.get("isTopic")!=null)?(int)map.get("isTopic"):null,
+						null, (map.get("isEditRecom")!=null)?(map.get("isEditRecom").toString().toString().equals("1")?(byte)1:(byte)0):null, (map.get("isToTop")!=null)?(map.get("isToTop").toString().equals("1")?(byte)1:(byte)0):null , (map.get("isTopic")!=null)?(int)map.get("isTopic"):null,
 						null, null, null,
 						(map.get("modifyTime")!=null)?sdf.parse(map.get("modifyTime").toString()):null, (map.get("newsAuthors")!=null)?map.get("newsAuthors").toString():null, (map.get("newsContent")!=null)?map.get("newsContent").toString():null,
 								(map.get("newsOrganization")!=null)?map.get("newsOrganization").toString():null, (map.get("newsOriginal")!=null)?(int)map.get("newsOriginal"):null, (map.get("newsSort")!=null)?(int)map.get("newsSort"):null,
 										(map.get("newsSource")!=null)?map.get("newsSource").toString():null, (map.get("newsSourceUrl")!=null)?map.get("newsSourceUrl").toString():null, null,
 												(map.get("newsSummary")!=null)?map.get("newsSummary").toString():null, (map.get("newsTags")!=null)?map.get("newsTags").toString():null, (map.get("newsTitle")!=null)?map.get("newsTitle").toString():null,
 														(map.get("publishTime")!=null)?sdf.parse(map.get("publishTime").toString()):null, (map.get("topExpire")!=null)?sdf.parse(map.get("topExpire").toString()):null, null,null, null,
-																
 																(map.get("dataStatus")!=null)?(int)map.get("dataStatus"):null, (map.get("showType")!=null)?(int)map.get("showType"):null,(map.get("fullColumnImgUrl")!=null)?map.get("fullColumnImgUrl").toString():null,
-																		(map.get("hasVideo")!=null)?(Boolean.getBoolean(map.get("hasVideo").toString())?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(Boolean.getBoolean(map.get("isLive").toString())?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(Boolean.getBoolean(map.get("isLiveReplay").toString())?(byte)1:(byte)0):null);
-				
+																		(map.get("hasVideo")!=null)?(map.get("hasVideo").toString().equals("true")?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(map.get("isLive").toString().equals("true")?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(map.get("isLiveReplay").toString().equals("true")?(byte)1:(byte)0):null);
 				String[] imgs=getImgs(newsInfo.getNewsContent());
-				for(int i=0;i<imgs.length;i++){
-					NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId()+"_"+i,imgs[i],i);
-		        	newsPictureDao.save(newsPicture);
+				if(imgs!=null){
+					for(int i=0;i<imgs.length;i++){
+						NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId()+"_"+i,imgs[i],i);
+						newsPictureDao.save(newsPicture);
+					}
 				}
+				if(newsStr.lastIndexOf("imageList")>-1&&newsStr.lastIndexOf("[")>-1){
 				String imageJson=newsStr.substring(newsStr.lastIndexOf("["), newsStr.lastIndexOf("]")+1);
 				List<ImageInfo> imageList = JSONArray.parseArray(imageJson, ImageInfo.class);
 		        for(ImageInfo imageInfo:imageList){
 		        	NewsPicture newsPicture=new NewsPicture(imageInfo.getPictureId(),imageInfo.getPicPath(),imageInfo.getPicDesc(),imageInfo.getPicTitle());
 		        	newsPictureDao.save(newsPicture);
 		        }
+				}
 				this.newsInfoDao.save(newsInfo);
 				return RongLianResult.ok(newsInfo);
 			}
 		}else{
 			return RongLianResult.build(500, "未传参数或参数格式不对");
 		}
-		/*}catch(Exception e){
-			return RongLianResult.build(500, e.getMessage());
-		}*/
 	}
 	
 	private String[] getImgs(String content) {  
@@ -189,7 +192,6 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	    String str = "";  
 	    String[] images = null; 
 	    String regEx_img = "<(img|IMG)(.*?)(/>|></img>|>)";
-//	    String regEx_img = "(<img.*src\\s*=\\s*(.*?)[^>]*?>)";
 	    p_image = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);  
 	    m_image = p_image.matcher(content);  
 	    while (m_image.find()) {  

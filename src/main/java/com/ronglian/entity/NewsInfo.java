@@ -74,11 +74,9 @@ public class NewsInfo implements Serializable {
 	@Column(name="content_type")
 	private Integer contentType;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="create_time")
 	private Date createTime;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="edit_expire")
 	private Date editExpire;
 
@@ -102,7 +100,6 @@ public class NewsInfo implements Serializable {
 
 	private String keywords;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="modify_time")
 	private Date modifyTime;
 
@@ -140,18 +137,15 @@ public class NewsInfo implements Serializable {
 	@Column(name="news_title")
 	private String newsTitle;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="publish_time")
 	private Date publishTime;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="top_expire")
 	private Date topExpire;
 
 	@Column(name="topnews_sort")
 	private Integer topnewsSort;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="topnews_top_expire")
 	private Date topnewsTopExpire;
 	
@@ -219,7 +213,7 @@ public class NewsInfo implements Serializable {
 
 
 	public Integer getContentId() {
-		return contentId;
+		return this.contentId;
 	}
 
 	public void setContentId(Integer contentId) {

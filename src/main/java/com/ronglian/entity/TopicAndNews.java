@@ -5,13 +5,11 @@ package com.ronglian.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.ronglian.entity.TopicNewsKey;
 /**
  * @author liyang
  * @createTime 2017Äê12ÔÂ27ÈÕ
@@ -19,31 +17,23 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "topic_and_news")
 public class TopicAndNews implements Serializable{
-	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
-	@Column(name="id",nullable = false)
-	private String id;
-	 @Column(nullable = false, name="topic_uniqueID")
-	 private String topicUniqueID ;
-	 @Column(nullable = false, name="news_id")
-	 private String newsID;
+	@EmbeddedId
+    private TopicNewsKey topicNewsKey;
 
-	 public String getId() {
-		return id;
+	public TopicNewsKey getTopicNewsKey() {
+		return topicNewsKey;
 	}
-	public void setId(String id) {
-		this.id = id;
+
+	public void setTopicNewsKey(TopicNewsKey topicNewsKey) {
+		this.topicNewsKey = topicNewsKey;
 	}
-	public String getTopicUniqueID() {
-		return topicUniqueID;
+
+	public TopicAndNews(TopicNewsKey topicNewsKey) {
+		super();
+		this.topicNewsKey = topicNewsKey;
 	}
-	public void setTopicUniqueID(String topicUniqueID) {
-		this.topicUniqueID = topicUniqueID;
-	}
-	public String getNewsID() {
-		return newsID;
-	}
-	public void setNewsID(String newsID) {
-		this.newsID = newsID;
+
+	public TopicAndNews() {
+		super();
 	}
 }

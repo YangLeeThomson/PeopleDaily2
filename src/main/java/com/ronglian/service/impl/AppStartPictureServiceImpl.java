@@ -24,6 +24,10 @@ public class AppStartPictureServiceImpl implements AppStartPictureService {
 	@Override
 	public RongLianResult addAppStartPicture(AppStartPicture appStartPicture) {
 		AppStartPicture result = null;
+		if(appStartPicture.getId()==null||appStartPicture.getLastTime()==null
+				||appStartPicture.getImageUrl()==null||appStartPicture.getTo()==null){
+			return RongLianResult.build(500, "È±ÉÙÊý¾Ý");
+		}
 		result = this.appStartPictureDao.save(appStartPicture);
 		if(result != null){
 			return RongLianResult.ok();
