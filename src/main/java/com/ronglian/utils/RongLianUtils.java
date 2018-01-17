@@ -53,7 +53,7 @@ public class RongLianUtils {
 	
 	//转换日期格式
 	public static String changeDateTime(Date date){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd EEE HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
 		return sdf.format(date);
 	}
 }
