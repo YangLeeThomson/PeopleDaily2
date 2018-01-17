@@ -150,9 +150,6 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				if(map.get("channelId")==null||map.get("channelName")==null){
 					return RongLianResult.build(500, "缺少参数");
 				}
-				
-				
-				
 				NewsInfo newsInfo=new NewsInfo(map.get("newsId").toString(), (map.get("canComment")!=null)?map.get("canComment").toString():null, (map.get("channelId")!=null)?map.get("channelId").toString():null,
 						(map.get("channelName")!=null)?map.get("channelName").toString():null, null, (map.get("contentId")!=null)?(int)map.get("contentId"):null,
 						null, (map.get("createTime")!=null)?sdf.parse(map.get("createTime").toString()):null, (map.get("editExpire")!=null)?sdf.parse(map.get("editExpire").toString()):null,
@@ -167,27 +164,27 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 																		(map.get("hasVideo")!=null)?(map.get("hasVideo").toString().equals("true")?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(map.get("isLive").toString().equals("true")?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(map.get("isLiveReplay").toString().equals("true")?(byte)1:(byte)0):null);
 				newsPictureDao.deleteByNewsID(newsInfo.getNewsId());
 				String[] imgs=getImgs(newsInfo.getNewsContent());
+				int i=0;
 				if(imgs!=null){
-					for(int i=0;i<imgs.length;i++){
+					for(;i<imgs.length;i++){
 						NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId(),newsInfo.getNewsId()+"_"+i,imgs[i],i);
 						newsPictureDao.save(newsPicture);
 					}
 				}
 				if(map.get("imageList")!=null){
-					
 				List<Map> imageList = (List<Map>)map.get("imageList");
 		        for(Map imageInfoMap:imageList){
-		        	
 		        	NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId()
-		        			,imageInfoMap.get("pictureId")!=null?imageInfoMap.get("pictureId").toString():null
+		        			,newsInfo.getNewsId()+"_"+i
 		        			,imageInfoMap.get("picPath")!=null?imageInfoMap.get("picPath").toString():null
 		        			,imageInfoMap.get("picDesc")!=null?imageInfoMap.get("picDesc").toString():null
 		        			,imageInfoMap.get("picTitle")!=null?imageInfoMap.get("picTitle").toString():null);
+		        	i++;
 		        	newsPictureDao.save(newsPicture);
 		        }
 				}
 				this.newsInfoDao.save(newsInfo);
-				return RongLianResult.ok(newsInfo);
+				return RongLianResult.ok();
 			}
 		}else{
 			return RongLianResult.build(500, "未传参数或参数格式不对");
