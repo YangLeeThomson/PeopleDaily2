@@ -402,7 +402,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				NewsInfo newsInfo=new NewsInfo(map.get("newsId").toString(), (map.get("canComment")!=null)?map.get("canComment").toString():null, (map.get("channelId")!=null)?map.get("channelId").toString():null,
 						(map.get("channelName")!=null)?map.get("channelName").toString():null, null, (map.get("contentId")!=null)?(int)map.get("contentId"):null,
 						null, (map.get("createTime")!=null)?sdf.parse(map.get("createTime").toString()):null, (map.get("editExpire")!=null)?sdf.parse(map.get("editExpire").toString()):null,
-						null, (map.get("isEditRecom")!=null)?(map.get("isEditRecom").toString().toString().equals("1")?(byte)1:(byte)0):null, (map.get("isToTop")!=null)?(map.get("isToTop").toString().equals("1")?(byte)1:(byte)0):null , (map.get("isTopic")!=null)?(int)map.get("isTopic"):null,
+						null, (map.get("isEditRecom")!=null)?(map.get("isEditRecom").toString().toString().equals("true")?(byte)1:(byte)0):null, (map.get("isToTop")!=null)?(map.get("isToTop").toString().equals("true")?(byte)1:(byte)0):null , (map.get("isTopic")!=null)?(int)map.get("isTopic"):null,
 						null, null, null,
 						(map.get("modifyTime")!=null)?sdf.parse(map.get("modifyTime").toString()):null, (map.get("newsAuthors")!=null)?map.get("newsAuthors").toString():null, (map.get("newsContent")!=null)?map.get("newsContent").toString():null,
 								(map.get("newsOrganization")!=null)?map.get("newsOrganization").toString():null, (map.get("newsOriginal")!=null)?(int)map.get("newsOriginal"):null, (map.get("newsSort")!=null)?(int)map.get("newsSort"):null,
@@ -412,13 +412,15 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 																(map.get("dataStatus")!=null)?(int)map.get("dataStatus"):null, (map.get("showType")!=null)?(int)map.get("showType"):null,(map.get("fullColumnImgUrl")!=null)?map.get("fullColumnImgUrl").toString():null,
 																		(map.get("hasVideo")!=null)?(map.get("hasVideo").toString().equals("true")?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(map.get("isLive").toString().equals("true")?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(map.get("isLiveReplay").toString().equals("true")?(byte)1:(byte)0):null);
 				newsPictureDao.deleteByNewsID(newsInfo.getNewsId());
-				String[] imgs=getImgs(newsInfo.getNewsContent());
 				int i=0;
+				if(newsInfo.getNewsContent()!=null){
+				String[] imgs=getImgs(newsInfo.getNewsContent());
 				if(imgs!=null){
 					for(;i<imgs.length;i++){
 						NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId(),newsInfo.getNewsId()+"_"+i,imgs[i],i);
 						newsPictureDao.save(newsPicture);
 					}
+				}
 				}
 				if(map.get("imageList")!=null){
 				List<Map> imageList = (List<Map>)map.get("imageList");
