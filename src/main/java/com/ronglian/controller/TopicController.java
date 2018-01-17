@@ -54,10 +54,15 @@ public class TopicController {
 	@RequestMapping(value="/1.0/delTopicOfAllNews",method=RequestMethod.POST)
 	public RongLianResult removeTopicAndNewsByTopic(@RequestBody List<Map> requestList){
 		List<String> list = new ArrayList<>();
-		if(requestList != null){
+		if(requestList != null&&requestList.size()!=0){
 			for(Map map:requestList){
+				if(map.get("topicUniqueID")==null){
+					continue;
+				}
 				list.add((String) map.get("topicUniqueID"));
 			}
+		}else{
+			return RongLianResult.build(500, "缺少参数");
 		}
 		return this.topicNewsService.deleteTopicNewsByByTopicUniqueID(list);
 	}
@@ -67,10 +72,15 @@ public class TopicController {
 	@RequestMapping(value="/1.0/delNewsOfAllTopic",method=RequestMethod.POST)
 	public RongLianResult removeTopicAndNewsByNews(@RequestBody List<Map> requestList){
 		List<String> list = new ArrayList<>();
-		if(requestList != null){
+		if(requestList != null&&requestList.size()!=0){
 			for(Map map:requestList){
+				if(map.get("newsID")==null){
+					continue;
+				}
 				list.add((String) map.get("newsID"));
 			}
+		}else{
+			return RongLianResult.build(500, "缺少参数");
 		}
 		return this.topicNewsService.deleteTopicNewsByNewsID(list);
 	}
