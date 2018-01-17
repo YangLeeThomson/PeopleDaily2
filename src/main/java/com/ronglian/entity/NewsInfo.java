@@ -93,7 +93,7 @@ public class NewsInfo implements Serializable {
 	private Integer isTopic;
 
 	@Column(name="is_topnews")
-	private Integer isTopnews;
+	private Byte isTopnews;
 
 	@Column(name="is_topnews_totop")
 	private Byte isTopnewsTotop;
@@ -276,11 +276,11 @@ public class NewsInfo implements Serializable {
 		this.isTopic = isTopic;
 	}
 
-	public Integer getIsTopnews() {
+	public Byte getIsTopnews() {
 		return this.isTopnews;
 	}
 
-	public void setIsTopnews(Integer isTopnews) {
+	public void setIsTopnews(Byte isTopnews) {
 		this.isTopnews = isTopnews;
 	}
 
@@ -490,7 +490,7 @@ public class NewsInfo implements Serializable {
 			String channelName, Integer commentNum, Integer contentId,
 			Integer contentType, Date createTime, Date editExpire,
 			Integer imageList, Byte isEditRecom, Byte isToTop, Integer isTopic,
-			Integer isTopnews, Byte isTopnewsTotop, String keywords,
+			Byte isTopnews, Byte isTopnewsTotop, String keywords,
 			Date modifyTime, String newsAuthors, String newsContent,
 			String newsOrganization, Integer newsOriginal, Integer newsSort,
 			String newsSource, String newsSourceUrl, Integer newsStatus,
@@ -537,7 +537,7 @@ public class NewsInfo implements Serializable {
 			String channelName, Integer commentNum, Integer contentId,
 			Integer contentType, Date createTime, Date editExpire,
 			Integer imageList, Byte isEditRecom, Byte isToTop, Integer isTopic,
-			Integer isTopnews, Byte isTopnewsTotop, String keywords,
+			Byte isTopnews, Byte isTopnewsTotop, String keywords,
 			Date modifyTime, String newsAuthors, String newsContent,
 			String newsOrganization, Integer newsOriginal, Integer newsSort,
 			String newsSource, String newsSourceUrl, Integer newsStatus,
