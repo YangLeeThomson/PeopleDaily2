@@ -41,15 +41,7 @@ public class TopicNewsServiceImpl implements TopicNewsService {
 	}
 	@Override
 	public RongLianResult deleteTopicNewsByNewsID(List<String> list) {
-		if(list!=null){
-			/*List<String> topicList=new LinkedList<String>();
-			for(String newsId :list){
-				topicList.addAll(this.topicNewsDao.selectTopicByNewsInfoId(newsId));
-			}
-			newsInfoDao.deleteByNewsID(list);
-			if(topicList.size()>0){
-				topicDao.deleteByTopicUniqueID(topicList);
-			}*/
+		if(list!=null&&list.size()>0){
 			this.topicNewsDao.deleteByNewsID(list);
 			return RongLianResult.ok();
 		}else{
@@ -58,15 +50,7 @@ public class TopicNewsServiceImpl implements TopicNewsService {
 	}
 	@Override
 	public RongLianResult deleteTopicNewsByByTopicUniqueID(List<String> list) {
-		if(list!=null){
-			/*List<String> newsList=new LinkedList<String>();
-			for(String topicId :list){
-				newsList.addAll(this.topicNewsDao.selectNewsInfoIdByTopic(topicId));
-			}
-			topicDao.deleteByTopicUniqueID(list);
-			if(newsList.size()>0){
-				newsInfoDao.deleteByNewsID(newsList);
-			}*/
+		if(list!=null&&list.size()>0){
 			this.topicNewsDao.deleteByTopicUniqueID(list);
 			return RongLianResult.ok();
 	}else{
