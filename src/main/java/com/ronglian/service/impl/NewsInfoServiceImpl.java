@@ -413,6 +413,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 																		(map.get("hasVideo")!=null)?(map.get("hasVideo").toString().equals("true")?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(map.get("isLive").toString().equals("true")?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(map.get("isLiveReplay").toString().equals("true")?(byte)1:(byte)0):null);
 				newsPictureDao.deleteByNewsID(newsInfo.getNewsId());
 				int i=0;
+				boolean less=false;
 				if(newsInfo.getNewsContent()!=null){
 				String[] imgs=getImgs(newsInfo.getNewsContent());
 				if(imgs!=null){
@@ -420,6 +421,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						NewsPicture newsPicture=new NewsPicture(newsInfo.getNewsId(),newsInfo.getNewsId()+"_"+i,imgs[i],i);
 						newsPictureDao.save(newsPicture);
 					}
+					less=true;
 				}
 				}
 				if(map.get("imageList")!=null){
@@ -435,6 +437,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		        	newsPictureDao.save(newsPicture);
 		        }
 				}
+				newsInfo.setImageList(i);
 				this.newsInfoDao.save(newsInfo);
 				return RongLianResult.ok();
 			}
