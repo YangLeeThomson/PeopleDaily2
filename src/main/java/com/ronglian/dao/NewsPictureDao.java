@@ -8,4 +8,6 @@ import com.ronglian.entity.NewsPicture;
 
 public interface NewsPictureDao extends CrudRepository<NewsPicture, String> {
 	
+	@Query("from NewsPicture where newsId = :newsId")
+	public List<NewsPicture> selectNewsPictureByNewsId(@Param("newsId")String newsId);
 }

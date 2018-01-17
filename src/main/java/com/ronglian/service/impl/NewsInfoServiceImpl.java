@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -24,11 +25,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ronglian.dao.NewsInfoDao;
 import com.ronglian.entity.NewsInfo;
 import com.ronglian.entity.NewsPicture;
+import com.ronglian.entity.NewsTopic;
 import com.ronglian.service.NewsInfoService;
 import com.ronglian.utils.PageResult;
 import com.ronglian.utils.RongLianResult;
 import com.ronglian.utils.model.request.ImageInfo;
 import com.ronglian.dao.NewsPictureDao;
+import com.ronglian.dao.TopicDao;
 
 /**
  * @author liyang
@@ -44,6 +47,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	private NewsInfoDao newsInfoDao;
 	@Autowired
 	private NewsPictureDao newsPictureDao;
+	@Autowired
+	private TopicDao topicDao;
 	@Override
 	public RongLianResult inserNewsInfo(NewsInfo newsInfo) {
 		NewsInfo result = this.newsInfoDao.save(newsInfo);
@@ -59,11 +64,72 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public PageResult findNewsList(int pageSize, int pageNo, String channelId) {
 		int start = 0;
+		List<Map> resultList = new ArrayList<Map>();
 		if(channelId != null){
 			start = (pageNo-1)*pageSize;
 			List<NewsInfo> list = this.newsInfoDao.selectNewsInfoByChannel(channelId,start,pageSize);
 			if(list != null && list.size() > 0){
-				return PageResult.build(0, "ok", pageNo, pageSize, list);
+				for(NewsInfo news:list){
+					Map resultMap = new HashMap();
+					resultMap.put("newsTitle", news.getNewsTitle());
+					resultMap.put("newsId", news.getNewsId());
+					resultMap.put("newsTags", news.getNewsTags());
+					resultMap.put("publishTime", news.getPublishTime());
+					resultMap.put("newsSort", news.getNewsSort());
+					resultMap.put("showType", news.getShowType());
+					resultMap.put("fullColumnImgUrl", news.getShowType());
+					resultMap.put("hasVideo", news.getHasVideo());
+					resultMap.put("isLive", news.getIsLive());
+					resultMap.put("isLiveReplay", news.getIsLiveReplay());
+					
+					Integer topicId = news.getIsTopic();
+					resultMap.put("isTopic", topicId);
+					//如果topicId 不等于0，说明是专题，需要进一步查询
+					if(topicId > 0){
+						//查询专题
+						NewsTopic topic = this.topicDao.findOne(topicId);
+						if(topic != null){
+							Map topicDetail = new HashMap();
+							topicDetail.put("topicDesc", topic.getTopicDesc());
+							topicDetail.put("bannerPhoto", topic.getBannerImage());
+							topicDetail.put("coverPhoto", topic.getListImage());
+							resultMap.put("topicDetail",topicDetail);
+						}else{
+							resultMap.put("topicDetail",null);
+						}
+					}else{//isTopic() 等于 0
+						resultMap.put("topicDetail",null);
+					}
+					
+					//查看图片数目是否是0，数量大于0，需要进一步查看
+					Integer imageCount = news.getImageList();
+					if(imageCount == null){
+						imageCount = 0;
+					}
+					resultMap.put("imageCount", imageCount);
+					
+					if(imageCount > 0){
+						List<NewsPicture> pictures = this.newsPictureDao.selectNewsPictureByNewsId(news.getNewsId());
+						if(pictures != null && pictures.size() > 0){
+							List<Map> photoList = new ArrayList<Map>();
+							for(NewsPicture picture:pictures){
+								Map photo = new HashMap();
+								photo.put("pictureId", picture.getPictureId());
+								photo.put("picPath", picture.getImagePath());
+								photo.put("picTitle", picture.getPictureTitle());
+								photo.put("picDesc", picture.getPictureDesc());
+								photoList.add(photo);
+							}
+							resultMap.put("photoList",photoList);
+						}else{
+							resultMap.put("photoList",null);
+						}
+					}else{//imageList等于0
+						resultMap.put("photoList",null);
+					}
+					resultList.add(resultMap);
+				}
+				return PageResult.build(0, "ok", pageNo, pageSize, resultList);
 			}else{
 				return PageResult.error(500, "查询结果为空或内容不存在", pageNo, pageSize);
 			}
@@ -78,9 +144,70 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public RongLianResult findTopnewsList(String channelId) {
 		if(channelId != null){
+			List<Map> resultList = new ArrayList<Map>();
 			List<NewsInfo> list = this.newsInfoDao.selectTopnewsByChannel(channelId);
 			if(list != null && list.size() > 0){
-				return RongLianResult.ok(list);
+				for(NewsInfo news:list){
+					Map resultMap = new HashMap();
+					resultMap.put("newsTitle", news.getNewsTitle());
+					resultMap.put("newsId", news.getNewsId());
+					resultMap.put("newsTags", news.getNewsTags());
+					resultMap.put("publishTime", news.getPublishTime());
+					resultMap.put("newsSort", news.getNewsSort());
+					resultMap.put("showType", news.getShowType());
+					resultMap.put("fullColumnImgUrl", news.getShowType());
+					resultMap.put("hasVideo", news.getHasVideo());
+					resultMap.put("isLive", news.getIsLive());
+					resultMap.put("isLiveReplay", news.getIsLiveReplay());
+					
+					Integer topicId = news.getIsTopic();
+					resultMap.put("isTopic", topicId);
+					//如果topicId 不等于0，说明是专题，需要进一步查询
+					if(topicId > 0){
+						//查询专题
+						NewsTopic topic = this.topicDao.findOne(topicId);
+						if(topic != null){
+							Map topicDetail = new HashMap();
+							topicDetail.put("topicDesc", topic.getTopicDesc());
+							topicDetail.put("bannerPhoto", topic.getBannerImage());
+							topicDetail.put("coverPhoto", topic.getListImage());
+							resultMap.put("topicDetail",topicDetail);
+						}else{
+							resultMap.put("topicDetail",null);
+						}
+					}else{//isTopic() 等于 0
+						resultMap.put("topicDetail",null);
+					}
+					
+					//查看图片数目是否是0，数量大于0，需要进一步查看
+					Integer imageCount = news.getImageList();
+					if(imageCount == null){
+						imageCount = 0;
+					}
+					resultMap.put("imageCount", imageCount);
+					
+					if(imageCount > 0){
+						List<NewsPicture> pictures = this.newsPictureDao.selectNewsPictureByNewsId(news.getNewsId());
+						if(pictures != null && pictures.size() > 0){
+							List<Map> photoList = new ArrayList<Map>();
+							for(NewsPicture picture:pictures){
+								Map photo = new HashMap();
+								photo.put("pictureId", picture.getPictureId());
+								photo.put("picPath", picture.getImagePath());
+								photo.put("picTitle", picture.getPictureTitle());
+								photo.put("picDesc", picture.getPictureDesc());
+								photoList.add(photo);
+							}
+							resultMap.put("photoList",photoList);
+						}else{
+							resultMap.put("photoList",null);
+						}
+					}else{//imageList等于0
+						resultMap.put("photoList",null);
+					}
+					resultList.add(resultMap);
+				}
+				return RongLianResult.ok(resultList);
 			}else{
 				return RongLianResult.build(500, "查询结果为空或内容不存在");
 			}
@@ -95,16 +222,76 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public RongLianResult findEditorNewsList(String channelId) {
 		if(channelId != null){
+			List<Map> resultList = new ArrayList<Map>();
 			List<NewsInfo> list = this.newsInfoDao.selectEditorNewsByChannel(channelId);
 			if(list != null && list.size() > 0){
-				return RongLianResult.ok(list);
+				for(NewsInfo news:list){
+					Map resultMap = new HashMap();
+					resultMap.put("newsTitle", news.getNewsTitle());
+					resultMap.put("newsId", news.getNewsId());
+					resultMap.put("newsTags", news.getNewsTags());
+					resultMap.put("publishTime", news.getPublishTime());
+					resultMap.put("newsSort", news.getNewsSort());
+					resultMap.put("showType", news.getShowType());
+					resultMap.put("fullColumnImgUrl", news.getShowType());
+					resultMap.put("hasVideo", news.getHasVideo());
+					resultMap.put("isLive", news.getIsLive());
+					resultMap.put("isLiveReplay", news.getIsLiveReplay());
+					
+					Integer topicId = news.getIsTopic();
+					resultMap.put("isTopic", topicId);
+					//如果topicId 不等于0，说明是专题，需要进一步查询
+					if(topicId > 0){
+						//查询专题
+						NewsTopic topic = this.topicDao.findOne(topicId);
+						if(topic != null){
+							Map topicDetail = new HashMap();
+							topicDetail.put("topicDesc", topic.getTopicDesc());
+							topicDetail.put("bannerPhoto", topic.getBannerImage());
+							topicDetail.put("coverPhoto", topic.getListImage());
+							resultMap.put("topicDetail",topicDetail);
+						}else{
+							resultMap.put("topicDetail",null);
+						}
+					}else{//isTopic() 等于 0
+						resultMap.put("topicDetail",null);
+					}
+					
+					//查看图片数目是否是0，数量大于0，需要进一步查看
+					Integer imageCount = news.getImageList();
+					if(imageCount == null){
+						imageCount = 0;
+					}
+					resultMap.put("imageCount", imageCount);
+					
+					if(imageCount > 0){
+						List<NewsPicture> pictures = this.newsPictureDao.selectNewsPictureByNewsId(news.getNewsId());
+						if(pictures != null && pictures.size() > 0){
+							List<Map> photoList = new ArrayList<Map>();
+							for(NewsPicture picture:pictures){
+								Map photo = new HashMap();
+								photo.put("pictureId", picture.getPictureId());
+								photo.put("picPath", picture.getImagePath());
+								photo.put("picTitle", picture.getPictureTitle());
+								photo.put("picDesc", picture.getPictureDesc());
+								photoList.add(photo);
+							}
+							resultMap.put("photoList",photoList);
+						}else{
+							resultMap.put("photoList",null);
+						}
+					}else{//imageList等于0
+						resultMap.put("photoList",null);
+					}
+					resultList.add(resultMap);
+				}
+				return RongLianResult.ok(resultList);
 			}else{
 				return RongLianResult.build(500, "查询结果为null");
 			}
 		}else{
 			return RongLianResult.build(500, "请求参数channelId不能为空");
 		}
-		
 	}
 	/* (non-Javadoc)
 	 * @see com.ronglian.service.NewsInfoService#findTopicNewsList(java.util.List)
@@ -116,8 +303,70 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		}
 		pageNo = (pageNo-1)*pageSize;
 		List<NewsInfo> newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(list,pageNo,pageSize);
+		List<Map> resultList = new ArrayList<Map>();
 		if(newsInfoList != null && newsInfoList.size() > 0){
-			return PageResult.build(0, "ok", pageNo, pageSize, newsInfoList);
+			for(NewsInfo news:newsInfoList){
+
+				Map resultMap = new HashMap();
+				resultMap.put("newsTitle", news.getNewsTitle());
+				resultMap.put("newsId", news.getNewsId());
+				resultMap.put("newsTags", news.getNewsTags());
+				resultMap.put("publishTime", news.getPublishTime());
+				resultMap.put("newsSort", news.getNewsSort());
+				resultMap.put("showType", news.getShowType());
+				resultMap.put("fullColumnImgUrl", news.getShowType());
+				resultMap.put("hasVideo", news.getHasVideo());
+				resultMap.put("isLive", news.getIsLive());
+				resultMap.put("isLiveReplay", news.getIsLiveReplay());
+				
+				Integer topicId = news.getIsTopic();
+				resultMap.put("isTopic", topicId);
+				//如果topicId 不等于0，说明是专题，需要进一步查询
+				if(topicId > 0){
+					//查询专题
+					NewsTopic topic = this.topicDao.findOne(topicId);
+					if(topic != null){
+						Map topicDetail = new HashMap();
+						topicDetail.put("topicDesc", topic.getTopicDesc());
+						topicDetail.put("bannerPhoto", topic.getBannerImage());
+						topicDetail.put("coverPhoto", topic.getListImage());
+						resultMap.put("topicDetail",topicDetail);
+					}else{
+						resultMap.put("topicDetail",null);
+					}
+				}else{//isTopic() 等于 0
+					resultMap.put("topicDetail",null);
+				}
+				
+				//查看图片数目是否是0，数量大于0，需要进一步查看
+				Integer imageCount = news.getImageList();
+				if(imageCount == null){
+					imageCount = 0;
+				}
+				resultMap.put("imageCount", imageCount);
+				
+				if(imageCount > 0){
+					List<NewsPicture> pictures = this.newsPictureDao.selectNewsPictureByNewsId(news.getNewsId());
+					if(pictures != null && pictures.size() > 0){
+						List<Map> photoList = new ArrayList<Map>();
+						for(NewsPicture picture:pictures){
+							Map photo = new HashMap();
+							photo.put("pictureId", picture.getPictureId());
+							photo.put("picPath", picture.getImagePath());
+							photo.put("picTitle", picture.getPictureTitle());
+							photo.put("picDesc", picture.getPictureDesc());
+							photoList.add(photo);
+						}
+						resultMap.put("photoList",photoList);
+					}else{
+						resultMap.put("photoList",null);
+					}
+				}else{//imageList等于0
+					resultMap.put("photoList",null);
+				}
+				resultList.add(resultMap);
+			}
+			return PageResult.build(0, "ok", pageNo, pageSize, resultList);
 		}else{
 			return PageResult.error(500, "专题对应的新闻内容不存在", pageNo, pageSize);
 		}
