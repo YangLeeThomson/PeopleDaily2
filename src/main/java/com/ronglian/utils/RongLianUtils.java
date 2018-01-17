@@ -2,7 +2,9 @@ package com.ronglian.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,5 +49,11 @@ public class RongLianUtils {
 	            sign = str.toUpperCase();
 	        }
 	        return sign;
+	}
+	
+	//转换日期格式
+	public static String changeDateTime(Date date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd EEE HH:mm:ss");
+		return sdf.format(date);
 	}
 }

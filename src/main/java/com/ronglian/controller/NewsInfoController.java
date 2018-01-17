@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.ronglian.entity.NewsInfo;
 import com.ronglian.service.NewsInfoService;
 import com.ronglian.service.TopicNewsService;
+import com.ronglian.utils.PageCountResult;
 import com.ronglian.utils.PageResult;
 import com.ronglian.utils.RongLianResult;
 
@@ -70,7 +71,7 @@ public class NewsInfoController {
 	 * 获取channel新闻列表接口
 	 * */
 	@RequestMapping(value="/1.0/getChannelNews",method=RequestMethod.GET)
-	public PageResult getNewsList(@RequestParam(value="pageSize",defaultValue="5",required=false)Integer pageSize,
+	public PageCountResult getNewsList(@RequestParam(value="pageSize",defaultValue="5",required=false)Integer pageSize,
 			@RequestParam(value="pageNo",defaultValue="1",required=false)Integer pageNo,String channelId){
 		return this.newsInfoService.findNewsList(pageSize, pageNo, channelId);
 	}
@@ -94,11 +95,11 @@ public class NewsInfoController {
 	 * topic专题 新闻列表输出接口
 	 * */
 	@RequestMapping(value="/1.0/getTopicNews",method=RequestMethod.GET)
-	public PageResult getTopicNewsList(String topicId,
+	public PageCountResult getTopicNewsList(String topicId,
 			@RequestParam(value="pageSize",required=false,defaultValue="5")int pageSize,
 			@RequestParam(value="pageNo",required=false,defaultValue="1")int pageNo){
 		if(topicId == null){
-			return PageResult.error(500, "请求参数topicId不能为空", pageNo, pageSize);
+			return PageCountResult.error(500, "请求参数topicId不能为空", pageNo, pageSize);
 		}
 		List<String> newsInfoIdList = this.topicNewsService.getNewsInfoId(topicId);
 		return this.newsInfoService.findTopicNewsList(newsInfoIdList,pageNo,pageSize);

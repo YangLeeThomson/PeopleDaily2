@@ -27,8 +27,10 @@ import com.ronglian.entity.NewsInfo;
 import com.ronglian.entity.NewsPicture;
 import com.ronglian.entity.NewsTopic;
 import com.ronglian.service.NewsInfoService;
+import com.ronglian.utils.PageCountResult;
 import com.ronglian.utils.PageResult;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.RongLianUtils;
 import com.ronglian.utils.model.request.ImageInfo;
 import com.ronglian.dao.NewsPictureDao;
 import com.ronglian.dao.TopicDao;
@@ -62,22 +64,25 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * @see com.ronglian.service.NewsInfoService#findNewsList(int, int, java.lang.String)
 	 */
 	@Override
-	public PageResult findNewsList(int pageSize, int pageNo, String channelId) {
+	public PageCountResult findNewsList(int pageSize, int pageNo, String channelId) {
 		int start = 0;
+		int counter = 0;
 		List<Map> resultList = new ArrayList<Map>();
 		if(channelId != null){
 			start = (pageNo-1)*pageSize;
 			List<NewsInfo> list = this.newsInfoDao.selectNewsInfoByChannel(channelId,start,pageSize);
 			if(list != null && list.size() > 0){
+//				counter = list.size();
+				counter = this.newsInfoDao.countNewsInfoByChannel(channelId);
 				for(NewsInfo news:list){
 					Map resultMap = new HashMap();
 					resultMap.put("newsTitle", news.getNewsTitle());
 					resultMap.put("newsId", news.getNewsId());
 					resultMap.put("newsTags", news.getNewsTags());
-					resultMap.put("publishTime", news.getPublishTime());
+					resultMap.put("publishTime", RongLianUtils.changeDateTime(news.getPublishTime()));
 					resultMap.put("newsSort", news.getNewsSort());
 					resultMap.put("showType", news.getShowType());
-					resultMap.put("fullColumnImgUrl", news.getShowType());
+					resultMap.put("fullColumnImgUrl", news.getFullColumnImgUrl());
 					resultMap.put("hasVideo", news.getHasVideo());
 					resultMap.put("isLive", news.getIsLive());
 					resultMap.put("isLiveReplay", news.getIsLiveReplay());
@@ -129,12 +134,12 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					}
 					resultList.add(resultMap);
 				}
-				return PageResult.build(0, "ok", pageNo, pageSize, resultList);
+				return PageCountResult.build(0, "ok",counter,pageNo, pageSize, resultList);
 			}else{
-				return PageResult.error(500, "查询结果为空或内容不存在", pageNo, pageSize);
+				return PageCountResult.error(500, "查询结果为空或内容不存在", pageNo, pageSize);
 			}
 		}else{
-			return PageResult.error(500, "请求参数channelId不能为空", pageNo, pageSize);
+			return PageCountResult.error(500, "请求参数channelId不能为空", pageNo, pageSize);
 		}
 		
 	}
@@ -297,16 +302,18 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * @see com.ronglian.service.NewsInfoService#findTopicNewsList(java.util.List)
 	 */
 	@Override
-	public PageResult findTopicNewsList(List<String> list,int pageNo,int pageSize) {
+	public PageCountResult findTopicNewsList(List<String> list,int pageNo,int pageSize) {
 		if(list == null ){
-			return PageResult.build(500, "专题没有对应的新闻", pageNo, pageSize, list);
+			return PageCountResult.error(500, "专题没有对应的新闻", pageNo, pageSize);
 		}
 		pageNo = (pageNo-1)*pageSize;
+		int count = 0;
 		List<NewsInfo> newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(list,pageNo,pageSize);
 		List<Map> resultList = new ArrayList<Map>();
 		if(newsInfoList != null && newsInfoList.size() > 0){
+//			count = newsInfoList.size();
+			count = this.newsInfoDao.countTopicNewsByNewsInfoId(list);
 			for(NewsInfo news:newsInfoList){
-
 				Map resultMap = new HashMap();
 				resultMap.put("newsTitle", news.getNewsTitle());
 				resultMap.put("newsId", news.getNewsId());
@@ -366,9 +373,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				}
 				resultList.add(resultMap);
 			}
-			return PageResult.build(0, "ok", pageNo, pageSize, resultList);
+			return PageCountResult.build(0, "ok",count,pageNo, pageSize, resultList);
 		}else{
-			return PageResult.error(500, "专题对应的新闻内容不存在", pageNo, pageSize);
+			return PageCountResult.error(500, "专题对应的新闻内容不存在", pageNo, pageSize);
 		}
 	}
 	/* (non-Javadoc)
@@ -381,7 +388,42 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		}
 		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
 		if(newsInfo != null){
-			return RongLianResult.ok(newsInfo);
+			Map data = new HashMap();
+			data.put("incNo",newsInfo.getContentId() );
+			data.put("newsContent",newsInfo.getNewsContent() );
+			data.put("newsOrganization", newsInfo.getNewsOrganization());
+			data.put("newsAuthors", newsInfo.getNewsAuthors());
+			data.put("publishTime", RongLianUtils.changeDateTime(newsInfo.getPublishTime()));
+			data.put("newsTitle",newsInfo.getNewsTitle() );
+			data.put("appriseUPCount",newsInfo.getAppriseUpNum());
+			data.put("appriseDownCount",newsInfo.getAppriseDownNum());
+			data.put("commentNum", newsInfo.getCommentNum());
+			Integer imageCount = newsInfo.getImageList();
+			if(imageCount == null){
+				imageCount = 0;
+			}
+			data.put("imageCount",imageCount );
+			
+			if(imageCount > 0){
+				List<NewsPicture> pictures = this.newsPictureDao.selectNewsPictureByNewsId(newsInfo.getNewsId());
+				if(pictures != null && pictures.size() > 0){
+					List<Map> photoList = new ArrayList<Map>();
+					for(NewsPicture picture:pictures){
+						Map photo = new HashMap();
+						photo.put("pictureId", picture.getPictureId());
+						photo.put("picPath", picture.getImagePath());
+						photo.put("picTitle", picture.getPictureTitle());
+						photo.put("picDesc", picture.getPictureDesc());
+						photoList.add(photo);
+					}
+					data.put("imageList",photoList);
+				}else{
+					data.put("imageList",null);
+				}
+			}else{
+				data.put("imageList",null);
+			}
+			return RongLianResult.ok(data);
 		}else{
 			return RongLianResult.build(500, "所查询的新闻内容不存在");
 		}

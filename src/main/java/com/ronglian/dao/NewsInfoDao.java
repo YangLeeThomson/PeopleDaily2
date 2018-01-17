@@ -23,6 +23,9 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	@Query(value="select * from news_info news where news.channel_id = ?1 limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectNewsInfoByChannel(String channelId,int pageNo,int pageSize);
 
+	@Query(value="select count(*) from news_info news where news.channel_id = ?1 ",nativeQuery= true)
+	int countNewsInfoByChannel(String channelId);
+	
 	@Query(value="select * from news_info news where news.channel_id = :channelId and news.is_to_top = 1",nativeQuery= true)
 	List<NewsInfo> selectTopnewsByChannel(@Param("channelId") String channelId);
 	
@@ -31,6 +34,9 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 
 	@Query(value="select * from news_info news where news.news_id in (?1) limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectTopicNewsByNewsInfoId( List<String> list, int pageNo, int pageSize );
+	
+	@Query(value="select count(*) from news_info news where news.news_id in (?1) ",nativeQuery= true)
+	int countTopicNewsByNewsInfoId( List<String> list );
 	
 	@Modifying
 	@Query(value="update news_info  set apprise_up_num = apprise_up_num + 1 where news_Id = :newsId",nativeQuery= true)
