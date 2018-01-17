@@ -178,7 +178,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		        			,newsInfo.getNewsId()+"_"+i
 		        			,imageInfoMap.get("picPath")!=null?imageInfoMap.get("picPath").toString():null
 		        			,imageInfoMap.get("picDesc")!=null?imageInfoMap.get("picDesc").toString():null
-		        			,imageInfoMap.get("picTitle")!=null?imageInfoMap.get("picTitle").toString():null);
+		        			,imageInfoMap.get("picTitle")!=null?imageInfoMap.get("picTitle").toString():null
+		        			,i);
 		        	i++;
 		        	newsPictureDao.save(newsPicture);
 		        }

@@ -101,13 +101,14 @@ public class NewsPicture implements Serializable {
 		this.pictureTitle = pictureTitle;
 	}
 
-	public NewsPicture(String newsId,String pictureId, String imagePath, String pictureDesc,String pictureTitle) {
+	public NewsPicture(String newsId,String pictureId, String imagePath, String pictureDesc,String pictureTitle, Integer pictureSort) {
 		super();
 		this.newsId=newsId;
 		this.pictureId = pictureId;
 		this.imagePath = imagePath;
 		this.pictureDesc = pictureDesc;
 		this.pictureTitle = pictureTitle;
+		this.pictureSort = pictureSort;
 	}
 
 	public NewsPicture(String newsId,String pictureId, String imagePath, Integer pictureSort) {
