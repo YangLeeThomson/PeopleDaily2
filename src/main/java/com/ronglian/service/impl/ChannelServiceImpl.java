@@ -3,7 +3,9 @@
  */
 package com.ronglian.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +50,16 @@ public class ChannelServiceImpl implements ChannelService {
 		// TODO Auto-generated method stub
 		List<Channel> list = this.channelDao.getList();
 		if(list != null && list.size() > 0){
-			return RongLianResult.ok(list);
+			List<Map> resultList = new ArrayList<Map>();
+			for(Channel channel:list){
+				Map resultMap = new HashMap();
+				resultMap.put("ChannelId", channel.getChannelId());
+				resultMap.put("sort", channel.getChannelSort());
+				resultMap.put("ChannelName", channel.getChannelName());
+				resultMap.put("uniqueID", channel.getUniqueID());
+				resultList.add(resultMap);
+			}
+			return RongLianResult.ok(resultList);
 		}else{
 			return RongLianResult.build(500, "find null");
 		}
