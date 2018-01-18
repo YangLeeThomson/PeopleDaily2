@@ -521,13 +521,37 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		if(incNo == null){
 			return RongLianResult.build(500, "请求参数incNo不能为null");
 		}
-		List<Integer> list = new ArrayList<Integer>();
-		list.add(incNo+1);
-		list.add(incNo+2);
-		list.add(incNo-1);
-		list.add(incNo-2);
-		List<NewsInfo> resultList = this.newsInfoDao.selectNewsInfoNearByIncNo(list);
-		if(resultList != null && resultList.size() > 0){
+		List<NewsInfo> list = this.newsInfoDao.selectNewsInfoNearUpByIncNo(incNo);
+		List<NewsInfo> list2 = this.newsInfoDao.selectNewsInfoNearDownByIncNo(incNo);
+		if(list != null){
+			list.addAll(list2);
+		}else{
+			list = list2;
+		}
+		if(list != null && list.size() > 0){
+			List<Map> resultList = new ArrayList<Map>();
+			
+			for(NewsInfo news:list){
+				Map result = new HashMap();
+				result.put("newsTitle", news.getNewsTitle());
+				result.put("newsId", news.getNewsId());
+				result.put("newsTags", news.getNewsTags());
+				result.put("publishTime", RongLianUtils.changeDateTime(news.getPublishTime()));
+				result.put("newsSort", news.getNewsSort());
+				
+				List<NewsPicture> photos = this.newsPictureDao.selectNewsPictureByNewsId(news.getNewsId());
+				List pictureList = new ArrayList();
+					for(NewsPicture picture:photos){
+						Map photo = new HashMap();
+						photo.put("pictureId", picture.getPictureId());
+						photo.put("picTitle", picture.getPictureTitle());
+						photo.put("picPath", picture.getImagePath());
+						photo.put("picDesc", picture.getPictureDesc());
+						pictureList.add(photo);
+					}
+				result.put("pictureList", pictureList);
+				resultList.add(result);
+			}
 			//4条数据，2条数据、1条都输出
 			if(resultList.size() == 4 || resultList.size() == 2 || resultList.size() == 1){
 				return RongLianResult.ok(resultList);

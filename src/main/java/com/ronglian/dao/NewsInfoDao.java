@@ -57,9 +57,15 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	void updateShareNum(@Param("newsId")String newsId);
 	
 
-	@Query("from NewsInfo where contentId in (:list)")
-	List<NewsInfo> selectNewsInfoNearByIncNo(@Param("list")List<Integer> list);
+//	@Query("from NewsInfo where contentId in (:list)")
+//	List<NewsInfo> selectNewsInfoNearByIncNo(@Param("list")List<Integer> list);
 
+	@Query(value="select * from news_info where channel_id = 144 and content_id < ?1 order by content_id DESC limit 2",nativeQuery= true)
+	List<NewsInfo> selectNewsInfoNearUpByIncNo(int incNo);
+	
+	@Query(value="select * from news_info where channel_id = 144 and content_id > ?1 order by content_id DESC limit 2",nativeQuery= true)
+	List<NewsInfo> selectNewsInfoNearDownByIncNo(int incNo);
+	
 	@Transactional
     @Modifying
     @Query("delete from NewsInfo news where news.newsId in ( :list)")
