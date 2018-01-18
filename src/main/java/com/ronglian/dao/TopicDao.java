@@ -25,6 +25,6 @@ public interface TopicDao  extends CrudRepository<NewsTopic, Integer>{
     @Query("delete from NewsTopic topic where topic.uniqueId in ( :list)")
 	int deleteByTopicUniqueID(@Param("list") List<String> list); 
 	
-	@Query(value="select * from NewsTopic where  uniqueId = :topicId")
-	public NewsTopic getNewsTopicByTopicId(@Param("topicId")String topicId);
+	@Query(value="select * from news_topic where  unique_id = ?1",nativeQuery=true)
+	public NewsTopic getNewsTopicByTopicId(String topicId);
 }
