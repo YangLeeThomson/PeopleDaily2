@@ -64,16 +64,16 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * @see com.ronglian.service.NewsInfoService#findNewsList(int, int, java.lang.String)
 	 */
 	@Override
-	public PageCountResult findNewsList(int pageSize, int pageNo, String channelId) {
+	public PageCountResult findNewsList(int pageSize, int pageNo, String channelUniqueId) {
 		int start = 0;
 		int counter = 0;
 		List<Map> resultList = new ArrayList<Map>();
-		if(channelId != null){
+		if(channelUniqueId != null){
 			start = (pageNo-1)*pageSize;
-			List<NewsInfo> list = this.newsInfoDao.selectNewsInfoByChannel(channelId,start,pageSize);
+			List<NewsInfo> list = this.newsInfoDao.selectNewsInfoByChannel(channelUniqueId,start,pageSize);
 			if(list != null && list.size() > 0){
 //				counter = list.size();
-				counter = this.newsInfoDao.countNewsInfoByChannel(channelId);
+				counter = this.newsInfoDao.countNewsInfoByChannel(channelUniqueId);
 				for(NewsInfo news:list){
 					Map resultMap = new HashMap();
 					resultMap.put("newsTitle", news.getNewsTitle());
@@ -139,7 +139,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				return PageCountResult.error(500, "查询结果为空或内容不存在", pageNo, pageSize);
 			}
 		}else{
-			return PageCountResult.error(500, "请求参数channelId不能为空", pageNo, pageSize);
+			return PageCountResult.error(500, "请求参数channelUniqueId不能为空", pageNo, pageSize);
 		}
 		
 	}
@@ -147,10 +147,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * @see com.ronglian.service.NewsInfoService#findTopnewsList(java.lang.String)
 	 */
 	@Override
-	public RongLianResult findTopnewsList(String channelId) {
-		if(channelId != null){
+	public RongLianResult findTopnewsList(String channelUniqueId) {
+		if(channelUniqueId != null){
 			List<Map> resultList = new ArrayList<Map>();
-			List<NewsInfo> list = this.newsInfoDao.selectTopnewsByChannel(channelId);
+			List<NewsInfo> list = this.newsInfoDao.selectTopnewsByChannel(channelUniqueId);
 			if(list != null && list.size() > 0){
 				for(NewsInfo news:list){
 					Map resultMap = new HashMap();
@@ -217,7 +217,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				return RongLianResult.build(500, "查询结果为空或内容不存在");
 			}
 		}else{
-			return RongLianResult.build(500, "请求参数channelId不能为空");
+			return RongLianResult.build(500, "请求参数channelUniqueId不能为空");
 		}
 		
 	}
@@ -225,10 +225,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * @see com.ronglian.service.NewsInfoService#findEditorNewsList(java.lang.String)
 	 */
 	@Override
-	public RongLianResult findEditorNewsList(String channelId) {
-		if(channelId != null){
+	public RongLianResult findEditorNewsList(String channelUniqueId) {
+		if(channelUniqueId != null){
 			List<Map> resultList = new ArrayList<Map>();
-			List<NewsInfo> list = this.newsInfoDao.selectEditorNewsByChannel(channelId);
+			List<NewsInfo> list = this.newsInfoDao.selectEditorNewsByChannel(channelUniqueId);
 			if(list != null && list.size() > 0){
 				for(NewsInfo news:list){
 					Map resultMap = new HashMap();
@@ -295,7 +295,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				return RongLianResult.build(500, "查询结果为null");
 			}
 		}else{
-			return RongLianResult.build(500, "请求参数channelId不能为空");
+			return RongLianResult.build(500, "请求参数channelUniqueId不能为空");
 		}
 	}
 	/* (non-Javadoc)
@@ -437,10 +437,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			if(map.get("newsId")==null){
 				return RongLianResult.build(500, "newsId不能为空");
 			}else{
-				if(map.get("channelId")==null||map.get("channelName")==null){
+				if(map.get("channelUniqueId")==null||map.get("channelName")==null){
 					return RongLianResult.build(500, "缺少参数");
 				}
-				NewsInfo newsInfo=new NewsInfo(map.get("newsId").toString(), (map.get("canComment")!=null)?map.get("canComment").toString():null, (map.get("channelId")!=null)?map.get("channelId").toString():null,
+				NewsInfo newsInfo=new NewsInfo(map.get("newsId").toString(), (map.get("canComment")!=null)?map.get("canComment").toString():null, (map.get("channelUniqueId")!=null)?map.get("channelUniqueId").toString():null,
 						(map.get("channelName")!=null)?map.get("channelName").toString():null, null, (map.get("contentId")!=null)?(int)map.get("contentId"):null,
 						null, (map.get("createTime")!=null)?sdf.parse(map.get("createTime").toString()):null, (map.get("editExpire")!=null)?sdf.parse(map.get("editExpire").toString()):null,
 						null, (map.get("isEditRecom")!=null)?(map.get("isEditRecom").toString().toString().equals("true")?(byte)1:(byte)0):null, (map.get("isToTop")!=null)?(map.get("isToTop").toString().equals("true")?(byte)1:(byte)0):null , (map.get("isTopic")!=null)?(int)map.get("isTopic"):null,

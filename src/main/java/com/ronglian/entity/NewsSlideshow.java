@@ -19,8 +19,8 @@ public class NewsSlideshow implements Serializable {
 	@Column(name="slideshow_id")
 	private String slideShowId;
 
-	@Column(name="channel_id")
-	private String channelId;
+	@Column(name="channel_unique_id")
+	private String channelUniqueId;
 
 	@Column(name="create_time")
 	private Date createTime;
@@ -54,12 +54,12 @@ public class NewsSlideshow implements Serializable {
 		this.slideShowId = slideShowId;
 	}
 
-	public String getChannelId() {
-		return this.channelId;
+	public String getChannelUniqueId() {
+		return this.channelUniqueId;
 	}
 
-	public void setChannelId(String channelId) {
-		this.channelId = channelId;
+	public void setChannelUniqueId(String channelUniqueId) {
+		this.channelUniqueId = channelUniqueId;
 	}
 
 	public Date getCreateTime() {

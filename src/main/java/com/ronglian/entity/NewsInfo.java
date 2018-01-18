@@ -27,15 +27,15 @@ public class NewsInfo implements Serializable {
 	@Column(name="can_comment")
 	private String canComment;
 
-	@Column(name="channel_id")
-	private String channelId;
+	@Column(name="channel_unique_id")
+	private String channelUniqueId;
 	
-	public String getChannelId() {
-		return channelId;
+	public String getChannelUniqueId() {
+		return channelUniqueId;
 	}
 
-	public void setChannelId(String channelId) {
-		this.channelId = channelId;
+	public void setChannelUniqueId(String channelUniqueId) {
+		this.channelUniqueId = channelUniqueId;
 	}
 
 	@Column(name="channel_name")
@@ -477,7 +477,7 @@ public class NewsInfo implements Serializable {
 		this.isLiveReplay = isLiveReplay;
 	}
 
-	public NewsInfo(String newsId, String canComment, String channelId,
+	public NewsInfo(String newsId, String canComment, String channelUniqueId,
 			String channelName, Integer commentNum, Integer contentId,
 			Integer contentType, Date createTime, Date editExpire,
 			Integer imageList, Byte isEditRecom, Byte isToTop, Integer isTopic,
@@ -491,7 +491,7 @@ public class NewsInfo implements Serializable {
 		super();
 		this.newsId = newsId;
 		this.canComment = canComment;
-		this.channelId = channelId;
+		this.channelUniqueId = channelUniqueId;
 		this.channelName = channelName;
 		this.commentNum = commentNum;
 		this.contentId = contentId;
@@ -523,7 +523,7 @@ public class NewsInfo implements Serializable {
 		this.newsTopics = newsTopics;
 	}
 
-	public NewsInfo(String newsId, String canComment, String channelId,
+	public NewsInfo(String newsId, String canComment, String channelUniqueId,
 			String channelName, Integer commentNum, Integer contentId,
 			Integer contentType, Date createTime, Date editExpire,
 			Integer imageList, Byte isEditRecom, Byte isToTop, Integer isTopic,
@@ -539,7 +539,7 @@ public class NewsInfo implements Serializable {
 		super();
 		this.newsId = newsId;
 		this.canComment = canComment;
-		this.channelId = channelId;
+		this.channelUniqueId = channelUniqueId;
 		this.channelName = channelName;
 		this.commentNum = commentNum;
 		this.contentId = contentId;

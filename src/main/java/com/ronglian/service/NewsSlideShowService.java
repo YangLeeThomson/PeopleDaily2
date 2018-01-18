@@ -14,5 +14,5 @@ public interface NewsSlideShowService {
 
 	public RongLianResult addSlideShow(NewsSlideshow slideShow);
 	
-	public RongLianResult getSlideShowByChannel(String channelId);
+	public RongLianResult getSlideShowByChannel(String channelUniqueId);
 }
