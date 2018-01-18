@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ronglian.dao.CommentDao;
+import com.ronglian.dao.NewsInfoDao;
 import com.ronglian.entity.NewsComment;
 import com.ronglian.service.CommentService;
 import com.ronglian.utils.PageCountResult;
@@ -31,6 +32,8 @@ public class CommentServiceImpl implements CommentService {
 	 */
 	@Autowired
 	private CommentDao commentDao;
+	@Autowired
+	private NewsInfoDao newsInfoDao;
 	@Override
 	public RongLianResult getComments(String deviceId, String userId) {
 		// TODO Auto-generated method stub
@@ -71,6 +74,9 @@ public class CommentServiceImpl implements CommentService {
 			comment.setCreateTime(date);
 			comment.setModifyTime(date);
 			NewsComment result = this.commentDao.save(comment);
+			
+			//同步newsInfo表的comment_num 数据
+			this.newsInfoDao.updateCommentNum(comment.getNewsId());
 			return RongLianResult.ok(result);
 		}else{
 			return RongLianResult.build(500, "请求参数或格式不对");
@@ -126,18 +132,29 @@ public class CommentServiceImpl implements CommentService {
 	public PageCountResult fingCommentList(Integer status,String newsTitle,int pageNo,int pageSize){
 		int start = (pageNo - 1)*pageSize;
 		List<NewsComment> list = null;
-		int totalCount;
+		int totalCount = 0;
 		if(status != null && StringUtils.isNotBlank(newsTitle)){
 			list = this.commentDao.selectCommentList(status, newsTitle, start, pageSize);
+			if(list != null && list.size() > 0){
+				totalCount = this.commentDao.countCommentByOthers(status,newsTitle);
+			}
 		}else if(status == null && StringUtils.isBlank(newsTitle)){
 			list = this.commentDao.selectCommentListAll(start, pageSize);
+			if(list != null && list.size() > 0){
+				totalCount = this.commentDao.countCommentAll();
+			}
 		}else if(status == null && StringUtils.isNotBlank(newsTitle)){
 			list = this.commentDao.selectCommentListByNewsTitle(newsTitle,start, pageSize);
+			if(list != null && list.size() > 0){
+				totalCount = this.commentDao.countComment(newsTitle);
+			}
 		}else if(status != null && StringUtils.isBlank(newsTitle)){
 			list=this.commentDao.selectCommentListByStatus(status, start, pageSize);
+			if(list != null && list.size() > 0){
+				totalCount = this.commentDao.countCommentByStatus(status);
+			}
 		}
 		if(list != null && list.size() > 0){
-			totalCount = this.commentDao.countComment(newsTitle);
 			return PageCountResult.build(0, "ok", totalCount, pageNo, pageSize, list);
 		}else{
 			return PageCountResult.error(500, "评论列表为空", pageNo, pageSize);

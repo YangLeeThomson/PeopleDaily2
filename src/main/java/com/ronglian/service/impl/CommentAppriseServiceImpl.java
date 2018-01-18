@@ -47,7 +47,7 @@ public class CommentAppriseServiceImpl implements CommentAppriseService {
 			}
 			//检验是否已经点赞？如果不可以连续点赞，将注释放开！！！
 			/*
-				是否可以连续代码
+				人民日报和微软，沟通过，评论的点赞，做成不可以取消的，连续点赞！
 			*/
 			//保存点赞
 			String appriseId = UUID.randomUUID().toString();

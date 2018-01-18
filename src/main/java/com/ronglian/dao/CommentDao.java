@@ -54,4 +54,13 @@ public interface CommentDao extends CrudRepository<NewsComment, String>{
 
 	@Query(value="select count(*) from news_comment where 1 = 1 and news_title like %?1%",nativeQuery= true)
 	public int countComment(String newsTitle);
+	
+	@Query(value="select count(*) from news_comment ",nativeQuery= true)
+	public int countCommentAll();
+	
+	@Query(value="select count(*) from news_comment where status = ?1 and news_title like %?2%",nativeQuery= true)
+	public int countCommentByOthers(int status,String newsTitle);
+	
+	@Query(value="select count(*) from news_comment where status = ?1",nativeQuery= true)
+	public int countCommentByStatus(int status);
 }
