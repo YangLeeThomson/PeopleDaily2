@@ -125,8 +125,6 @@ public class NewsInfo implements Serializable {
 	@Column(name="news_source_url")
 	private String newsSourceUrl;
 
-	@Column(name="news_status")
-	private Integer newsStatus;
 
 	@Column(name="news_summary")
 	private String newsSummary;
@@ -364,13 +362,6 @@ public class NewsInfo implements Serializable {
 		this.newsSourceUrl = newsSourceUrl;
 	}
 
-	public Integer getNewsStatus() {
-		return this.newsStatus;
-	}
-
-	public void setNewsStatus(Integer newsStatus) {
-		this.newsStatus = newsStatus;
-	}
 
 	public String getNewsSummary() {
 		return this.newsSummary;
@@ -522,7 +513,6 @@ public class NewsInfo implements Serializable {
 		this.newsSort = newsSort;
 		this.newsSource = newsSource;
 		this.newsSourceUrl = newsSourceUrl;
-		this.newsStatus = newsStatus;
 		this.newsSummary = newsSummary;
 		this.newsTags = newsTags;
 		this.newsTitle = newsTitle;
@@ -571,7 +561,6 @@ public class NewsInfo implements Serializable {
 		this.newsSort = newsSort;
 		this.newsSource = newsSource;
 		this.newsSourceUrl = newsSourceUrl;
-		this.newsStatus = newsStatus;
 		this.newsSummary = newsSummary;
 		this.newsTags = newsTags;
 		this.newsTitle = newsTitle;

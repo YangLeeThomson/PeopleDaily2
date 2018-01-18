@@ -20,7 +20,7 @@ public class UserChannelConfig implements Serializable {
 	private Integer configId;
 
 	@Column(name="channel_id")
-	private int channelId;
+	private String channelId;
 	
 	@Column(name="device_id")
 	private String deviceId;
@@ -43,11 +43,14 @@ public class UserChannelConfig implements Serializable {
 		this.configId = configId;
 	}
 
-	public int getChannelId() {
-		return this.channelId;
+
+	public String getChannelId() {
+		return channelId;
 	}
 
-	public void setChannelId(int channelId) {
+
+
+	public void setChannelId(String channelId) {
 		this.channelId = channelId;
 	}
 
