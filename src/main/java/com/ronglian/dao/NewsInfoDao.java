@@ -32,11 +32,11 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	@Query(value="select * from news_info news where news.channel_id = :channelId and is_edit_recom = 1",nativeQuery= true)
 	List<NewsInfo> selectEditorNewsByChannel(@Param("channelId") String channelId);
 
-	@Query(value="select * from news_info news where news.news_id in (?1) limit ?2,?3",nativeQuery= true)
-	List<NewsInfo> selectTopicNewsByNewsInfoId( List<String> list, int pageNo, int pageSize );
+	@Query(value="select * from news_info news where news.topic_id = ?1 limit ?2,?3",nativeQuery= true)
+	List<NewsInfo> selectTopicNewsByNewsInfoId( String topicId, int pageNo, int pageSize );
 	
-	@Query(value="select count(*) from news_info news where news.news_id in (?1) ",nativeQuery= true)
-	int countTopicNewsByNewsInfoId( List<String> list );
+	@Query(value="select count(*) from news_info news where news.topic_id = ?1 ",nativeQuery= true)
+	int countTopicNewsByNewsInfoId( String topicId );
 	
 	@Modifying
 	@Query(value="update news_info  set apprise_up_num = apprise_up_num + 1 where news_Id = :newsId",nativeQuery= true)

@@ -4,6 +4,7 @@
 package com.ronglian.service;
 
 import com.ronglian.entity.NewsComment;
+import com.ronglian.utils.PageCountResult;
 import com.ronglian.utils.RongLianResult;
 
 /**
@@ -22,5 +23,5 @@ public interface CommentService {
 	
 	public RongLianResult checkComment(Integer status,String commentId);
 	
-	public RongLianResult fingCommentList(Integer status,String newsTitle,int pageNo,int pageSize);
+	public PageCountResult fingCommentList(Integer status,String newsTitle,int pageNo,int pageSize);
 }

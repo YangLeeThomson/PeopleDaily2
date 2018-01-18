@@ -598,5 +598,15 @@ public class NewsInfo implements Serializable {
 	public void setShareNum(Integer shareNum) {
 		this.shareNum = shareNum;
 	}
+	@Column(name="topic_id")
+	private String topicId;
+
+	public String getTopicId() {
+		return topicId;
+	}
+
+	public void setTopicId(String topicId) {
+		this.topicId = topicId;
+	}
 	
 }

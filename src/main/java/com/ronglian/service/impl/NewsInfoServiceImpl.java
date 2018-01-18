@@ -302,17 +302,16 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * @see com.ronglian.service.NewsInfoService#findTopicNewsList(java.util.List)
 	 */
 	@Override
-	public PageCountResult findTopicNewsList(List<String> list,int pageNo,int pageSize) {
-		if(list == null ){
-			return PageCountResult.error(500, "专题没有对应的新闻", pageNo, pageSize);
+	public PageCountResult findTopicNewsList(String topicId,int pageNo,int pageSize) {
+		if(topicId == null ){
+			return PageCountResult.error(500, "topicId不能为空", pageNo, pageSize);
 		}
 		pageNo = (pageNo-1)*pageSize;
 		int count = 0;
-		List<NewsInfo> newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(list,pageNo,pageSize);
+		List<NewsInfo> newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(topicId,pageNo,pageSize);
 		List<Map> resultList = new ArrayList<Map>();
 		if(newsInfoList != null && newsInfoList.size() > 0){
-//			count = newsInfoList.size();
-			count = this.newsInfoDao.countTopicNewsByNewsInfoId(list);
+			count = this.newsInfoDao.countTopicNewsByNewsInfoId(topicId);
 			for(NewsInfo news:newsInfoList){
 				Map resultMap = new HashMap();
 				resultMap.put("newsTitle", news.getNewsTitle());
@@ -325,13 +324,13 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				resultMap.put("hasVideo", news.getHasVideo());
 				resultMap.put("isLive", news.getIsLive());
 				resultMap.put("isLiveReplay", news.getIsLiveReplay());
+				resultMap.put("isTopic", news.getIsTopic());
+				resultMap.put("topicId", news.getTopicId());
 				
-				Integer topicId = news.getIsTopic();
-				resultMap.put("isTopic", topicId);
-				//如果topicId 不等于0，说明是专题，需要进一步查询
-				if(topicId > 0){
+				//如果isTopic=1，说明是专题，需要进一步查询
+				if(news.getIsTopic() == 1){
 					//查询专题
-					NewsTopic topic = this.topicDao.findOne(topicId);
+					NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicId);
 					if(topic != null){
 						Map topicDetail = new HashMap();
 						topicDetail.put("topicDesc", topic.getTopicDesc());

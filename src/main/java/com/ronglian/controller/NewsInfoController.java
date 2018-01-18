@@ -101,7 +101,6 @@ public class NewsInfoController {
 		if(topicId == null){
 			return PageCountResult.error(500, "请求参数topicId不能为空", pageNo, pageSize);
 		}
-		List<String> newsInfoIdList = this.topicNewsService.getNewsInfoId(topicId);
-		return this.newsInfoService.findTopicNewsList(newsInfoIdList,pageNo,pageSize);
+		return this.newsInfoService.findTopicNewsList(topicId,pageNo,pageSize);
 	}
 }

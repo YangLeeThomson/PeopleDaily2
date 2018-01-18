@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ronglian.dao.CommentDao;
 import com.ronglian.entity.NewsComment;
 import com.ronglian.service.CommentService;
+import com.ronglian.utils.PageCountResult;
 import com.ronglian.utils.RongLianResult;
 
 /**
@@ -122,9 +123,10 @@ public class CommentServiceImpl implements CommentService {
 		}
 	}
 	@Override
-	public RongLianResult fingCommentList(Integer status,String newsTitle,int pageNo,int pageSize){
+	public PageCountResult fingCommentList(Integer status,String newsTitle,int pageNo,int pageSize){
 		int start = (pageNo - 1)*pageSize;
 		List<NewsComment> list = null;
+		int totalCount;
 		if(status != null && StringUtils.isNotBlank(newsTitle)){
 			list = this.commentDao.selectCommentList(status, newsTitle, start, pageSize);
 		}else if(status == null && StringUtils.isBlank(newsTitle)){
@@ -134,11 +136,11 @@ public class CommentServiceImpl implements CommentService {
 		}else if(status != null && StringUtils.isBlank(newsTitle)){
 			list=this.commentDao.selectCommentListByStatus(status, start, pageSize);
 		}
-		
 		if(list != null && list.size() > 0){
-			return RongLianResult.ok(list);
+			totalCount = this.commentDao.countComment(newsTitle);
+			return PageCountResult.build(0, "ok", totalCount, pageNo, pageSize, list);
 		}else{
-			return RongLianResult.build(0, "评论列表为空");
+			return PageCountResult.error(500, "评论列表为空", pageNo, pageSize);
 		}
 	}
 

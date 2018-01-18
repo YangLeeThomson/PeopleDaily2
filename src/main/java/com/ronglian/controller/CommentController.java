@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ronglian.entity.NewsComment;
 import com.ronglian.service.CommentService;
+import com.ronglian.utils.PageCountResult;
 import com.ronglian.utils.RongLianResult;
 
 /**
@@ -75,7 +76,7 @@ public class CommentController {
 	}
 	//评论相关的接口（供imedia交互）
 	@RequestMapping(value="/1.0/comment",method=RequestMethod.GET)
-	public RongLianResult searchCommentList(Integer status,String newsTitle,
+	public PageCountResult searchCommentList(Integer status,String newsTitle,
 			@RequestParam(value="pageNo",defaultValue="1",required=false)int pageNo,
 			@RequestParam(value="pageSize",defaultValue="10",required=false)int pageSize){
 		return this.commentService.fingCommentList(status, newsTitle, pageNo, pageSize);
