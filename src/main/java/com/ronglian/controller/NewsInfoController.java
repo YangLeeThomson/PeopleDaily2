@@ -72,8 +72,8 @@ public class NewsInfoController {
 	 * */
 	@RequestMapping(value="/1.0/getChannelNews",method=RequestMethod.GET)
 	public PageCountResult getNewsList(@RequestParam(value="pageSize",defaultValue="5",required=false)Integer pageSize,
-			@RequestParam(value="pageNo",defaultValue="1",required=false)Integer pageNo,String channelId){
-		return this.newsInfoService.findNewsList(pageSize, pageNo, channelId);
+			@RequestParam(value="pageNo",defaultValue="1",required=false)Integer pageNo,String channelUniqueId){
+		return this.newsInfoService.findNewsList(pageSize, pageNo, channelUniqueId);
 	}
 	
 	/**
@@ -81,15 +81,15 @@ public class NewsInfoController {
 	 * 
 	 * */
 	@RequestMapping(value="/1.0/channeltopnews",method=RequestMethod.GET)
-	public RongLianResult getTopnewsList(String channelId){
-		return this.newsInfoService.findTopnewsList(channelId);
+	public RongLianResult getTopnewsList(String channelUniqueId){
+		return this.newsInfoService.findTopnewsList(channelUniqueId);
 	}
 	/**
 	 *TopNews栏目  编辑推荐 列表输出接口
 	 * */
 	@RequestMapping(value="/1.0/editorrecommen",method=RequestMethod.GET)
-	public RongLianResult getEditorList(String channelId){
-		return this.newsInfoService.findEditorNewsList(channelId);
+	public RongLianResult getEditorList(String channelUniqueId){
+		return this.newsInfoService.findEditorNewsList(channelUniqueId);
 	}
 	/**
 	 * topic专题 新闻列表输出接口

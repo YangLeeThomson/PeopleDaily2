@@ -25,8 +25,8 @@ public class NewsTopic implements Serializable {
 	@Column(name="banner_image")
 	private String bannerImage;
 
-	@Column(name="channel_id")
-	private String channelId;
+	@Column(name="channel_unique_id")
+	private String channelUniqueId;
 
 	@Column(name="create_time")
 	private Date createTime;
@@ -73,12 +73,12 @@ public class NewsTopic implements Serializable {
 		this.bannerImage = bannerImage;
 	}
 
-	public String getChannelId() {
-		return this.channelId;
+	public String getChannelUniqueId() {
+		return this.channelUniqueId;
 	}
 
-	public void setChannelId(String channelId) {
-		this.channelId = channelId;
+	public void setChannelUniqueId(String channelUniqueId) {
+		this.channelUniqueId = channelUniqueId;
 	}
 
 	public Date getCreateTime() {
@@ -145,14 +145,14 @@ public class NewsTopic implements Serializable {
 		this.uniqueId = uniqueId;
 	}
 
-	public NewsTopic(Integer topicId, String bannerImage, String channelId,
+	public NewsTopic(Integer topicId, String bannerImage, String channelUniqueId,
 			Date createTime, String listImage, Date modifyTime,
 			String topicDesc, Byte topicStatus, String topicTitle,
 			 String uniqueId) {
 		super();
 		this.topicId = topicId;
 		this.bannerImage = bannerImage;
-		this.channelId = channelId;
+		this.channelUniqueId = channelUniqueId;
 		this.createTime = createTime;
 		this.listImage = listImage;
 		this.modifyTime = modifyTime;

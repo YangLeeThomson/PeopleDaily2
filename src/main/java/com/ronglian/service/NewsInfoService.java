@@ -22,11 +22,11 @@ public interface NewsInfoService {
 
 	public RongLianResult inserNewsInfo(NewsInfo newsInfo);
 	
-	public PageCountResult findNewsList(int pageSize,int pageNo,String channelId); 
+	public PageCountResult findNewsList(int pageSize,int pageNo,String channelUniqueId); 
 	
-	public RongLianResult findTopnewsList(String channelId);
+	public RongLianResult findTopnewsList(String channelUniqueId);
 	
-	public RongLianResult findEditorNewsList(String channelId);
+	public RongLianResult findEditorNewsList(String channelUniqueId);
 	
 	public PageCountResult findTopicNewsList(String topicId,int pageSize,int pageNo);
 	

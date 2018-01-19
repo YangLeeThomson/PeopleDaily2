@@ -25,7 +25,7 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 	private SlideShowDao slideShowDao;
 	@Override
 	public RongLianResult addSlideShow(NewsSlideshow slideShow) {
-		if(slideShow.getSlideShowId()==null||slideShow.getImageUrl()==null||slideShow.getChannelId()==null
+		if(slideShow.getSlideShowId()==null||slideShow.getImageUrl()==null||slideShow.getChannelUniqueId()==null
 				||slideShow.getTitle()==null||slideShow.getDesc()==null){
 			return RongLianResult.build(500, "缺少数据");
 		}
@@ -41,13 +41,13 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 	 * @see com.ronglian.service.NewsSlideShowService#getSlidePictureByChannel(java.lang.String)
 	 */
 	@Override
-	public RongLianResult getSlideShowByChannel(String channelId) {
+	public RongLianResult getSlideShowByChannel(String channelUniqueId) {
 		// TODO Auto-generated method stub
 		List<NewsSlideshow> list = null;
-		if(StringUtils.isNotBlank(channelId) ){
-			list = this.slideShowDao.selectSlideShowByChannel(channelId);
+		if(StringUtils.isNotBlank(channelUniqueId) ){
+			list = this.slideShowDao.selectSlideShowByChannel(channelUniqueId);
 		}else{
-			return RongLianResult.build(500, "请求参数channelId不可以为null");
+			return RongLianResult.build(500, "请求参数channelUniqueId不可以为null");
 		}
 		return RongLianResult.ok(list);
 	}

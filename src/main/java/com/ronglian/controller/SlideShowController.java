@@ -34,8 +34,8 @@ public class SlideShowController {
 	}
 	//栏目轮播图列表输出接口
 	@RequestMapping(value="/1.0/channelSlidePictures",method=RequestMethod.GET)
-	public RongLianResult getChannelSlidePictureList(String channelId){
+	public RongLianResult getChannelSlidePictureList(String channelUniqueId){
 
-		return this.slideShowService.getSlideShowByChannel(channelId);
+		return this.slideShowService.getSlideShowByChannel(channelUniqueId);
 	}
 }
