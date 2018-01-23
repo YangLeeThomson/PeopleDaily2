@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ronglian.entity.NewsShare;
 import com.ronglian.service.NewsShareService;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
@@ -30,7 +31,11 @@ public class ShareController {
 	@Autowired
 	private NewsShareService newsShareService;
 	@RequestMapping(value="/1.0/sharecount",method=RequestMethod.POST)
-	public RongLianResult ShareCount(@RequestBody NewsShare newsShare){
+	public RongLianResult ShareCount(@RequestBody RongLianRequest<NewsShare> newsShareBody){
+		NewsShare newsShare = null;
+		if(newsShareBody != null){
+			newsShare = newsShareBody.getObj();
+		}
 		try {
 			return this.newsShareService.countNewsShare(newsShare);
 		} catch (Exception e) {

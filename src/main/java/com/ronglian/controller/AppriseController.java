@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ronglian.entity.NewsInfoApprise;
 import com.ronglian.service.AppriseService;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
@@ -36,7 +37,11 @@ public class AppriseController {
 	 * good：-1，吐槽
 	 * */
 	@RequestMapping(value="/1.0/connectapprises",method=RequestMethod.POST)
-	public RongLianResult addApprise(@RequestBody NewsInfoApprise apprise){
+	public RongLianResult addApprise(@RequestBody RongLianRequest<NewsInfoApprise> appriseBody){
+		NewsInfoApprise apprise = null;
+		if(appriseBody != null){
+			apprise = appriseBody.getObj();
+		}
 		try {
 			return this.appriseService.addNewsInfoApprise(apprise);
 		} catch (Exception e) {
@@ -49,7 +54,11 @@ public class AppriseController {
 	 * 取消点赞接口
 	 * */
 	@RequestMapping(value="/1.0/cancleapprises",method=RequestMethod.POST)
-	public RongLianResult cancleApprise(@RequestBody NewsInfoApprise apprise){
+	public RongLianResult cancleApprise(@RequestBody RongLianRequest<NewsInfoApprise> appriseBody){
+		NewsInfoApprise apprise = null;
+		if(appriseBody != null){
+			apprise = appriseBody.getObj();
+		}
 		try {
 			return this.appriseService.removeApprise(apprise);
 		} catch (Exception e) {

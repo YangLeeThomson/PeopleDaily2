@@ -24,6 +24,7 @@ import com.ronglian.entity.NewsComment;
 import com.ronglian.service.CommentService;
 import com.ronglian.utils.PageCountResult;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
@@ -46,7 +47,11 @@ public class CommentController {
 	 * 添加评论接口
 	 * */
 	@RequestMapping(value="/1.0/contentcomment",method=RequestMethod.POST)
-	public RongLianResult addComment(@RequestBody NewsComment comment){
+	public RongLianResult addComment(@RequestBody RongLianRequest<NewsComment> commentBody){
+		NewsComment comment = null;
+		if(commentBody != null){
+			comment = commentBody.getObj();
+		}
 		return this.commentService.addComment(comment);
 	}
 	/**
@@ -59,8 +64,16 @@ public class CommentController {
 	
 	//删除用户评论接口
 	@RequestMapping(value="/1.0/deletecomment",method=RequestMethod.POST)
-	public RongLianResult delComment(@RequestBody Map requestMap){
-		String commentId = (String) requestMap.get("commentId");
+	public RongLianResult delComment(@RequestBody RongLianRequest<Map> requestBody){
+//		public RongLianResult delComment(@RequestBody Map requestMap){
+		Map requestMap = null;
+		String commentId = null;
+		if(requestBody != null){
+			requestMap = requestBody.getObj();
+		}
+		if(commentId != null){
+			commentId = (String) requestMap.get("commentId");
+		}
 		try {
 			return this.commentService.delCommentById(commentId);
 		} catch (Exception e) {

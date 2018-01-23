@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ronglian.entity.UserChannelConfig;
 import com.ronglian.service.UserChannelConfigService;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
@@ -32,7 +33,11 @@ public class ChannelChooseController {
 	 * 用户订阅栏目管理接口
 	 * */
 	@RequestMapping(value="/1.0/channelfavorites",method=RequestMethod.POST)
-	public RongLianResult chooseChannels(@RequestBody List<UserChannelConfig> list){
+	public RongLianResult chooseChannels(@RequestBody RongLianRequest<List<UserChannelConfig>> listBody){
+		List<UserChannelConfig> list = null;
+		if(listBody != null){
+			list = listBody.getObj();
+		}
 		return configService.addUserChannelConfig(list);
 	}
 	

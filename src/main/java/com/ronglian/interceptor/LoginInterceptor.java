@@ -42,6 +42,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 		if(request.getMethod().equalsIgnoreCase("POST")){
 			Map<String,Object> requestParams = HttpRequestUtils.parseRequest(request);
 			accessToken = (String) requestParams.get("accessToken");
+			System.out.println("accessToken"+accessToken);
 		}
 		if(accessToken != null ){
 			String json = jedisDao.get(accessToken);

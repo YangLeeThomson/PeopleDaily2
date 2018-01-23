@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ronglian.entity.NewsInfoDislike;
 import com.ronglian.service.ContentDislikeService;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
@@ -31,7 +32,11 @@ public class ContentDislikeController {
 	@Autowired
 	private ContentDislikeService contentDislikeService;
 	@RequestMapping(value="/1.0/contentdislike",method=RequestMethod.POST)
-	public RongLianResult contentDisLike(@RequestBody NewsInfoDislike newsinfoDislike){
+	public RongLianResult contentDisLike(@RequestBody RongLianRequest<NewsInfoDislike> newsinfoDislikeBody){
+		NewsInfoDislike newsinfoDislike = null;
+		if(newsinfoDislikeBody != null){
+			newsinfoDislike = newsinfoDislikeBody.getObj();
+		}
 		return contentDislikeService.addContentDislike(newsinfoDislike);
 	}
 }

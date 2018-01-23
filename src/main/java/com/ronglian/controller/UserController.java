@@ -14,6 +14,7 @@ import com.ronglian.dao.UserDao;
 import com.ronglian.entity.User;
 import com.ronglian.service.UserService;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
@@ -32,7 +33,11 @@ public class UserController {
 	 * 用户登录注册接口
 	 * */
 	@RequestMapping(value="/1.0/userlogin",method=RequestMethod.POST)
-	public RongLianResult loginOrRegist(@RequestBody User user){
+	public RongLianResult loginOrRegist(@RequestBody RongLianRequest<User> userBody){
+		User user = null;
+		if(userBody != null){
+			user = userBody.getObj();
+		}
 		return this.userService.login(user);
 	}
 	/**

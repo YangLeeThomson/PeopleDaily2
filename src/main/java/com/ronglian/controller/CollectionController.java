@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ronglian.entity.Collection;
 import com.ronglian.service.CollectionService;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
@@ -33,7 +34,11 @@ public class CollectionController {
 	 * 用户内容收藏接口
 	 * */
 	@RequestMapping(value="/1.0/usercollection",method=RequestMethod.POST)
-	public RongLianResult addCollection(@RequestBody Collection collection){
+	public RongLianResult addCollection(@RequestBody RongLianRequest<Collection> collectionBody){
+		Collection collection = null;
+		if(collectionBody != null){
+			collection = collectionBody.getObj();
+		}
 		try {
 			return collectionService.insertUserCollection(collection);
 		} catch (Exception e) {

@@ -48,13 +48,14 @@ public class SignInterceptor implements HandlerInterceptor{
 		
 		
 		
-		//放行获取令牌tokenId的请求
+		//1、放行获取令牌tokenId的请求
 		StringBuffer url = request.getRequestURL();
 		if(url.toString().indexOf(PASSURL) != -1){
 			return true;
 		}
 		
-		//判断是否包含timestamp，tokenId，sign参数，如果缺失参数则返回错误
+		
+		//判断是否包含timestamp，tokenId，sign参数，如果缺失参数则返回false
 		Map<String, Object> requestParams = new HashMap<String, Object>();
 		String sign;
 		String timeStamp; 
@@ -72,38 +73,38 @@ public class SignInterceptor implements HandlerInterceptor{
 			 timeStamp = obj.toString();
 			 tokenId = (String) requestParams.get("tokenId");
 		}
-		
 		if(StringUtils.isBlank(sign)||StringUtils.isBlank(timeStamp)||StringUtils.isBlank(tokenId)){
 			return false;
 		}
+		
 		
 		/*
 		 * 判断服务器接到请求的时间和参数中的时间戳是否相差很长一段时间（时间自定义如半个小时），
 		 * 如果超过则说明该url已经过期（如果url被盗用，他改变了时间戳，但是会导致sign签名不相等）
 		 */
-/*		long time = Long.parseLong(timeStamp);
+		long time = Long.parseLong(timeStamp);
 		long currentTime = new Date().getTime()/1000;
 		if(currentTime > (time+INTERVAL)){
 			return false;
 		}
-		*/
+		
+		
 		/*
 		 * 判断tokenId(令牌)是否有效
 		 * 根据请求过来的tokenId，检查tokenId是否有效及是否过期。
 		 */
 	      if (tokenService == null) {//解决service为null无法注入问题 
-	          System.out.println("tokenService is null!!!"); 
 	          BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext()); 
 	          tokenService = (APPManagerConfigServiceImpl)factory.getBean("tokenService"); 
 	       } 
 		boolean flag = this.tokenService.getTokenBytokenId(tokenId);
 		if(flag){
-			//从Redis里查看，tokenId是否有效
+			//flag = true,说明redis缓存中没有tokenId数据
 			return false;
 		}
 		
-		Map<String, String> params = new HashMap<String, String>();
 		
+		Map<String, String> params = new HashMap<String, String>();
 		if(request.getMethod().equals("GET")){
 			//GET获取全部请求成参数
 	        Enumeration<?> pNames =  request.getParameterNames();
