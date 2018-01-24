@@ -37,7 +37,7 @@ public class CollectionController {
 	public RongLianResult addCollection(@RequestBody RongLianRequest<Collection> collectionBody){
 		Collection collection = null;
 		if(collectionBody != null){
-			collection = collectionBody.getObj();
+			collection = collectionBody.getData();
 		}
 		try {
 			return collectionService.insertUserCollection(collection);

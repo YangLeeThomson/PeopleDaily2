@@ -36,7 +36,7 @@ public class ChannelChooseController {
 	public RongLianResult chooseChannels(@RequestBody RongLianRequest<List<UserChannelConfig>> listBody){
 		List<UserChannelConfig> list = null;
 		if(listBody != null){
-			list = listBody.getObj();
+			list = listBody.getData();
 		}
 		return configService.addUserChannelConfig(list);
 	}

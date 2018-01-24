@@ -34,7 +34,7 @@ public class ShareController {
 	public RongLianResult ShareCount(@RequestBody RongLianRequest<NewsShare> newsShareBody){
 		NewsShare newsShare = null;
 		if(newsShareBody != null){
-			newsShare = newsShareBody.getObj();
+			newsShare = newsShareBody.getData();
 		}
 		try {
 			return this.newsShareService.countNewsShare(newsShare);

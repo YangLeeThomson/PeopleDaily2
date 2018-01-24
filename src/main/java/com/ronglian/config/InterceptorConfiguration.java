@@ -25,8 +25,8 @@ public class InterceptorConfiguration extends WebMvcConfigurerAdapter{
 //	       registry.addInterceptor(new SignInterceptor())
 //	       .addPathPatterns("/**").excludePathPatterns("/oauth/*");
 		
-		   registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**");
-//	       registry.addInterceptor(new SignInterceptor()).addPathPatterns("/**");
+//		   registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**");
+	       registry.addInterceptor(new SignInterceptor()).addPathPatterns("/**");
 	       super.addInterceptors(registry);
 	}
 	
@@ -37,8 +37,8 @@ public class InterceptorConfiguration extends WebMvcConfigurerAdapter{
     public SignInterceptor signInterceptor(){
         return new SignInterceptor();
     }
-    @Bean
-    public LoginInterceptor loginInterceptor(){
-        return new LoginInterceptor();
-    }
+//    @Bean
+//    public LoginInterceptor loginInterceptor(){
+//        return new LoginInterceptor();
+//    }
 }

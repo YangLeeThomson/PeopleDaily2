@@ -32,7 +32,7 @@ public class CommentAppriseController {
 	public RongLianResult addCommentApprise(@RequestBody RongLianRequest<NewsCommentApprise> commentAppriseBody){
 		NewsCommentApprise commentApprise = null;
 		if(commentAppriseBody != null){
-			commentApprise = commentAppriseBody.getObj();
+			commentApprise = commentAppriseBody.getData();
 		}
 		return this.commentAppriseService.addCommentApprise(commentApprise);
 	}

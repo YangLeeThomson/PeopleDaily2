@@ -36,7 +36,7 @@ public class UserController {
 	public RongLianResult loginOrRegist(@RequestBody RongLianRequest<User> userBody){
 		User user = null;
 		if(userBody != null){
-			user = userBody.getObj();
+			user = userBody.getData();
 		}
 		return this.userService.login(user);
 	}

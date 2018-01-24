@@ -50,7 +50,7 @@ public class CommentController {
 	public RongLianResult addComment(@RequestBody RongLianRequest<NewsComment> commentBody){
 		NewsComment comment = null;
 		if(commentBody != null){
-			comment = commentBody.getObj();
+			comment = commentBody.getData();
 		}
 		return this.commentService.addComment(comment);
 	}
@@ -69,7 +69,7 @@ public class CommentController {
 		Map requestMap = null;
 		String commentId = null;
 		if(requestBody != null){
-			requestMap = requestBody.getObj();
+			requestMap = requestBody.getData();
 		}
 		if(commentId != null){
 			commentId = (String) requestMap.get("commentId");

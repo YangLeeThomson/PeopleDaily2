@@ -21,9 +21,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ronglian.service.APPManagerConfigService;
 import com.ronglian.service.impl.APPManagerConfigServiceImpl;
+import com.ronglian.utils.GetRequestJsonUtils;
 import com.ronglian.utils.HttpRequestUtils;
 import com.ronglian.utils.RongLianConstant;
 import com.ronglian.utils.RongLianUtils;
+import com.ronglian.utils.model.request.MyHttpServletRequestWrapper;
 
 /**
  * @author liyang
@@ -67,7 +69,10 @@ public class SignInterceptor implements HandlerInterceptor{
 			 tokenId = request.getParameter("tokenId");
 		}else{
 			//POST请求方式下
-			requestParams = HttpRequestUtils.parseRequest(request);
+			MyHttpServletRequestWrapper myWrapper= new MyHttpServletRequestWrapper(request);  
+            String jsonStr = GetRequestJsonUtils.getRequestJsonString(myWrapper);  
+            requestParams = GetRequestJsonUtils.parseObject(jsonStr);
+//			requestParams = HttpRequestUtils.parseRequest(request);
 			 sign = (String) requestParams.get("sign");
 			Object obj = requestParams.get("timeStamp");
 			 timeStamp = obj.toString();

@@ -40,7 +40,7 @@ public class AppriseController {
 	public RongLianResult addApprise(@RequestBody RongLianRequest<NewsInfoApprise> appriseBody){
 		NewsInfoApprise apprise = null;
 		if(appriseBody != null){
-			apprise = appriseBody.getObj();
+			apprise = appriseBody.getData();
 		}
 		try {
 			return this.appriseService.addNewsInfoApprise(apprise);
@@ -57,7 +57,7 @@ public class AppriseController {
 	public RongLianResult cancleApprise(@RequestBody RongLianRequest<NewsInfoApprise> appriseBody){
 		NewsInfoApprise apprise = null;
 		if(appriseBody != null){
-			apprise = appriseBody.getObj();
+			apprise = appriseBody.getData();
 		}
 		try {
 			return this.appriseService.removeApprise(apprise);

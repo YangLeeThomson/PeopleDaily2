@@ -15,14 +15,14 @@ public class RongLianRequest<T> {
 	private String tokenId;
 	private String accessToken;
 	private long timeStamp;
-	private  T obj;
+	private  T data;
 	
 
 	/**
 	 * @param obj
 	 */
-	public RongLianRequest(T obj) {
-		this.obj = obj;
+	public RongLianRequest(T data) {
+		this.data = data;
 	}
 
 	/**
@@ -64,13 +64,14 @@ public class RongLianRequest<T> {
 		this.timeStamp = timeStamp;
 	}
 
-	public T getObj() {
-		return obj;
+	public T getData() {
+		return data;
 	}
 
-	public void setObj(T obj) {
-		this.obj = obj;
-	} 
+	public void setData(T data) {
+		this.data = data;
+	}
+
 	
 	
 }

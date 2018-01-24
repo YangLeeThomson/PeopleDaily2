@@ -35,7 +35,7 @@ public class ContentDislikeController {
 	public RongLianResult contentDisLike(@RequestBody RongLianRequest<NewsInfoDislike> newsinfoDislikeBody){
 		NewsInfoDislike newsinfoDislike = null;
 		if(newsinfoDislikeBody != null){
-			newsinfoDislike = newsinfoDislikeBody.getObj();
+			newsinfoDislike = newsinfoDislikeBody.getData();
 		}
 		return contentDislikeService.addContentDislike(newsinfoDislike);
 	}
