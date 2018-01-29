@@ -130,6 +130,11 @@ public class SignInterceptor implements HandlerInterceptor{
 			}
 		}
         
+		//在加密参数中加入secretKey
+		String secretKey = this.tokenService.getSecretKeyByToken(tokenId);
+		params.put("secretKey", secretKey);
+		
+		
         /*
 		 * 根据客户端请求的url参数，服务器端按照同样的规则生成sign签名与请求sign看是否相等。
 		 */

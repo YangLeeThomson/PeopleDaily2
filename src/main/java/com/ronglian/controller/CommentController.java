@@ -65,17 +65,14 @@ public class CommentController {
 	//删除用户评论接口
 	@RequestMapping(value="/1.0/deletecomment",method=RequestMethod.POST)
 	public RongLianResult delComment(@RequestBody RongLianRequest<Map> requestBody){
-//		public RongLianResult delComment(@RequestBody Map requestMap){
 		Map requestMap = null;
 		String commentId = null;
 		if(requestBody != null){
 			requestMap = requestBody.getData();
 		}
-		if(commentId != null){
-			commentId = (String) requestMap.get("commentId");
-		}
+		commentId = (String) requestMap.get("commentId");
 		try {
-			return this.commentService.delCommentById(commentId);
+				return this.commentService.delCommentById(commentId);
 		} catch (Exception e) {
 			// TODO: handle exception
 			return RongLianResult.build(500, "删除失败，可能是该评论已被清除");

@@ -1,5 +1,6 @@
 package com.ronglian.service.impl;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 /**
  * @author liyang
  * @createTime 2017年12月22日
@@ -11,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ronglian.dao.APPManagerConfigDao;
 import com.ronglian.entity.APPManagerConfig;
 import com.ronglian.jedis.JedisDao;
 import com.ronglian.service.APPManagerConfigService;
+import com.ronglian.utils.GetRequestJsonUtils;
 import com.ronglian.utils.JsonUtils;
 import com.ronglian.utils.RongLianConstant;
 @Service("tokenService")
@@ -74,6 +77,20 @@ public class APPManagerConfigServiceImpl implements APPManagerConfigService{
 			return false;
 		}else{
 			return true;
+		}
+	}
+	
+	public String getSecretKeyByToken(String tokenId){
+		String result = this.jedisDao.get(tokenId);
+		if(result != null){
+			//重新设置失效时间
+			this.jedisDao.expire(tokenId, RongLianConstant.REDIS_KEY_EXPIRE);
+			Map<String, Object> params = GetRequestJsonUtils.parseObject(result);
+			String appId =  (String)params.get("appId");
+			APPManagerConfig cfg = appManagerConfigDao.selectAPPManagerConfigByAppId(appId);
+			return cfg.getSecretKey();
+		}else{
+			return null;
 		}
 	}
 }

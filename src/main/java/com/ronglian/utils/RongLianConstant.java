@@ -9,8 +9,8 @@ public class RongLianConstant {
 	//加密的盐salt
 	public static final String SALT = "ronglian";
 	
-	//接口认证时间戳的安全间隔（30分钟）
-	public static final long INTERVAL = 30*60;
+	//接口认证时间戳的安全间隔（120分钟）
+	public static final long INTERVAL = 120*60;
 	
 	//redis缓存(令牌tokenId)失效时间（30分钟）
 	public static final int REDIS_KEY_EXPIRE = 1800;
