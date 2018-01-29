@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ronglian.entity.Channel;
 import com.ronglian.service.ChannelService;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
@@ -43,8 +44,8 @@ public class ChannelController {
 	 * iMedia设置channel
 	 * */
 	@RequestMapping(value="/1.0/setChannel",method=RequestMethod.POST)
-	public RongLianResult addChannel(@RequestBody Map requestMap){
-		return channelService.addChannelMap(requestMap);
+	public RongLianResult addChannel(@RequestBody RongLianRequest<Map> requestBody){
+		return channelService.addChannelMap(requestBody.getData());
 	}
 	
 }
