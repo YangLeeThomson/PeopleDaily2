@@ -3,7 +3,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ22ÈÕ
+ * @createTime 2017ï¿½ï¿½12ï¿½ï¿½22ï¿½ï¿½
  */
 import java.util.UUID;
 
@@ -30,7 +30,7 @@ public class APPManagerConfigServiceImpl implements APPManagerConfigService{
 	private JedisDao jedisDao;
 	
 	/*
-	 * ¸ù¾ÝappIDÀ´£¬»ñÈ¡ÁîÅÆtokenIdµÄ·þÎñ
+	 * ï¿½ï¿½ï¿½ï¿½appIDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½tokenIdï¿½Ä·ï¿½ï¿½ï¿½
 	 * */
 	@Override
 	public String getTokenByAppId(String appId,String timeStamp,String sign) {
@@ -42,7 +42,7 @@ public class APPManagerConfigServiceImpl implements APPManagerConfigService{
 		APPManagerConfig cfg = null;
 		
 		cfg = appManagerConfigDao.selectAPPManagerConfigByAppId(appId);
-		//¼ìÑéappIdÕËºÅÊÇ·ñºÏ·¨
+		//ï¿½ï¿½ï¿½ï¿½appIdï¿½Ëºï¿½ï¿½Ç·ï¿½Ï·ï¿½
 		if(cfg != null){
 			secretKey = cfg.getSecretKey();
 			sign2 = builder.append(timeStamp).append(appId).append(secretKey).toString();
@@ -52,16 +52,16 @@ public class APPManagerConfigServiceImpl implements APPManagerConfigService{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//¼ìÑéÇ©ÃûÊÇ·ñºÏ·¨
+			//ï¿½ï¿½ï¿½ï¿½Ç©ï¿½ï¿½ï¿½Ç·ï¿½Ï·ï¿½
 			if(sign2.equals(sign)){
-				//Ç©ÃûºÏ·¨Éú³ÉtokenId£¬½«cfgÄÚÈÝ·ÅÈëredis»º´æ£¬³É¹¦²¢·µ»ØtokenId
+				//Ç©ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½tokenIdï¿½ï¿½ï¿½ï¿½cfgï¿½ï¿½ï¿½Ý·ï¿½ï¿½ï¿½redisï¿½ï¿½ï¿½æ£¬ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tokenId
 				tokenId = UUID.randomUUID().toString().replaceAll("-", "");
-				//½«cfgÐÅÏ¢,Çå¿ÕappkeyºÍsecretkeyÐÅÏ¢£»
+				//ï¿½ï¿½cfgï¿½ï¿½Ï¢,ï¿½ï¿½ï¿½appkeyï¿½ï¿½secretkeyï¿½ï¿½Ï¢ï¿½ï¿½
 				cfg.setAppKey("null");
 				cfg.setSecretKey("null");
-				//½«cfgÐÅÏ¢·ÅÈëredis»º´æÖÐ
+				//ï¿½ï¿½cfgï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				this.jedisDao.set(tokenId, JsonUtils.objectToJson(cfg));
-				//ÉèÖÃµ±Ç°»º´æµÄÐÅÏ¢µÄÊ§Ð§Ê±¼ä
+				//ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ê§Ð§Ê±ï¿½ï¿½
 				this.jedisDao.expire(tokenId, RongLianConstant.REDIS_KEY_EXPIRE);
 				
 				return tokenId;
@@ -72,7 +72,7 @@ public class APPManagerConfigServiceImpl implements APPManagerConfigService{
 	public boolean getTokenBytokenId(String tokenId){
 		String result = this.jedisDao.get(tokenId);
 		if(result != null){
-			//ÖØÐÂÉèÖÃÊ§Ð§Ê±¼ä
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§Ð§Ê±ï¿½ï¿½
 			this.jedisDao.expire(tokenId, RongLianConstant.REDIS_KEY_EXPIRE);
 			return false;
 		}else{

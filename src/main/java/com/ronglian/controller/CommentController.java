@@ -28,7 +28,7 @@ import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
- * @createTime 2017��12��22��
+ * @createTime 2017锟斤拷12锟斤拷22锟斤拷
  */
 @RestController
 @RequestMapping("/api")
@@ -37,14 +37,14 @@ public class CommentController {
 	@Autowired
 	private CommentService commentService;
 	/**
-	 * �û��������۲�ѯ�ӿ�
+	 * 锟矫伙拷锟斤拷锟斤拷锟斤拷锟桔诧拷询锟接匡拷
 	 * */
 	@RequestMapping(value="/1.0/usercomments",method=RequestMethod.GET)
 	public RongLianResult getComments(String deviceId,String userId){
 		return  this.commentService.getComments(deviceId, userId);
 	}
 	/**
-	 * �������۽ӿ�
+	 * 锟斤拷锟斤拷锟斤拷劢涌锟�
 	 * */
 	@RequestMapping(value="/1.0/contentcomment",method=RequestMethod.POST)
 	public RongLianResult addComment(@RequestBody RongLianRequest<NewsComment> commentBody){
@@ -55,14 +55,14 @@ public class CommentController {
 		return this.commentService.addComment(comment);
 	}
 	/**
-	 * ���ţ����У������б���ѯ
+	 * 锟斤拷锟脚ｏ拷锟斤拷锟叫ｏ拷锟斤拷锟斤拷锟叫憋拷锟窖�
 	 * */
 	@RequestMapping(value="/1.0/comments",method=RequestMethod.GET)
 	public RongLianResult getCommentList(String userId,String newsId,String deviceId){
 		return this.commentService.getCommentList(userId,newsId,deviceId);
 	}
 	
-	//ɾ���û����۽ӿ�
+	//删锟斤拷锟矫伙拷锟斤拷锟桔接匡拷
 	@RequestMapping(value="/1.0/deletecomment",method=RequestMethod.POST)
 	public RongLianResult delComment(@RequestBody RongLianRequest<Map> requestBody){
 		Map requestMap = null;
@@ -70,21 +70,37 @@ public class CommentController {
 		if(requestBody != null){
 			requestMap = requestBody.getData();
 		}
-		commentId = (String) requestMap.get("commentId");
+		if(requestMap.get("commentId") != null){
+			commentId = (String) requestMap.get("commentId");
+		}
 		try {
 				return this.commentService.delCommentById(commentId);
 		} catch (Exception e) {
 			// TODO: handle exception
-			return RongLianResult.build(500, "ɾ��ʧ�ܣ������Ǹ������ѱ����");
+			return RongLianResult.build(500, "删锟斤拷失锟杰ｏ拷锟斤拷锟斤拷锟角革拷锟斤拷锟斤拷锟窖憋拷锟斤拷锟�");
 		}
 	}
-	//���������صĽӿڣ���imedia������
-	@RequestMapping(value="/1.0/comment/{commentId}/{status}",method=RequestMethod.PUT)
-	public RongLianResult getCheckComment(@PathVariable("status")Integer status,@PathVariable("commentId")String commentId){
-		
-		return this.commentService.checkComment(status,commentId);
+	//锟斤拷锟斤拷锟斤拷锟斤拷锟截的接口ｏ拷锟斤拷imedia锟斤拷锟斤拷锟斤拷
+	@RequestMapping(value="/1.0/commentCheck",method=RequestMethod.POST)
+	public RongLianResult getCheckComment(@RequestBody RongLianRequest<Map> requestBody){
+		Map requestMap = null;
+		String commentId = null;
+		Integer status=null;
+		if(requestBody != null){
+			requestMap = requestBody.getData();
+		}
+		if(requestMap.get("commentId") != null&&requestMap.get("status") != null){
+			commentId =  requestMap.get("commentId").toString();
+			status = Integer.valueOf(requestMap.get("status").toString());
+		}
+		try {
+			return this.commentService.checkComment(status,commentId);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return RongLianResult.build(500, "删锟斤拷失锟杰ｏ拷锟斤拷锟斤拷锟角革拷锟斤拷锟斤拷锟窖憋拷锟斤拷锟�");
+		}
 	}
-	//������صĽӿڣ���imedia������
+	//锟斤拷锟斤拷锟斤拷氐慕涌冢锟斤拷锟絠media锟斤拷锟斤拷锟斤拷
 	@RequestMapping(value="/1.0/comment",method=RequestMethod.GET)
 	public PageCountResult searchCommentList(Integer status,String newsTitle,
 			@RequestParam(value="pageNo",defaultValue="1",required=false)int pageNo,
