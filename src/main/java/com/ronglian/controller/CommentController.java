@@ -28,7 +28,7 @@ import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ22ÈÕ
+ * @createTime 2017ï¿½ï¿½12ï¿½ï¿½22ï¿½ï¿½
  */
 @RestController
 @RequestMapping("/api")
@@ -37,14 +37,14 @@ public class CommentController {
 	@Autowired
 	private CommentService commentService;
 	/**
-	 * ÓÃ»§¸öÈËÆÀÂÛ²éÑ¯½Ó¿Ú
+	 * ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û²ï¿½Ñ¯ï¿½Ó¿ï¿½
 	 * */
 	@RequestMapping(value="/1.0/usercomments",method=RequestMethod.GET)
 	public RongLianResult getComments(String deviceId,String userId){
 		return  this.commentService.getComments(deviceId, userId);
 	}
 	/**
-	 * Ìí¼ÓÆÀÂÛ½Ó¿Ú
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û½Ó¿ï¿½
 	 * */
 	@RequestMapping(value="/1.0/contentcomment",method=RequestMethod.POST)
 	public RongLianResult addComment(@RequestBody RongLianRequest<NewsComment> commentBody){
@@ -55,14 +55,14 @@ public class CommentController {
 		return this.commentService.addComment(comment);
 	}
 	/**
-	 * ÐÂÎÅ£¨ËùÓÐ£©ÆÀÂÛÁÐ±í²éÑ¯
+	 * ï¿½ï¿½ï¿½Å£ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½Ñ¯
 	 * */
 	@RequestMapping(value="/1.0/comments",method=RequestMethod.GET)
 	public RongLianResult getCommentList(String userId,String newsId,String deviceId){
 		return this.commentService.getCommentList(userId,newsId,deviceId);
 	}
 	
-	//É¾³ýÓÃ»§ÆÀÂÛ½Ó¿Ú
+	//É¾ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Û½Ó¿ï¿½
 	@RequestMapping(value="/1.0/deletecomment",method=RequestMethod.POST)
 	public RongLianResult delComment(@RequestBody RongLianRequest<Map> requestBody){
 //		public RongLianResult delComment(@RequestBody Map requestMap){
@@ -71,23 +71,37 @@ public class CommentController {
 		if(requestBody != null){
 			requestMap = requestBody.getData();
 		}
-		if(commentId != null){
+		if(requestMap.get("commentId") != null){
 			commentId = (String) requestMap.get("commentId");
 		}
 		try {
 			return this.commentService.delCommentById(commentId);
 		} catch (Exception e) {
 			// TODO: handle exception
-			return RongLianResult.build(500, "É¾³ýÊ§°Ü£¬¿ÉÄÜÊÇ¸ÃÆÀÂÛÒÑ±»Çå³ý");
+			return RongLianResult.build(500, "É¾ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ±ï¿½ï¿½ï¿½ï¿½");
 		}
 	}
-	//ÉóºËÆÀÂÛÏà¹ØµÄ½Ó¿Ú£¨¹©imedia½»»¥£©
-	@RequestMapping(value="/1.0/comment/{commentId}/{status}",method=RequestMethod.PUT)
-	public RongLianResult getCheckComment(@PathVariable("status")Integer status,@PathVariable("commentId")String commentId){
-		
-		return this.commentService.checkComment(status,commentId);
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ØµÄ½Ó¿Ú£ï¿½ï¿½ï¿½imediaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	@RequestMapping(value="/1.0/commentCheck",method=RequestMethod.POST)
+	public RongLianResult getCheckComment(@RequestBody RongLianRequest<Map> requestBody){
+		Map requestMap = null;
+		String commentId = null;
+		Integer status=null;
+		if(requestBody != null){
+			requestMap = requestBody.getData();
+		}
+		if(requestMap.get("commentId") != null&&requestMap.get("status") != null){
+			commentId =  requestMap.get("commentId").toString();
+			status = Integer.valueOf(requestMap.get("status").toString());
+		}
+		try {
+			return this.commentService.checkComment(status,commentId);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return RongLianResult.build(500, "É¾ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ±ï¿½ï¿½ï¿½ï¿½");
+		}
 	}
-	//ÆÀÂÛÏà¹ØµÄ½Ó¿Ú£¨¹©imedia½»»¥£©
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ØµÄ½Ó¿Ú£ï¿½ï¿½ï¿½imediaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/1.0/comment",method=RequestMethod.GET)
 	public PageCountResult searchCommentList(Integer status,String newsTitle,
 			@RequestParam(value="pageNo",defaultValue="1",required=false)int pageNo,
