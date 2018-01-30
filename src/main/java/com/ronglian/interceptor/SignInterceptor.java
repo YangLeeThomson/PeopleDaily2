@@ -33,8 +33,8 @@ import com.ronglian.utils.model.request.MyHttpServletRequestWrapper;
  * @createTime 2017-12-21
  *
  */
-//½Ó¿ÚÈÏÖ¤À¹½ØÆ÷
-@Component	//springbootºÍ´«Í³springMVC²»Í¬(ÅäºÏÀ¹½ØÆ÷×¢²áºÍ×¢²áÊ¹ÓÃ£¬Ò»µ©È±Ê§£¬service²ãÎÞ·¨×¢Èë)¿Ó£¡£¡£¡
+//ï¿½Ó¿ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+@Component	//springbootï¿½Í´ï¿½Í³springMVCï¿½ï¿½Í¬(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½ï¿½×¢ï¿½ï¿½Ê¹ï¿½Ã£ï¿½Ò»ï¿½ï¿½È±Ê§ï¿½ï¿½serviceï¿½ï¿½ï¿½Þ·ï¿½×¢ï¿½ï¿½)ï¿½Ó£ï¿½ï¿½ï¿½ï¿½ï¿½
 public class SignInterceptor implements HandlerInterceptor{
 	
 	private static final String SALT = RongLianConstant.SALT;
@@ -50,27 +50,28 @@ public class SignInterceptor implements HandlerInterceptor{
 		
 		
 		
-		//1¡¢·ÅÐÐ»ñÈ¡ÁîÅÆtokenIdµÄÇëÇó
+		//1ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½È¡ï¿½ï¿½ï¿½ï¿½tokenIdï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		StringBuffer url = request.getRequestURL();
 		if(url.toString().indexOf(PASSURL) != -1){
 			return true;
 		}
 		
 		
-		//ÅÐ¶ÏÊÇ·ñ°üº¬timestamp£¬tokenId£¬sign²ÎÊý£¬Èç¹ûÈ±Ê§²ÎÊýÔò·µ»Øfalse
+		//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½timestampï¿½ï¿½tokenIdï¿½ï¿½signï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È±Ê§ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½false
 		Map<String, Object> requestParams = new HashMap<String, Object>();
 		String sign;
 		String timeStamp; 
 		String tokenId; 
-		//GETÇëÇó
+		String jsonStr=new String();
+		//GETï¿½ï¿½ï¿½ï¿½
 		if(request.getMethod().equalsIgnoreCase("GET")){
 			 sign = request.getParameter("sign");
 			 timeStamp = request.getParameter("timeStamp");
 			 tokenId = request.getParameter("tokenId");
 		}else{
-			//POSTÇëÇó·½Ê½ÏÂ
+			//POSTï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½
 			MyHttpServletRequestWrapper myWrapper= new MyHttpServletRequestWrapper(request);  
-            String jsonStr = GetRequestJsonUtils.getRequestJsonString(myWrapper);  
+            jsonStr = GetRequestJsonUtils.getRequestJsonString(myWrapper);  
             requestParams = GetRequestJsonUtils.parseObject(jsonStr);
 //			requestParams = HttpRequestUtils.parseRequest(request);
 			 sign = (String) requestParams.get("sign");
@@ -84,8 +85,8 @@ public class SignInterceptor implements HandlerInterceptor{
 		
 		
 		/*
-		 * ÅÐ¶Ï·þÎñÆ÷½Óµ½ÇëÇóµÄÊ±¼äºÍ²ÎÊýÖÐµÄÊ±¼ä´ÁÊÇ·ñÏà²îºÜ³¤Ò»¶ÎÊ±¼ä£¨Ê±¼ä×Ô¶¨ÒåÈç°ë¸öÐ¡Ê±£©£¬
-		 * Èç¹û³¬¹ýÔòËµÃ÷¸ÃurlÒÑ¾­¹ýÆÚ£¨Èç¹ûurl±»µÁÓÃ£¬Ëû¸Ä±äÁËÊ±¼ä´Á£¬µ«ÊÇ»áµ¼ÖÂsignÇ©Ãû²»ÏàµÈ£©
+		 * ï¿½Ð¶Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Í²ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ü³ï¿½Ò»ï¿½ï¿½Ê±ï¿½ä£¨Ê±ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡Ê±ï¿½ï¿½ï¿½ï¿½
+		 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½urlï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½urlï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç»áµ¼ï¿½ï¿½signÇ©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½
 		 */
 		long time = Long.parseLong(timeStamp);
 		long currentTime = new Date().getTime()/1000;
@@ -95,23 +96,23 @@ public class SignInterceptor implements HandlerInterceptor{
 		
 		
 		/*
-		 * ÅÐ¶ÏtokenId(ÁîÅÆ)ÊÇ·ñÓÐÐ§
-		 * ¸ù¾ÝÇëÇó¹ýÀ´µÄtokenId£¬¼ì²étokenIdÊÇ·ñÓÐÐ§¼°ÊÇ·ñ¹ýÆÚ¡£
+		 * ï¿½Ð¶ï¿½tokenId(ï¿½ï¿½ï¿½ï¿½)ï¿½Ç·ï¿½ï¿½ï¿½Ð§
+		 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tokenIdï¿½ï¿½ï¿½ï¿½ï¿½tokenIdï¿½Ç·ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ú¡ï¿½
 		 */
-	      if (tokenService == null) {//½â¾öserviceÎªnullÎÞ·¨×¢ÈëÎÊÌâ 
+	      if (tokenService == null) {//ï¿½ï¿½ï¿½serviceÎªnullï¿½Þ·ï¿½×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	          BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext()); 
 	          tokenService = (APPManagerConfigServiceImpl)factory.getBean("tokenService"); 
 	       } 
 		boolean flag = this.tokenService.getTokenBytokenId(tokenId);
 		if(flag){
-			//flag = true,ËµÃ÷redis»º´æÖÐÃ»ÓÐtokenIdÊý¾Ý
+			//flag = true,Ëµï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½tokenIdï¿½ï¿½ï¿½ï¿½
 			return false;
 		}
 		
 		
 		Map<String, String> params = new HashMap<String, String>();
 		if(request.getMethod().equals("GET")){
-			//GET»ñÈ¡È«²¿ÇëÇó³É²ÎÊý
+			//GETï¿½ï¿½È¡È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É²ï¿½ï¿½ï¿½
 	        Enumeration<?> pNames =  request.getParameterNames();
 	        while (pNames.hasMoreElements()) {
 	            String pName = (String) pNames.nextElement();
@@ -120,23 +121,25 @@ public class SignInterceptor implements HandlerInterceptor{
 	            params.put(pName, pValue);
 	        }
 		}else{
-			//POST»ñÈ¡È«²¿ÇëÇó³É²ÎÊý
+			//POSTï¿½ï¿½È¡È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É²ï¿½ï¿½ï¿½
 			Set<String> keys = requestParams.keySet();
 			Iterator<String> it = keys.iterator();
 			while(it.hasNext()){
 				String key = it.next();
-				if("sign".equals(key))continue;
+				if("sign".equals(key)||"data".equals(key))continue;
 				params.put(key, requestParams.get(key).toString());
 			}
+			if(jsonStr.indexOf("data")>0&&jsonStr.lastIndexOf("}}")>0)
+				params.put("data", jsonStr.substring(jsonStr.indexOf("data")+6, jsonStr.lastIndexOf("}}")+1));
 		}
         
-		//ÔÚ¼ÓÃÜ²ÎÊýÖÐ¼ÓÈësecretKey
+		//ï¿½Ú¼ï¿½ï¿½Ü²ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½secretKey
 		String secretKey = this.tokenService.getSecretKeyByToken(tokenId);
 		params.put("secretKey", secretKey);
 		
 		
         /*
-		 * ¸ù¾Ý¿Í»§¶ËÇëÇóµÄurl²ÎÊý£¬·þÎñÆ÷¶Ë°´ÕÕÍ¬ÑùµÄ¹æÔòÉú³ÉsignÇ©ÃûÓëÇëÇósign¿´ÊÇ·ñÏàµÈ¡£
+		 * ï¿½ï¿½ï¿½Ý¿Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½urlï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë°ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½signÇ©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½signï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È¡ï¿½
 		 */
         String IsSign = RongLianUtils.createSign(params, SALT);
         if(IsSign != null && sign.equals(IsSign)){

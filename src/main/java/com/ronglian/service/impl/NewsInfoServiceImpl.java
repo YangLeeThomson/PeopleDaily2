@@ -37,7 +37,7 @@ import com.ronglian.dao.TopicDao;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ27ÈÕ
+ * @createTime 2017ï¿½ï¿½12ï¿½ï¿½27ï¿½ï¿½
  */
 @Service
 public class NewsInfoServiceImpl implements NewsInfoService {
@@ -90,9 +90,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					
 					Integer topicId = news.getIsTopic();
 					resultMap.put("isTopic", topicId);
-					//Èç¹ûtopicId ²»µÈÓÚ0£¬ËµÃ÷ÊÇ×¨Ìâ£¬ÐèÒª½øÒ»²½²éÑ¯
+					//ï¿½ï¿½ï¿½topicId ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½×¨ï¿½â£¬ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ñ¯
 					if(topicId > 0){
-						//²éÑ¯×¨Ìâ
+						//ï¿½ï¿½Ñ¯×¨ï¿½ï¿½
 						NewsTopic topic = this.topicDao.findOne(topicId);
 						if(topic != null){
 							Map topicDetail = new HashMap();
@@ -103,11 +103,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("topicDetail",null);
 						}
-					}else{//isTopic() µÈÓÚ 0
+					}else{//isTopic() ï¿½ï¿½ï¿½ï¿½ 0
 						resultMap.put("topicDetail",null);
 					}
 					
-					//²é¿´Í¼Æ¬ÊýÄ¿ÊÇ·ñÊÇ0£¬ÊýÁ¿´óÓÚ0£¬ÐèÒª½øÒ»²½²é¿´
+					//ï¿½é¿´Í¼Æ¬ï¿½ï¿½Ä¿ï¿½Ç·ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½ï¿½é¿´
 					Integer imageCount = news.getImageList();
 					if(imageCount == null){
 						imageCount = 0;
@@ -130,17 +130,17 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("photoList",null);
 						}
-					}else{//imageListµÈÓÚ0
+					}else{//imageListï¿½ï¿½ï¿½ï¿½0
 						resultMap.put("photoList",null);
 					}
 					resultList.add(resultMap);
 				}
 				return PageCountResult.build(0, "ok",counter,pageNo, pageSize, resultList);
 			}else{
-				return PageCountResult.error(500, "²éÑ¯½á¹ûÎª¿Õ»òÄÚÈÝ²»´æÔÚ", pageNo, pageSize);
+				return PageCountResult.error(500, "ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Îªï¿½Õ»ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½", pageNo, pageSize);
 			}
 		}else{
-			return PageCountResult.error(500, "ÇëÇó²ÎÊýchannelUniqueId²»ÄÜÎª¿Õ", pageNo, pageSize);
+			return PageCountResult.error(500, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½channelUniqueIdï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½", pageNo, pageSize);
 		}
 		
 	}
@@ -169,9 +169,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					
 					Integer topicId = news.getIsTopic();
 					resultMap.put("isTopic", topicId);
-					//Èç¹ûtopicId ²»µÈÓÚ0£¬ËµÃ÷ÊÇ×¨Ìâ£¬ÐèÒª½øÒ»²½²éÑ¯
+					//ï¿½ï¿½ï¿½topicId ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½×¨ï¿½â£¬ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ñ¯
 					if(topicId > 0){
-						//²éÑ¯×¨Ìâ
+						//ï¿½ï¿½Ñ¯×¨ï¿½ï¿½
 						NewsTopic topic = this.topicDao.findOne(topicId);
 						if(topic != null){
 							Map topicDetail = new HashMap();
@@ -182,11 +182,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("topicDetail",null);
 						}
-					}else{//isTopic() µÈÓÚ 0
+					}else{//isTopic() ï¿½ï¿½ï¿½ï¿½ 0
 						resultMap.put("topicDetail",null);
 					}
 					
-					//²é¿´Í¼Æ¬ÊýÄ¿ÊÇ·ñÊÇ0£¬ÊýÁ¿´óÓÚ0£¬ÐèÒª½øÒ»²½²é¿´
+					//ï¿½é¿´Í¼Æ¬ï¿½ï¿½Ä¿ï¿½Ç·ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½ï¿½é¿´
 					Integer imageCount = news.getImageList();
 					if(imageCount == null){
 						imageCount = 0;
@@ -209,17 +209,17 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("photoList",null);
 						}
-					}else{//imageListµÈÓÚ0
+					}else{//imageListï¿½ï¿½ï¿½ï¿½0
 						resultMap.put("photoList",null);
 					}
 					resultList.add(resultMap);
 				}
 				return RongLianResult.ok(resultList);
 			}else{
-				return RongLianResult.build(500, "²éÑ¯½á¹ûÎª¿Õ»òÄÚÈÝ²»´æÔÚ");
+				return RongLianResult.build(500, "ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Îªï¿½Õ»ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½");
 			}
 		}else{
-			return RongLianResult.build(500, "ÇëÇó²ÎÊýchannelUniqueId²»ÄÜÎª¿Õ");
+			return RongLianResult.build(500, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½channelUniqueIdï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½");
 		}
 		
 	}
@@ -248,9 +248,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					
 					Integer topicId = news.getIsTopic();
 					resultMap.put("isTopic", topicId);
-					//Èç¹ûtopicId ²»µÈÓÚ0£¬ËµÃ÷ÊÇ×¨Ìâ£¬ÐèÒª½øÒ»²½²éÑ¯
+					//ï¿½ï¿½ï¿½topicId ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½×¨ï¿½â£¬ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ñ¯
 					if(topicId > 0){
-						//²éÑ¯×¨Ìâ
+						//ï¿½ï¿½Ñ¯×¨ï¿½ï¿½
 						NewsTopic topic = this.topicDao.findOne(topicId);
 						if(topic != null){
 							Map topicDetail = new HashMap();
@@ -261,11 +261,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("topicDetail",null);
 						}
-					}else{//isTopic() µÈÓÚ 0
+					}else{//isTopic() ï¿½ï¿½ï¿½ï¿½ 0
 						resultMap.put("topicDetail",null);
 					}
 					
-					//²é¿´Í¼Æ¬ÊýÄ¿ÊÇ·ñÊÇ0£¬ÊýÁ¿´óÓÚ0£¬ÐèÒª½øÒ»²½²é¿´
+					//ï¿½é¿´Í¼Æ¬ï¿½ï¿½Ä¿ï¿½Ç·ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½ï¿½é¿´
 					Integer imageCount = news.getImageList();
 					if(imageCount == null){
 						imageCount = 0;
@@ -288,17 +288,17 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("photoList",null);
 						}
-					}else{//imageListµÈÓÚ0
+					}else{//imageListï¿½ï¿½ï¿½ï¿½0
 						resultMap.put("photoList",null);
 					}
 					resultList.add(resultMap);
 				}
 				return RongLianResult.ok(resultList);
 			}else{
-				return RongLianResult.build(500, "²éÑ¯½á¹ûÎªnull");
+				return RongLianResult.build(500, "ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Îªnull");
 			}
 		}else{
-			return RongLianResult.build(500, "ÇëÇó²ÎÊýchannelUniqueId²»ÄÜÎª¿Õ");
+			return RongLianResult.build(500, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½channelUniqueIdï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½");
 		}
 	}
 	/**
@@ -308,7 +308,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public PageCountResult findTopicNewsList(String topicId,int pageNo,int pageSize) {
 		if(topicId == null ){
-			return PageCountResult.error(500, "topicId²»ÄÜÎª¿Õ", pageNo, pageSize);
+			return PageCountResult.error(500, "topicIdï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½", pageNo, pageSize);
 		}
 		pageNo = (pageNo-1)*pageSize;
 		int count = 0;
@@ -331,9 +331,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				resultMap.put("isTopic", news.getIsTopic());
 				resultMap.put("topicUniqueId", news.getTopicUniqueId());
 				
-				//Èç¹ûisTopic=1£¬ËµÃ÷ÊÇ×¨Ìâ£¬ÐèÒª½øÒ»²½²éÑ¯
+				//ï¿½ï¿½ï¿½isTopic=1ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½×¨ï¿½â£¬ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ñ¯
 				if(news.getIsTopic() == 1){
-					//²éÑ¯×¨Ìâ
+					//ï¿½ï¿½Ñ¯×¨ï¿½ï¿½
 					NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicId);
 					if(topic != null){
 						Map topicDetail = new HashMap();
@@ -344,11 +344,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					}else{
 						resultMap.put("topicDetail",null);
 					}
-				}else{//isTopic() µÈÓÚ 0
+				}else{//isTopic() ï¿½ï¿½ï¿½ï¿½ 0
 					resultMap.put("topicDetail",null);
 				}
 				
-				//²é¿´Í¼Æ¬ÊýÄ¿ÊÇ·ñÊÇ0£¬ÊýÁ¿´óÓÚ0£¬ÐèÒª½øÒ»²½²é¿´
+				//ï¿½é¿´Í¼Æ¬ï¿½ï¿½Ä¿ï¿½Ç·ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½ï¿½é¿´
 				Integer imageCount = news.getImageList();
 				if(imageCount == null){
 					imageCount = 0;
@@ -371,14 +371,14 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					}else{
 						resultMap.put("photoList",null);
 					}
-				}else{//imageListµÈÓÚ0
+				}else{//imageListï¿½ï¿½ï¿½ï¿½0
 					resultMap.put("photoList",null);
 				}
 				resultList.add(resultMap);
 			}
 			return PageCountResult.build(0, "ok",count,pageNo, pageSize, resultList);
 		}else{
-			return PageCountResult.error(500, "×¨Ìâ¶ÔÓ¦µÄÐÂÎÅÄÚÈÝ²»´æÔÚ", pageNo, pageSize);
+			return PageCountResult.error(500, "×¨ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½", pageNo, pageSize);
 		}
 	}
 	/**
@@ -388,7 +388,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public RongLianResult getNewsInfoContent(String newsId) {
 		if(newsId == null){
-			return RongLianResult.build(500, "ÇëÇó²ÎÊýnewsId²»¿ÉÒÔÎª¿Õ");
+			return RongLianResult.build(500, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½newsIdï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½");
 		}
 		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
 		if(newsInfo != null){
@@ -429,7 +429,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			}
 			return RongLianResult.ok(data);
 		}else{
-			return RongLianResult.build(500, "Ëù²éÑ¯µÄÐÂÎÅÄÚÈÝ²»´æÔÚ");
+			return RongLianResult.build(500, "ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
 	}
 	@Override
@@ -437,13 +437,14 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		/*try{*/
-		Map map = mapper.readValue(newsStr, Map.class);
+		Map mapRes = mapper.readValue(newsStr, Map.class);
+		Map map = (Map)mapRes.get("data");
 		if(map != null){
 			if(map.get("newsId")==null){
-				return RongLianResult.build(500, "newsId²»ÄÜÎª¿Õ");
+				return RongLianResult.build(500, "newsIdï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½");
 			}else{
 				if(map.get("channelUniqueId")==null||map.get("channelName")==null){
-					return RongLianResult.build(500, "È±ÉÙ²ÎÊý");
+					return RongLianResult.build(500, "È±ï¿½Ù²ï¿½ï¿½ï¿½");
 				}
 				NewsInfo newsInfo=new NewsInfo(map.get("newsId").toString(), (map.get("canComment")!=null)?map.get("canComment").toString():null, (map.get("channelUniqueId")!=null)?map.get("channelUniqueId").toString():null,
 						(map.get("channelName")!=null)?map.get("channelName").toString():null, null, (map.get("contentId")!=null)?(int)map.get("contentId"):null,
@@ -490,7 +491,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				return RongLianResult.ok();
 			}
 		}else{
-			return RongLianResult.build(500, "Î´´«²ÎÊý»ò²ÎÊý¸ñÊ½²»¶Ô");
+			return RongLianResult.build(500, "Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½");
 		}
 	}
 	
@@ -529,7 +530,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public RongLianResult getPhotoNewsByNewsId(String newsID,Integer incNo){
 		if(incNo == null){
-			return RongLianResult.build(500, "ÇëÇó²ÎÊýincNo²»ÄÜÎªnull");
+			return RongLianResult.build(500, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½incNoï¿½ï¿½ï¿½ï¿½Îªnull");
 		}
 		List<NewsInfo> list = this.newsInfoDao.selectNewsInfoNearUpByIncNo(incNo);
 		List<NewsInfo> list2 = this.newsInfoDao.selectNewsInfoNearDownByIncNo(incNo);
@@ -562,16 +563,16 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				result.put("pictureList", pictureList);
 				resultList.add(result);
 			}
-			//4ÌõÊý¾Ý£¬2ÌõÊý¾Ý¡¢1Ìõ¶¼Êä³ö
+			//4ï¿½ï¿½ï¿½ï¿½ï¿½Ý£ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½Ý¡ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(resultList.size() == 4 || resultList.size() == 2 || resultList.size() == 1){
 				return RongLianResult.ok(resultList);
 			}else{
-				//3ÌõÊý¾Ý£¬É¾³ý1Ìõ£¬Êä³ö2Ìõ
+				//3ï¿½ï¿½ï¿½ï¿½ï¿½Ý£ï¿½É¾ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½
 				resultList.remove(0);
 				return RongLianResult.ok(resultList);
 			}
 		}else{
-			return RongLianResult.build(500, "µ±Ç°Í¼¼¯¸½½üÎÞÆäËüÍ¼¼¯");
+			return RongLianResult.build(500, "ï¿½ï¿½Ç°Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½");
 		}
 	}
 	

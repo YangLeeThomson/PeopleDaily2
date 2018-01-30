@@ -3,10 +3,6 @@
  */
 package com.ronglian.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,11 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ronglian.entity.NewsSlideshow;
 import com.ronglian.service.NewsSlideShowService;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.RongLianRequest;
 
-/**
- * @author liyang
- * @createTime 2017Äê12ÔÂ27ÈÕ
- */
 @RestController
 @RequestMapping("/api")
 public class SlideShowController {
@@ -29,10 +22,10 @@ public class SlideShowController {
 	@Autowired
 	private NewsSlideShowService slideShowService;
 	@RequestMapping(value="/1.0/setSlideShow",method=RequestMethod.POST)
-	public RongLianResult addNewsSlideShow(@RequestBody NewsSlideshow slideShow){
-		return this.slideShowService.addSlideShow(slideShow);
+	public RongLianResult addNewsSlideShow(@RequestBody RongLianRequest<NewsSlideshow> slideShow){
+		return this.slideShowService.addSlideShow(slideShow.getData());
 	}
-	//À¸Ä¿ÂÖ²¥Í¼ÁÐ±íÊä³ö½Ó¿Ú
+	//ï¿½ï¿½Ä¿ï¿½Ö²ï¿½Í¼ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½
 	@RequestMapping(value="/1.0/channelSlidePictures",method=RequestMethod.GET)
 	public RongLianResult getChannelSlidePictureList(String channelUniqueId){
 
