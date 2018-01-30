@@ -60,8 +60,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			return RongLianResult.build(500, "save error");
 		}
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.NewsInfoService#findNewsList(int, int, java.lang.String)
+	/**
+	 * @author liyang
+	 * @createTime 2017年12月27日
 	 */
 	@Override
 	public PageCountResult findNewsList(int pageSize, int pageNo, String channelUniqueId) {
@@ -143,8 +144,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		}
 		
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.NewsInfoService#findTopnewsList(java.lang.String)
+	/**
+	 * @author liyang
+	 * @createTime 2017年12月27日
 	 */
 	@Override
 	public RongLianResult findTopnewsList(String channelUniqueId) {
@@ -221,8 +223,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		}
 		
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.NewsInfoService#findEditorNewsList(java.lang.String)
+	/**
+	 * @author liyang
+	 * @createTime 2017年12月27日
 	 */
 	@Override
 	public RongLianResult findEditorNewsList(String channelUniqueId) {
@@ -298,8 +301,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			return RongLianResult.build(500, "请求参数channelUniqueId不能为空");
 		}
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.NewsInfoService#findTopicNewsList(java.util.List)
+	/**
+	 * @author liyang
+	 * @createTime 2017年12月27日
 	 */
 	@Override
 	public PageCountResult findTopicNewsList(String topicId,int pageNo,int pageSize) {
@@ -325,7 +329,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				resultMap.put("isLive", news.getIsLive());
 				resultMap.put("isLiveReplay", news.getIsLiveReplay());
 				resultMap.put("isTopic", news.getIsTopic());
-				resultMap.put("topicId", news.getTopicId());
+				resultMap.put("topicUniqueId", news.getTopicUniqueId());
 				
 				//如果isTopic=1，说明是专题，需要进一步查询
 				if(news.getIsTopic() == 1){
@@ -377,8 +381,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			return PageCountResult.error(500, "专题对应的新闻内容不存在", pageNo, pageSize);
 		}
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.NewsInfoService#getNewsInfoContent(java.lang.String)
+	/**
+	 * @author liyang
+	 * @createTime 2017年12月27日
 	 */
 	@Override
 	public RongLianResult getNewsInfoContent(String newsId) {
@@ -453,7 +458,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 												(map.get("newsSummary")!=null)?map.get("newsSummary").toString():null, (map.get("newsTags")!=null)?map.get("newsTags").toString():null, (map.get("newsTitle")!=null)?map.get("newsTitle").toString():null,
 														(map.get("publishTime")!=null)?sdf.parse(map.get("publishTime").toString()):null, (map.get("topExpire")!=null)?sdf.parse(map.get("topExpire").toString()):null, null,null, null,
 																(map.get("dataStatus")!=null)?(int)map.get("dataStatus"):null, (map.get("showType")!=null)?(int)map.get("showType"):null,(map.get("fullColumnImgUrl")!=null)?map.get("fullColumnImgUrl").toString():null,
-																		(map.get("hasVideo")!=null)?(map.get("hasVideo").toString().equals("true")?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(map.get("isLive").toString().equals("true")?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(map.get("isLiveReplay").toString().equals("true")?(byte)1:(byte)0):null);
+																		(map.get("hasVideo")!=null)?(map.get("hasVideo").toString().equals("true")?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(map.get("isLive").toString().equals("true")?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(map.get("isLiveReplay").toString().equals("true")?(byte)1:(byte)0):null,map.get("topicUniqueId").toString());
 				newsPictureDao.deleteByNewsID(newsInfo.getNewsId());
 				int i=0;
 				boolean less=false;
@@ -517,6 +522,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	    }  
 	    return images;  
 	}  
+	/**
+	 * @author liyang
+	 * @createTime 2017年12月27日
+	 */
 	@Override
 	public RongLianResult getPhotoNewsByNewsId(String newsID,Integer incNo){
 		if(incNo == null){

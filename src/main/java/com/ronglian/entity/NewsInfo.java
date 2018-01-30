@@ -535,7 +535,7 @@ public class NewsInfo implements Serializable {
 			Date publishTime, Date topExpire, Integer topnewsSort,
 			Date topnewsTopExpire, List<NewsTopic> newsTopics,
 			Integer dataStatus, Integer showType, String fullColumnImgUrl,
-			Byte hasVideo, Byte isLive, Byte isLiveReplay) {
+			Byte hasVideo, Byte isLive, Byte isLiveReplay,String topicUniqueId) {
 		super();
 		this.newsId = newsId;
 		this.canComment = canComment;
@@ -575,6 +575,7 @@ public class NewsInfo implements Serializable {
 		this.hasVideo = hasVideo;
 		this.isLive = isLive;
 		this.isLiveReplay = isLiveReplay;
+		this.topicUniqueId = topicUniqueId;
 	}
 //20180112Ôö¼Ó×Ö¶Î
 	@Column(name="share_num")
@@ -588,14 +589,14 @@ public class NewsInfo implements Serializable {
 		this.shareNum = shareNum;
 	}
 	@Column(name="topic_id")
-	private String topicId;
+	private String topicUniqueId;
 
-	public String getTopicId() {
-		return topicId;
+	public String getTopicUniqueId() {
+		return topicUniqueId;
 	}
 
-	public void setTopicId(String topicId) {
-		this.topicId = topicId;
+	public void setTopicUniqueId(String topicUniqueId) {
+		this.topicUniqueId = topicUniqueId;
 	}
-	
+
 }

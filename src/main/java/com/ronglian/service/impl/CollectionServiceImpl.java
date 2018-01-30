@@ -23,11 +23,16 @@ import com.ronglian.utils.RongLianResult;
 @Service
 public class CollectionServiceImpl implements CollectionService {
 
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.CollectionService#insertUserCollection(java.lang.String, java.lang.String, java.lang.String)
+	/** 
+	 * @parameter 
 	 */
 	@Autowired 
 	private CollectionDao collectionDao;
+	
+	/**
+	 * @author liyang
+	 * @createTime 2018Äê1ÔÂ2ÈÕ
+	 */
 	@Override
 	public RongLianResult insertUserCollection(Collection collection) {
 		// TODO Auto-generated method stub
