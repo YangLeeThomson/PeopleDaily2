@@ -1,5 +1,6 @@
 package com.ronglian.config;
 
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +27,13 @@ public class RedisConfiguration extends CachingConfigurerSupport{
 	    @Autowired  
 	    public JedisPool jedisPool(@Qualifier("jedis.pool.config") JedisPoolConfig config,   
 	                @Value("${jedis.pool.host}")String host,   
-	                @Value("${jedis.pool.port}")int port) {  
-	        return new JedisPool(config, host, port);  
+	                @Value("${jedis.pool.port}")int port,
+	                @Value("${jedis.pool.timeout}")int timeout,
+	                @Value("${jedis.pool.password}")String password,
+	                @Value("${jedis.pool.database}")int database) {  
+		
+	        return new JedisPool(config, host, port, timeout, password, database);
+	        
 	    }  
 	      
 	    @Bean(name= "jedis.pool.config")  

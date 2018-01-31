@@ -37,7 +37,7 @@ import com.ronglian.dao.TopicDao;
 
 /**
  * @author liyang
- * @createTime 2017��12��27��
+ * @createTime 2017锟斤拷12锟斤拷27锟斤拷
  */
 @Service
 public class NewsInfoServiceImpl implements NewsInfoService {
@@ -62,7 +62,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	}
 	/**
 	 * @author liyang
-	 * @createTime 2017��12��27��
+	 * @createTime 2017年12月27日
 	 */
 	@Override
 	public PageCountResult findNewsList(int pageSize, int pageNo, String channelUniqueId) {
@@ -90,9 +90,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					
 					Integer topicId = news.getIsTopic();
 					resultMap.put("isTopic", topicId);
-					//���topicId ������0��˵����ר�⣬��Ҫ��һ����ѯ
+					//锟斤拷锟絫opicId 锟斤拷锟斤拷锟斤拷0锟斤拷说锟斤拷锟斤拷专锟解，锟斤拷要锟斤拷一锟斤拷锟斤拷询
 					if(topicId > 0){
-						//��ѯר��
+						//锟斤拷询专锟斤拷
 						NewsTopic topic = this.topicDao.findOne(topicId);
 						if(topic != null){
 							Map topicDetail = new HashMap();
@@ -103,11 +103,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("topicDetail",null);
 						}
-					}else{//isTopic() ���� 0
+					}else{//isTopic() 锟斤拷锟斤拷 0
 						resultMap.put("topicDetail",null);
 					}
 					
-					//�鿴ͼƬ��Ŀ�Ƿ���0����������0����Ҫ��һ���鿴
+					//锟介看图片锟斤拷目锟角凤拷锟斤拷0锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷0锟斤拷锟斤拷要锟斤拷一锟斤拷锟介看
 					Integer imageCount = news.getImageList();
 					if(imageCount == null){
 						imageCount = 0;
@@ -130,23 +130,23 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("photoList",null);
 						}
-					}else{//imageList����0
+					}else{//imageList锟斤拷锟斤拷0
 						resultMap.put("photoList",null);
 					}
 					resultList.add(resultMap);
 				}
 				return PageCountResult.build(0, "ok",counter,pageNo, pageSize, resultList);
 			}else{
-				return PageCountResult.error(500, "��ѯ���Ϊ�ջ����ݲ�����", pageNo, pageSize);
+				return PageCountResult.error(500, "锟斤拷询锟斤拷锟轿拷栈锟斤拷锟斤拷莶锟斤拷锟斤拷锟�", pageNo, pageSize);
 			}
 		}else{
-			return PageCountResult.error(500, "�������channelUniqueId����Ϊ��", pageNo, pageSize);
+			return PageCountResult.error(500, "锟斤拷锟斤拷锟斤拷锟絚hannelUniqueId锟斤拷锟斤拷为锟斤拷", pageNo, pageSize);
 		}
 		
 	}
 	/**
 	 * @author liyang
-	 * @createTime 2017��12��27��
+	 * @createTime 2017年12月27日
 	 */
 	@Override
 	public RongLianResult findTopnewsList(String channelUniqueId) {
@@ -169,9 +169,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					
 					Integer topicId = news.getIsTopic();
 					resultMap.put("isTopic", topicId);
-					//���topicId ������0��˵����ר�⣬��Ҫ��һ����ѯ
+					//锟斤拷锟絫opicId 锟斤拷锟斤拷锟斤拷0锟斤拷说锟斤拷锟斤拷专锟解，锟斤拷要锟斤拷一锟斤拷锟斤拷询
 					if(topicId > 0){
-						//��ѯר��
+						//锟斤拷询专锟斤拷
 						NewsTopic topic = this.topicDao.findOne(topicId);
 						if(topic != null){
 							Map topicDetail = new HashMap();
@@ -182,11 +182,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("topicDetail",null);
 						}
-					}else{//isTopic() ���� 0
+					}else{//isTopic() 锟斤拷锟斤拷 0
 						resultMap.put("topicDetail",null);
 					}
 					
-					//�鿴ͼƬ��Ŀ�Ƿ���0����������0����Ҫ��һ���鿴
+					//锟介看图片锟斤拷目锟角凤拷锟斤拷0锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷0锟斤拷锟斤拷要锟斤拷一锟斤拷锟介看
 					Integer imageCount = news.getImageList();
 					if(imageCount == null){
 						imageCount = 0;
@@ -209,23 +209,23 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("photoList",null);
 						}
-					}else{//imageList����0
+					}else{//imageList锟斤拷锟斤拷0
 						resultMap.put("photoList",null);
 					}
 					resultList.add(resultMap);
 				}
 				return RongLianResult.ok(resultList);
 			}else{
-				return RongLianResult.build(500, "��ѯ���Ϊ�ջ����ݲ�����");
+				return RongLianResult.build(500, "锟斤拷询锟斤拷锟轿拷栈锟斤拷锟斤拷莶锟斤拷锟斤拷锟�");
 			}
 		}else{
-			return RongLianResult.build(500, "�������channelUniqueId����Ϊ��");
+			return RongLianResult.build(500, "锟斤拷锟斤拷锟斤拷锟絚hannelUniqueId锟斤拷锟斤拷为锟斤拷");
 		}
 		
 	}
 	/**
 	 * @author liyang
-	 * @createTime 2017��12��27��
+	 * @createTime 2017年12月27日
 	 */
 	@Override
 	public RongLianResult findEditorNewsList(String channelUniqueId) {
@@ -248,9 +248,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					
 					Integer topicId = news.getIsTopic();
 					resultMap.put("isTopic", topicId);
-					//���topicId ������0��˵����ר�⣬��Ҫ��һ����ѯ
+					//锟斤拷锟絫opicId 锟斤拷锟斤拷锟斤拷0锟斤拷说锟斤拷锟斤拷专锟解，锟斤拷要锟斤拷一锟斤拷锟斤拷询
 					if(topicId > 0){
-						//��ѯר��
+						//锟斤拷询专锟斤拷
 						NewsTopic topic = this.topicDao.findOne(topicId);
 						if(topic != null){
 							Map topicDetail = new HashMap();
@@ -261,11 +261,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("topicDetail",null);
 						}
-					}else{//isTopic() ���� 0
+					}else{//isTopic() 锟斤拷锟斤拷 0
 						resultMap.put("topicDetail",null);
 					}
 					
-					//�鿴ͼƬ��Ŀ�Ƿ���0����������0����Ҫ��һ���鿴
+					//锟介看图片锟斤拷目锟角凤拷锟斤拷0锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷0锟斤拷锟斤拷要锟斤拷一锟斤拷锟介看
 					Integer imageCount = news.getImageList();
 					if(imageCount == null){
 						imageCount = 0;
@@ -288,27 +288,27 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("photoList",null);
 						}
-					}else{//imageList����0
+					}else{//imageList锟斤拷锟斤拷0
 						resultMap.put("photoList",null);
 					}
 					resultList.add(resultMap);
 				}
 				return RongLianResult.ok(resultList);
 			}else{
-				return RongLianResult.build(500, "��ѯ���Ϊnull");
+				return RongLianResult.build(500, "锟斤拷询锟斤拷锟轿猲ull");
 			}
 		}else{
-			return RongLianResult.build(500, "�������channelUniqueId����Ϊ��");
+			return RongLianResult.build(500, "锟斤拷锟斤拷锟斤拷锟絚hannelUniqueId锟斤拷锟斤拷为锟斤拷");
 		}
 	}
 	/**
 	 * @author liyang
-	 * @createTime 2017��12��27��
+	 * @createTime 2017年12月27日
 	 */
 	@Override
 	public PageCountResult findTopicNewsList(String topicId,int pageNo,int pageSize) {
 		if(topicId == null ){
-			return PageCountResult.error(500, "topicId����Ϊ��", pageNo, pageSize);
+			return PageCountResult.error(500, "topicId锟斤拷锟斤拷为锟斤拷", pageNo, pageSize);
 		}
 		pageNo = (pageNo-1)*pageSize;
 		int count = 0;
@@ -331,9 +331,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				resultMap.put("isTopic", news.getIsTopic());
 				resultMap.put("topicUniqueId", news.getTopicUniqueId());
 				
-				//���isTopic=1��˵����ר�⣬��Ҫ��һ����ѯ
+				//锟斤拷锟絠sTopic=1锟斤拷说锟斤拷锟斤拷专锟解，锟斤拷要锟斤拷一锟斤拷锟斤拷询
 				if(news.getIsTopic() == 1){
-					//��ѯר��
+					//锟斤拷询专锟斤拷
 					NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicId);
 					if(topic != null){
 						Map topicDetail = new HashMap();
@@ -344,11 +344,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					}else{
 						resultMap.put("topicDetail",null);
 					}
-				}else{//isTopic() ���� 0
+				}else{//isTopic() 锟斤拷锟斤拷 0
 					resultMap.put("topicDetail",null);
 				}
 				
-				//�鿴ͼƬ��Ŀ�Ƿ���0����������0����Ҫ��һ���鿴
+				//锟介看图片锟斤拷目锟角凤拷锟斤拷0锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷0锟斤拷锟斤拷要锟斤拷一锟斤拷锟介看
 				Integer imageCount = news.getImageList();
 				if(imageCount == null){
 					imageCount = 0;
@@ -371,24 +371,24 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					}else{
 						resultMap.put("photoList",null);
 					}
-				}else{//imageList����0
+				}else{//imageList锟斤拷锟斤拷0
 					resultMap.put("photoList",null);
 				}
 				resultList.add(resultMap);
 			}
 			return PageCountResult.build(0, "ok",count,pageNo, pageSize, resultList);
 		}else{
-			return PageCountResult.error(500, "ר���Ӧ���������ݲ�����", pageNo, pageSize);
+			return PageCountResult.error(500, "专锟斤拷锟接︼拷锟斤拷锟斤拷锟斤拷锟斤拷莶锟斤拷锟斤拷锟�", pageNo, pageSize);
 		}
 	}
 	/**
 	 * @author liyang
-	 * @createTime 2017��12��27��
+	 * @createTime 2017年12月27日
 	 */
 	@Override
 	public RongLianResult getNewsInfoContent(String newsId) {
 		if(newsId == null){
-			return RongLianResult.build(500, "�������newsId������Ϊ��");
+			return RongLianResult.build(500, "锟斤拷锟斤拷锟斤拷锟絥ewsId锟斤拷锟斤拷锟斤拷为锟斤拷");
 		}
 		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
 		if(newsInfo != null){
@@ -429,7 +429,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			}
 			return RongLianResult.ok(data);
 		}else{
-			return RongLianResult.build(500, "����ѯ���������ݲ�����");
+			return RongLianResult.build(500, "锟斤拷锟斤拷询锟斤拷锟斤拷锟斤拷锟斤拷锟捷诧拷锟斤拷锟斤拷");
 		}
 	}
 	@Override
@@ -441,10 +441,15 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		Map map = (Map)mapRes.get("data");
 		if(map != null){
 			if(map.get("newsId")==null){
-				return RongLianResult.build(500, "newsId����Ϊ��");
+				return RongLianResult.build(500, "newsId锟斤拷锟斤拷为锟斤拷");
 			}else{
 				if(map.get("channelUniqueId")==null||map.get("channelName")==null){
-					return RongLianResult.build(500, "ȱ�ٲ���");
+					return RongLianResult.build(500, "缺锟劫诧拷锟斤拷");
+				}
+				String topicUniqueId = null;
+				Object obj = map.get("topicUniqueId");
+				if(obj != null){
+					topicUniqueId = obj.toString();
 				}
 				NewsInfo newsInfo=new NewsInfo(map.get("newsId").toString(), (map.get("canComment")!=null)?map.get("canComment").toString():null, (map.get("channelUniqueId")!=null)?map.get("channelUniqueId").toString():null,
 						(map.get("channelName")!=null)?map.get("channelName").toString():null, null, (map.get("contentId")!=null)?(int)map.get("contentId"):null,
@@ -459,7 +464,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 												(map.get("newsSummary")!=null)?map.get("newsSummary").toString():null, (map.get("newsTags")!=null)?map.get("newsTags").toString():null, (map.get("newsTitle")!=null)?map.get("newsTitle").toString():null,
 														(map.get("publishTime")!=null)?sdf.parse(map.get("publishTime").toString()):null, (map.get("topExpire")!=null)?sdf.parse(map.get("topExpire").toString()):null, null,null, null,
 																(map.get("dataStatus")!=null)?(int)map.get("dataStatus"):null, (map.get("showType")!=null)?(int)map.get("showType"):null,(map.get("fullColumnImgUrl")!=null)?map.get("fullColumnImgUrl").toString():null,
-																		(map.get("hasVideo")!=null)?(map.get("hasVideo").toString().equals("true")?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(map.get("isLive").toString().equals("true")?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(map.get("isLiveReplay").toString().equals("true")?(byte)1:(byte)0):null,map.get("topicUniqueId").toString());
+																		(map.get("hasVideo")!=null)?(map.get("hasVideo").toString().equals("true")?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(map.get("isLive").toString().equals("true")?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(map.get("isLiveReplay").toString().equals("true")?(byte)1:(byte)0):null,topicUniqueId);
 				newsPictureDao.deleteByNewsID(newsInfo.getNewsId());
 				int i=0;
 				boolean less=false;
@@ -491,7 +496,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				return RongLianResult.ok();
 			}
 		}else{
-			return RongLianResult.build(500, "δ�������������ʽ����");
+			return RongLianResult.build(500, "未锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟绞斤拷锟斤拷锟�");
 		}
 	}
 	
@@ -525,12 +530,12 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	}  
 	/**
 	 * @author liyang
-	 * @createTime 2017��12��27��
+	 * @createTime 2017年12月27日
 	 */
 	@Override
 	public RongLianResult getPhotoNewsByNewsId(String newsID,Integer incNo){
 		if(incNo == null){
-			return RongLianResult.build(500, "�������incNo����Ϊnull");
+			return RongLianResult.build(500, "锟斤拷锟斤拷锟斤拷锟絠ncNo锟斤拷锟斤拷为null");
 		}
 		List<NewsInfo> list = this.newsInfoDao.selectNewsInfoNearUpByIncNo(incNo);
 		List<NewsInfo> list2 = this.newsInfoDao.selectNewsInfoNearDownByIncNo(incNo);
@@ -563,16 +568,16 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				result.put("pictureList", pictureList);
 				resultList.add(result);
 			}
-			//4�����ݣ�2�����ݡ�1�������
+			//4锟斤拷锟斤拷锟捷ｏ拷2锟斤拷锟斤拷锟捷★拷1锟斤拷锟斤拷锟斤拷锟�
 			if(resultList.size() == 4 || resultList.size() == 2 || resultList.size() == 1){
 				return RongLianResult.ok(resultList);
 			}else{
-				//3�����ݣ�ɾ��1�������2��
+				//3锟斤拷锟斤拷锟捷ｏ拷删锟斤拷1锟斤拷锟斤拷锟斤拷锟�2锟斤拷
 				resultList.remove(0);
 				return RongLianResult.ok(resultList);
 			}
 		}else{
-			return RongLianResult.build(500, "��ǰͼ������������ͼ��");
+			return RongLianResult.build(500, "锟斤拷前图锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷图锟斤拷");
 		}
 	}
 	
