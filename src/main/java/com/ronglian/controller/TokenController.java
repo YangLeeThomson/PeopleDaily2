@@ -41,7 +41,7 @@ public class TokenController {
 			resultMap.put("tokenId", tokenId);
 			return RongLianResult.ok(resultMap);
 		}else{
-			return RongLianResult.build(1, "appID账号有误");
+			return RongLianResult.build(1, "appID账号或签名sign有误");
 		}
 	}	
 }

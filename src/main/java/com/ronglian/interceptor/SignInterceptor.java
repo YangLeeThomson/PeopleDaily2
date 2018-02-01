@@ -84,7 +84,7 @@ public class SignInterceptor implements HandlerInterceptor{
 			 tokenId = (String) requestParams.get("tokenId");
 		}
 		if(StringUtils.isBlank(sign)||StringUtils.isBlank(timeStamp)||StringUtils.isBlank(tokenId)){
-			returnErrorMessage(response, "必须参数sign,timeStamp,tokenId不能为空！");
+			returnErrorMessage(response, "必须参数sign,timeStamp,tokenId不能为空！",103);
 			return false;
 		}
 		
@@ -96,7 +96,7 @@ public class SignInterceptor implements HandlerInterceptor{
 		long time = Long.parseLong(timeStamp);
 		long currentTime = new Date().getTime()/1000;
 		if(currentTime > (time+INTERVAL)){
-			returnErrorMessage(response,"时间戳：timeStamp 超时。");
+			returnErrorMessage(response,"时间戳：timeStamp 超时。",104);
 			return false;
 		}
 		
@@ -112,7 +112,7 @@ public class SignInterceptor implements HandlerInterceptor{
 		boolean flag = this.tokenService.getTokenBytokenId(tokenId);
 		if(flag){
 			//flag = true,说锟斤拷redis锟斤拷锟斤拷锟斤拷没锟斤拷tokenId锟斤拷锟斤拷
-			returnErrorMessage(response,"令牌：tokenId 失效。");
+			returnErrorMessage(response,"令牌：tokenId 失效。",105);
 			return false;
 		}
 		
@@ -152,7 +152,7 @@ public class SignInterceptor implements HandlerInterceptor{
         if(IsSign != null && sign.equals(IsSign)){
         	return true;
         }else{
-        	returnErrorMessage(response,"签名：sign 不符合，请安签名规则生成！");
+        	returnErrorMessage(response,"签名：sign 不符合，请安签名规则生成！",102);
         	return false;
         }
 	}
@@ -171,9 +171,9 @@ public class SignInterceptor implements HandlerInterceptor{
 		
 	}
 	
-	private void returnErrorMessage(HttpServletResponse response, String errorMessage) throws IOException  {
+	private void returnErrorMessage(HttpServletResponse response, String errorMessage,int code) throws IOException  {
         RongLianResult rst = new RongLianResult();
-        RongLianResult result = rst.build(101, errorMessage);
+        RongLianResult result = rst.build(code, errorMessage);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
 //Get the printwriter object from response to write the required json object to the output stream
