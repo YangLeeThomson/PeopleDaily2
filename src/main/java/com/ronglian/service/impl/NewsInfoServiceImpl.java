@@ -238,7 +238,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					resultMap.put("newsTitle", news.getNewsTitle());
 					resultMap.put("newsId", news.getNewsId());
 					resultMap.put("newsTags", news.getNewsTags());
-					resultMap.put("publishTime", news.getPublishTime());
+					
+					String publishTime =  RongLianUtils.changeDateTime(news.getPublishTime());
+					resultMap.put("publishTime", publishTime);
 					resultMap.put("newsSort", news.getNewsSort());
 					resultMap.put("showType", news.getShowType());
 					resultMap.put("fullColumnImgUrl", news.getShowType());
