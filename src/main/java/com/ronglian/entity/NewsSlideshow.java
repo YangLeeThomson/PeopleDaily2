@@ -2,6 +2,9 @@ package com.ronglian.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 
@@ -22,6 +25,7 @@ public class NewsSlideshow implements Serializable {
 	@Column(name="channel_unique_id")
 	private String channelUniqueId;
 
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	@Column(name="create_time")
 	private Date createTime;
 

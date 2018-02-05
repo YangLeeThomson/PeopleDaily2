@@ -13,7 +13,7 @@ public class RongLianConstant {
 	public static final long INTERVAL = 120*60;
 	
 	//redis缓存(令牌tokenId)失效时间（30分钟）
-	public static final int REDIS_KEY_EXPIRE = 1800;
+	public static final int REDIS_KEY_EXPIRE = 3000;
 	
 	//拦截器放行的uri(获取令牌tokenId的请求放行)
 	public static final String TOKEN_URI = "/oauth/token";

@@ -43,11 +43,11 @@ public class RongLianUtils {
 	                valueString = String.valueOf(value);
 	            }
 	            temp.append(valueString);
-	           //用Md5加密
-	            String str = DigestUtils.md5DigestAsHex(temp.toString().getBytes("utf-8"));
-	           //字符串转大写
-	            sign = str.toUpperCase();
 	        }
+	        //用Md5加密
+            String str = DigestUtils.md5DigestAsHex(temp.toString().getBytes("utf-8"));
+           //字符串转大写
+            sign = str.toUpperCase();
 	        return sign;
 	}
 	

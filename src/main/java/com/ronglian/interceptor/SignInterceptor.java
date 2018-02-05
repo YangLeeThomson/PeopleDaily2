@@ -136,8 +136,24 @@ public class SignInterceptor implements HandlerInterceptor{
 				if("sign".equals(key)||"data".equals(key))continue;
 				params.put(key, requestParams.get(key).toString());
 			}
-			if(jsonStr.indexOf("data")>0&&jsonStr.lastIndexOf("}}")>0)
-				params.put("data", jsonStr.substring(jsonStr.indexOf("data")+6, jsonStr.lastIndexOf("}}")+1));
+			System.out.println(jsonStr);
+			System.out.println(jsonStr.indexOf("data"));
+			System.out.println(jsonStr.lastIndexOf("}}"));
+			
+			//标准原生json在末尾，
+			int index = jsonStr.lastIndexOf("}\r\n}");
+			//index2表示在data在中间
+			int index2 = jsonStr.lastIndexOf("},");
+			//非原生json在末尾
+			int index3 = jsonStr.lastIndexOf("}}");
+			if(index2 > 0){
+				index = index2;
+			}else if(index3 > 0){
+				index = index3;
+			}
+			int start = jsonStr.indexOf("data:");
+			if(start > 0 && index > 0)
+				params.put("data", jsonStr.substring(start+6, index+1));
 		}
         
 		//锟节硷拷锟杰诧拷锟斤拷锟叫硷拷锟斤拷secretKey
