@@ -19,10 +19,16 @@ public class SlideShowBody implements Serializable{
 		private static final long serialVersionUID = 1L;
 		private String slideShowId;
 		private String channelUniqueId;
-//		private Date createTime;
+		private String channelName;
 		private String createTime;
 		private String imageUrl;
 		private String newsId;
+		public String getChannelName() {
+			return channelName;
+		}
+		public void setChannelName(String channelName) {
+			this.channelName = channelName;
+		}
 		private String title;
 		private String desc;
 		private String dataStatus;

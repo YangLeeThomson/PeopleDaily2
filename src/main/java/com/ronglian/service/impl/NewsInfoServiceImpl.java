@@ -166,7 +166,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					resultMap.put("hasVideo", news.getHasVideo());
 					resultMap.put("isLive", news.getIsLive());
 					resultMap.put("isLiveReplay", news.getIsLiveReplay());
-					
+					resultMap.put("channelName", news.getChannelName());
+					resultMap.put("channelUniqueId", news.getChannelUniqueId());
 					Integer topicId = news.getIsTopic();
 					resultMap.put("isTopic", topicId);
 					//锟斤拷锟絫opicId 锟斤拷锟斤拷锟斤拷0锟斤拷说锟斤拷锟斤拷专锟解，锟斤拷要锟斤拷一锟斤拷锟斤拷询
@@ -238,6 +239,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					resultMap.put("newsTitle", news.getNewsTitle());
 					resultMap.put("newsId", news.getNewsId());
 					resultMap.put("newsTags", news.getNewsTags());
+					resultMap.put("channelName", news.getChannelName());
+					resultMap.put("channelUniqueId", news.getChannelUniqueId());
 					
 					String publishTime =  RongLianUtils.changeDateTime(news.getPublishTime());
 					resultMap.put("publishTime", publishTime);
@@ -320,6 +323,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			count = this.newsInfoDao.countTopicNewsByNewsInfoId(topicId);
 			for(NewsInfo news:newsInfoList){
 				Map resultMap = new HashMap();
+				resultMap.put("topicId", topicId);
 				resultMap.put("newsTitle", news.getNewsTitle());
 				resultMap.put("newsId", news.getNewsId());
 				resultMap.put("newsTags", news.getNewsTags());
@@ -435,6 +439,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		}
 	}
 	@Override
+	/**
+	 * 刘瀚博   
+	 * imedia后台同步新闻内容
+	 */
 	public RongLianResult addNewsInfo(String newsStr) throws JsonParseException, JsonMappingException, IOException, NumberFormatException, ParseException{
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -448,11 +456,21 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				if(map.get("channelUniqueId")==null||map.get("channelName")==null){
 					return RongLianResult.build(500, "缺锟劫诧拷锟斤拷");
 				}
+				/*
+				 * @author liyang
+				 * @createTime 2018年2月5日  追加返回字段
+				 * 获取专题信息
+				 * */
 				String topicUniqueId = null;
 				Object obj = map.get("topicUniqueId");
 				if(obj != null){
 					topicUniqueId = obj.toString();
 				}
+				/*
+				 * @author liyang
+				 * @createTime 2018年2月5日   追加返回字段
+				 * 获取直播：liveUrl、liveReplayUrl、liveHostChatid、liveUsChatid、appointCoverImage
+				 */
 				NewsInfo newsInfo=new NewsInfo(map.get("newsId").toString(), (map.get("canComment")!=null)?map.get("canComment").toString():null, (map.get("channelUniqueId")!=null)?map.get("channelUniqueId").toString():null,
 						(map.get("channelName")!=null)?map.get("channelName").toString():null, null, (map.get("contentId")!=null)?(int)map.get("contentId"):null,
 						null, (map.get("createTime")!=null)?sdf.parse(map.get("createTime").toString()):null, (map.get("editExpire")!=null)?sdf.parse(map.get("editExpire").toString()):null,
@@ -467,6 +485,47 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 														(map.get("publishTime")!=null)?sdf.parse(map.get("publishTime").toString()):null, (map.get("topExpire")!=null)?sdf.parse(map.get("topExpire").toString()):null, null,null, null,
 																(map.get("dataStatus")!=null)?(int)map.get("dataStatus"):null, (map.get("showType")!=null)?(int)map.get("showType"):null,(map.get("fullColumnImgUrl")!=null)?map.get("fullColumnImgUrl").toString():null,
 																		(map.get("hasVideo")!=null)?(map.get("hasVideo").toString().equals("true")?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(map.get("isLive").toString().equals("true")?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(map.get("isLiveReplay").toString().equals("true")?(byte)1:(byte)0):null,topicUniqueId);
+				/*
+				 *  @author liyang
+				 * @createTime 2018年2月5日
+				 * 追加 直播的字段：String liveUrl
+     			* 				String liveReplayUrl
+     			* 				String liveHostChatid
+    			* 				String liveUsChatid
+				* 				String appointCoverImage 
+				*/
+				String liveUrl = null;
+				String liveReplayUrl = null;
+				String liveHostChatid = null;
+				String liveUsChatid = null;
+				String appointCoverImage = null;
+				
+				obj = map.get("liveUrl");
+				if(obj != null){
+					liveUrl = obj.toString();
+				}
+				obj = map.get("liveReplayUrl");
+				if(obj != null){
+					liveReplayUrl = obj.toString();
+				}
+				obj = map.get("liveHostChatid");
+				if(obj != null){
+					liveHostChatid = obj.toString();
+				}
+				obj = map.get("liveUsChatid");
+				if(obj != null){
+					liveUsChatid = obj.toString();
+				}
+				obj = map.get("appointCoverImage");
+				if(obj != null){
+					appointCoverImage = obj.toString();
+				}
+				newsInfo.setLiveUrl(liveUrl);
+				newsInfo.setLiveReplayUrl(liveReplayUrl);
+				newsInfo.setLiveHostChatid(liveHostChatid);
+				newsInfo.setLiveUsChatid(liveUsChatid);
+				newsInfo.setAppointCoverImage(appointCoverImage);
+				//录入APP后台数据库
 				newsPictureDao.deleteByNewsID(newsInfo.getNewsId());
 				int i=0;
 				boolean less=false;

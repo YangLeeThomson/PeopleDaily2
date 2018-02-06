@@ -23,4 +23,7 @@ public interface ChannelDao extends CrudRepository<Channel, Integer>{
 
 	 @Query("select u from Channel u ")
 	    List<Channel> getList();
+	 
+	 @Query(value="select c.channel_name from news_channel c where c.unique_id = ?1",nativeQuery= true)
+	 String selectChannelByUniqueId(String channelUniqueId);
 }

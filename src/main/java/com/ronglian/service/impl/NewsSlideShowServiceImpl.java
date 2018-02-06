@@ -11,7 +11,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ronglian.dao.ChannelDao;
 import com.ronglian.dao.SlideShowDao;
+import com.ronglian.entity.Channel;
 import com.ronglian.entity.NewsSlideshow;
 import com.ronglian.service.NewsSlideShowService;
 import com.ronglian.utils.RongLianResult;
@@ -26,6 +28,10 @@ import com.ronglian.utils.model.request.SlideShowBody;
 public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 	@Autowired
 	private SlideShowDao slideShowDao;
+	
+	@Autowired 
+	private ChannelDao channelDao;
+	
 	@Override
 	public RongLianResult addSlideShow(NewsSlideshow slideShow) {
 		if(slideShow.getSlideShowId()==null||slideShow.getImageUrl()==null||slideShow.getChannelUniqueId()==null
@@ -50,9 +56,12 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 		List<SlideShowBody> resultList = new ArrayList<SlideShowBody>();
 		if(StringUtils.isNotBlank(channelUniqueId) ){
 			list = this.slideShowDao.selectSlideShowByChannel(channelUniqueId);
+			String channelName = this.channelDao.selectChannelByUniqueId(channelUniqueId);
+			
 			for(NewsSlideshow slideShow:list){
 				SlideShowBody slideBody = new SlideShowBody();
 				slideBody.setChannelUniqueId(slideShow.getChannelUniqueId());
+				slideBody.setChannelName(channelName);
 				String createTime = RongLianUtils.changeDateTime(slideShow.getCreateTime());
 				slideBody.setCreateTime(createTime);
 				slideBody.setDataStatus(slideShow.getDataStatus());

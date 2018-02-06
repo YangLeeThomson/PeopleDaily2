@@ -599,4 +599,58 @@ public class NewsInfo implements Serializable {
 		this.topicUniqueId = topicUniqueId;
 	}
 
+	@Column(name="appoint_cover_image")
+	private String appointCoverImage;
+	
+	@Column(name="live_url")
+	private String liveUrl;
+	
+	@Column(name="live_replay_url")
+    private String liveReplayUrl;
+	
+	@Column(name="live_host_chatid")
+    private String liveHostChatid;
+	
+	@Column(name="live_us_chatid")
+    private String liveUsChatid;
+
+	public String getAppointCoverImage() {
+		return appointCoverImage;
+	}
+
+	public void setAppointCoverImage(String appointCoverImage) {
+		this.appointCoverImage = appointCoverImage;
+	}
+
+	public String getLiveUrl() {
+		return liveUrl;
+	}
+
+	public void setLiveUrl(String liveUrl) {
+		this.liveUrl = liveUrl;
+	}
+
+	public String getLiveReplayUrl() {
+		return liveReplayUrl;
+	}
+
+	public void setLiveReplayUrl(String liveReplayUrl) {
+		this.liveReplayUrl = liveReplayUrl;
+	}
+
+	public String getLiveHostChatid() {
+		return liveHostChatid;
+	}
+
+	public void setLiveHostChatid(String liveHostChatid) {
+		this.liveHostChatid = liveHostChatid;
+	}
+
+	public String getLiveUsChatid() {
+		return liveUsChatid;
+	}
+
+	public void setLiveUsChatid(String liveUsChatid) {
+		this.liveUsChatid = liveUsChatid;
+	}
 }
