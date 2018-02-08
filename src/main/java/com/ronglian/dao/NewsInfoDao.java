@@ -20,19 +20,19 @@ import com.ronglian.entity.NewsInfo;
  */
 public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 
-	@Query(value="select * from news_info news where news.channel_unique_id = ?1 limit ?2,?3",nativeQuery= true)
+	@Query(value="select * from news_info news where news.data_status = 2 and news.channel_unique_id = ?1 order by publish_time desc limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectNewsInfoByChannel(String channelUniqueId,int pageNo,int pageSize);
 
 	@Query(value="select count(*) from news_info news where news.channel_unique_id = ?1 ",nativeQuery= true)
 	int countNewsInfoByChannel(String channelUniqueId);
 	
-	@Query(value="select * from news_info news where news.channel_unique_id = :channelUniqueId and news.is_to_top = 1",nativeQuery= true)
+	@Query(value="select * from news_info news where news.channel_unique_id = :channelUniqueId and news.is_to_top = 1 and news.data_status = 2 order by news_sort desc",nativeQuery= true)
 	List<NewsInfo> selectTopnewsByChannel(@Param("channelUniqueId") String channelUniqueId);
 	
-	@Query(value="select * from news_info news where news.channel_unique_id = :channelUniqueId and is_edit_recom = 1",nativeQuery= true)
+	@Query(value="select * from news_info news where news.channel_unique_id = :channelUniqueId and news.is_edit_recom = 1 and news.is_topnews = 1 and news.data_status = 2 and now() < news.edit_expire  order by topnews_sort desc",nativeQuery= true)
 	List<NewsInfo> selectEditorNewsByChannel(@Param("channelUniqueId") String channelUniqueId);
 
-	@Query(value="select * from news_info news where news.topic_id = ?1 limit ?2,?3",nativeQuery= true)
+	@Query(value="select * from news_info news where and news.data_status = 2 and news.topic_id = ?1 limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectTopicNewsByNewsInfoId( String topicId, int pageNo, int pageSize );
 	
 	@Query(value="select count(*) from news_info news where news.topic_id = ?1 ",nativeQuery= true)
@@ -60,10 +60,10 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 //	@Query("from NewsInfo where contentId in (:list)")
 //	List<NewsInfo> selectNewsInfoNearByIncNo(@Param("list")List<Integer> list);
 
-	@Query(value="select * from news_info where channel_unique_id = 144 and content_id < ?1 order by content_id DESC limit 2",nativeQuery= true)
+	@Query(value="select * from news_info where channel_unique_id = 144 and content_id < ?1 and data_status = 2 order by content_id DESC limit 2",nativeQuery= true)
 	List<NewsInfo> selectNewsInfoNearUpByIncNo(int incNo);
 	
-	@Query(value="select * from news_info where channel_unique_id = 144 and content_id > ?1 order by content_id DESC limit 2",nativeQuery= true)
+	@Query(value="select * from news_info where channel_unique_id = 144 and content_id > ?1 and data_status = 2 order by content_id DESC limit 2",nativeQuery= true)
 	List<NewsInfo> selectNewsInfoNearDownByIncNo(int incNo);
 	
 	@Transactional

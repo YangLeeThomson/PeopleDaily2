@@ -588,6 +588,7 @@ public class NewsInfo implements Serializable {
 	public void setShareNum(Integer shareNum) {
 		this.shareNum = shareNum;
 	}
+//20180113增加字段
 	@Column(name="topic_id")
 	private String topicUniqueId;
 
@@ -599,6 +600,8 @@ public class NewsInfo implements Serializable {
 		this.topicUniqueId = topicUniqueId;
 	}
 
+	
+	//20180207增加字段	
 	@Column(name="appoint_cover_image")
 	private String appointCoverImage;
 	

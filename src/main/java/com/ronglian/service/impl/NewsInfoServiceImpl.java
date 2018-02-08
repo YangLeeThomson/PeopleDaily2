@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,13 +88,24 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					resultMap.put("hasVideo", news.getHasVideo());
 					resultMap.put("isLive", news.getIsLive());
 					resultMap.put("isLiveReplay", news.getIsLiveReplay());
+					//追加直播5个字段
+					resultMap.put("appointCoverImage ",news.getAppointCoverImage());
+					resultMap.put("liveUrl",news.getLiveUrl());
+					resultMap.put("liveReplayUrl",news.getLiveReplayUrl());
+					resultMap.put("liveHostChatid",news.getLiveHostChatid());
+					resultMap.put("liveUsChatid",news.getLiveUsChatid());
 					
-					Integer topicId = news.getIsTopic();
-					resultMap.put("isTopic", topicId);
-					//锟斤拷锟絫opicId 锟斤拷锟斤拷锟斤拷0锟斤拷说锟斤拷锟斤拷专锟解，锟斤拷要锟斤拷一锟斤拷锟斤拷询
-					if(topicId > 0){
-						//锟斤拷询专锟斤拷
-						NewsTopic topic = this.topicDao.findOne(topicId);
+					Integer isTopic = news.getIsTopic();
+					resultMap.put("isTopic", news.getIsTopic());
+					String topicUniqueId = null;
+					if(isTopic > 0){
+						topicUniqueId = news.getTopicUniqueId();
+						resultMap.put("topicUniqueId", topicUniqueId);
+					}
+					//如果是isTopic不为null,说明是专题
+					if(StringUtils.isNotBlank(topicUniqueId)){
+						//根据专题的uniqueId查询专题
+						NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicUniqueId);
 						if(topic != null){
 							Map topicDetail = new HashMap();
 							topicDetail.put("topicDesc", topic.getTopicDesc());
@@ -103,11 +115,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("topicDetail",null);
 						}
-					}else{//isTopic() 锟斤拷锟斤拷 0
+					}else{
 						resultMap.put("topicDetail",null);
 					}
 					
-					//锟介看图片锟斤拷目锟角凤拷锟斤拷0锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷0锟斤拷锟斤拷要锟斤拷一锟斤拷锟介看
+					//查看图片
 					Integer imageCount = news.getImageList();
 					if(imageCount == null){
 						imageCount = 0;
@@ -168,12 +180,25 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					resultMap.put("isLiveReplay", news.getIsLiveReplay());
 					resultMap.put("channelName", news.getChannelName());
 					resultMap.put("channelUniqueId", news.getChannelUniqueId());
-					Integer topicId = news.getIsTopic();
-					resultMap.put("isTopic", topicId);
-					//锟斤拷锟絫opicId 锟斤拷锟斤拷锟斤拷0锟斤拷说锟斤拷锟斤拷专锟解，锟斤拷要锟斤拷一锟斤拷锟斤拷询
-					if(topicId > 0){
-						//锟斤拷询专锟斤拷
-						NewsTopic topic = this.topicDao.findOne(topicId);
+					
+					//追加直播5个字段
+					resultMap.put("appointCoverImage ",news.getAppointCoverImage());
+					resultMap.put("liveUrl",news.getLiveUrl());
+					resultMap.put("liveReplayUrl",news.getLiveReplayUrl());
+					resultMap.put("liveHostChatid",news.getLiveHostChatid());
+					resultMap.put("liveUsChatid",news.getLiveUsChatid());
+					
+					Integer isTopic = news.getIsTopic();
+					resultMap.put("isTopic", news.getIsTopic());
+					String topicUniqueId = null;
+					if(isTopic > 0){
+						topicUniqueId = news.getTopicUniqueId();
+						resultMap.put("topicUniqueId", topicUniqueId);
+					}
+					//如果是isTopic不为null,说明是专题
+					if(StringUtils.isNotBlank(topicUniqueId)){
+						//根据专题的uniqueId查询专题
+						NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicUniqueId);
 						if(topic != null){
 							Map topicDetail = new HashMap();
 							topicDetail.put("topicDesc", topic.getTopicDesc());
@@ -183,10 +208,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("topicDetail",null);
 						}
-					}else{//isTopic() 锟斤拷锟斤拷 0
+					}else{
 						resultMap.put("topicDetail",null);
 					}
-					
 					//锟介看图片锟斤拷目锟角凤拷锟斤拷0锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷0锟斤拷锟斤拷要锟斤拷一锟斤拷锟介看
 					Integer imageCount = news.getImageList();
 					if(imageCount == null){
@@ -251,12 +275,24 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					resultMap.put("isLive", news.getIsLive());
 					resultMap.put("isLiveReplay", news.getIsLiveReplay());
 					
-					Integer topicId = news.getIsTopic();
-					resultMap.put("isTopic", topicId);
-					//锟斤拷锟絫opicId 锟斤拷锟斤拷锟斤拷0锟斤拷说锟斤拷锟斤拷专锟解，锟斤拷要锟斤拷一锟斤拷锟斤拷询
-					if(topicId > 0){
-						//锟斤拷询专锟斤拷
-						NewsTopic topic = this.topicDao.findOne(topicId);
+					//追加直播5个字段
+					resultMap.put("appointCoverImage ",news.getAppointCoverImage());
+					resultMap.put("liveUrl",news.getLiveUrl());
+					resultMap.put("liveReplayUrl",news.getLiveReplayUrl());
+					resultMap.put("liveHostChatid",news.getLiveHostChatid());
+					resultMap.put("liveUsChatid",news.getLiveUsChatid());
+					
+					Integer isTopic = news.getIsTopic();
+					resultMap.put("isTopic", news.getIsTopic());
+					String topicUniqueId = null;
+					if(isTopic > 0){
+						topicUniqueId = news.getTopicUniqueId();
+						resultMap.put("topicUniqueId", topicUniqueId);
+					}
+					//如果是isTopic不为null,说明是专题
+					if(StringUtils.isNotBlank(topicUniqueId)){
+						//根据专题的uniqueId查询专题
+						NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicUniqueId);
 						if(topic != null){
 							Map topicDetail = new HashMap();
 							topicDetail.put("topicDesc", topic.getTopicDesc());
@@ -266,10 +302,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("topicDetail",null);
 						}
-					}else{//isTopic() 锟斤拷锟斤拷 0
+					}else{
 						resultMap.put("topicDetail",null);
 					}
-					
 					//锟介看图片锟斤拷目锟角凤拷锟斤拷0锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷0锟斤拷锟斤拷要锟斤拷一锟斤拷锟介看
 					Integer imageCount = news.getImageList();
 					if(imageCount == null){
@@ -334,12 +369,18 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				resultMap.put("hasVideo", news.getHasVideo());
 				resultMap.put("isLive", news.getIsLive());
 				resultMap.put("isLiveReplay", news.getIsLiveReplay());
+				
+				//追加直播5个字段
+				resultMap.put("appointCoverImage ",news.getAppointCoverImage());
+				resultMap.put("liveUrl",news.getLiveUrl());
+				resultMap.put("liveReplayUrl",news.getLiveReplayUrl());
+				resultMap.put("liveHostChatid",news.getLiveHostChatid());
+				resultMap.put("liveUsChatid",news.getLiveUsChatid());
+				
 				resultMap.put("isTopic", news.getIsTopic());
 				resultMap.put("topicUniqueId", news.getTopicUniqueId());
 				
-				//锟斤拷锟絠sTopic=1锟斤拷说锟斤拷锟斤拷专锟解，锟斤拷要锟斤拷一锟斤拷锟斤拷询
 				if(news.getIsTopic() == 1){
-					//锟斤拷询专锟斤拷
 					NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicId);
 					if(topic != null){
 						Map topicDetail = new HashMap();
@@ -350,11 +391,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					}else{
 						resultMap.put("topicDetail",null);
 					}
-				}else{//isTopic() 锟斤拷锟斤拷 0
+				}else{
 					resultMap.put("topicDetail",null);
 				}
-				
-				//锟介看图片锟斤拷目锟角凤拷锟斤拷0锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷0锟斤拷锟斤拷要锟斤拷一锟斤拷锟介看
+
 				Integer imageCount = news.getImageList();
 				if(imageCount == null){
 					imageCount = 0;

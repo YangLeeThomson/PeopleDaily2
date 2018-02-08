@@ -151,7 +151,7 @@ public class SignInterceptor implements HandlerInterceptor{
 			}else if(index3 > 0){
 				index = index3;
 			}
-			int start = jsonStr.indexOf("data:");
+			int start = jsonStr.indexOf("data");
 			if(start > 0 && index > 0)
 				params.put("data", jsonStr.substring(start+6, index+1));
 		}
@@ -168,7 +168,7 @@ public class SignInterceptor implements HandlerInterceptor{
         if(IsSign != null && sign.equals(IsSign)){
         	return true;
         }else{
-        	returnErrorMessage(response,"签名：sign 不符合，请安签名规则生成！",102);
+        	returnErrorMessage(response,"签名：sign 不符合，请按签名规则生成！",102);
         	return false;
         }
 	}

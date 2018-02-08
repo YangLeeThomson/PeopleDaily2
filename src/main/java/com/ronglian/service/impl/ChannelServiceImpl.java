@@ -48,7 +48,7 @@ public class ChannelServiceImpl implements ChannelService {
 	@Override
 	public RongLianResult getChannelList() {
 		// TODO Auto-generated method stub
-		List<Channel> list = this.channelDao.getList();
+		List<Channel> list = this.channelDao.getList(0);
 		if(list != null && list.size() > 0){
 			List<Map> resultList = new ArrayList<Map>();
 			for(Channel channel:list){
@@ -57,6 +57,7 @@ public class ChannelServiceImpl implements ChannelService {
 				resultMap.put("sort", channel.getChannelSort());
 				resultMap.put("ChannelName", channel.getChannelName());
 				resultMap.put("uniqueID", channel.getUniqueID());
+				resultMap.put("dataStatus", channel.getDataStatus());
 				resultList.add(resultMap);
 			}
 			return RongLianResult.ok(resultList);
