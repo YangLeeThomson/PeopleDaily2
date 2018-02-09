@@ -136,9 +136,9 @@ public class SignInterceptor implements HandlerInterceptor{
 				if("sign".equals(key)||"data".equals(key))continue;
 				params.put(key, requestParams.get(key).toString());
 			}
-			System.out.println(jsonStr);
-			System.out.println(jsonStr.indexOf("data"));
-			System.out.println(jsonStr.lastIndexOf("}}"));
+//			System.out.println(jsonStr);
+//			System.out.println(jsonStr.indexOf("data"));
+//			System.out.println(jsonStr.lastIndexOf("}}"));
 			
 			//标准原生json在末尾，
 			int index = jsonStr.lastIndexOf("}\r\n}");
@@ -146,10 +146,10 @@ public class SignInterceptor implements HandlerInterceptor{
 			int index2 = jsonStr.lastIndexOf("},");
 			//非原生json在末尾
 			int index3 = jsonStr.lastIndexOf("}}");
-			if(index2 > 0){
-				index = index2;
-			}else if(index3 > 0){
+			if(index3 > 0){
 				index = index3;
+			}else if(index2 > 0){
+				index = index2;
 			}
 			int start = jsonStr.indexOf("data");
 			if(start > 0 && index > 0)

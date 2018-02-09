@@ -35,4 +35,6 @@ public interface NewsInfoService {
 	public RongLianResult addNewsInfo(String newsStr) throws JsonParseException, JsonMappingException, IOException, NumberFormatException, ParseException;
 
 	public RongLianResult getPhotoNewsByNewsId(String newsID,Integer incNo);
+	
+	public RongLianResult getTopnewsAhead();
 }

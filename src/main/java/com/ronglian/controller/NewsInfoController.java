@@ -85,6 +85,14 @@ public class NewsInfoController {
 		return this.newsInfoService.findTopnewsList(channelUniqueId);
 	}
 	/**
+	 * topNews栏目 获取置顶新闻列表接口
+	 * */
+	@RequestMapping(value="/1.0/topnewsahead",method=RequestMethod.GET)
+	public RongLianResult getTopnewsAhead(){
+		return this.newsInfoService.getTopnewsAhead();
+	}
+	
+	/**
 	 *TopNews栏目  编辑推荐 列表输出接口
 	 * */
 	@RequestMapping(value="/1.0/editorrecommen",method=RequestMethod.GET)

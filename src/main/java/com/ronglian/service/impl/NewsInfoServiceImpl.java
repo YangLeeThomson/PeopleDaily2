@@ -335,7 +335,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				}
 				return RongLianResult.ok(resultList);
 			}else{
-				return RongLianResult.build(500, "锟斤拷询锟斤拷锟轿猲ull");
+				return RongLianResult.build(101, "查询结果不存在!");
 			}
 		}else{
 			return RongLianResult.build(500, "锟斤拷锟斤拷锟斤拷锟絚hannelUniqueId锟斤拷锟斤拷为锟斤拷");
@@ -348,21 +348,22 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public PageCountResult findTopicNewsList(String topicId,int pageNo,int pageSize) {
 		if(topicId == null ){
-			return PageCountResult.error(500, "topicId锟斤拷锟斤拷为锟斤拷", pageNo, pageSize);
+			return PageCountResult.error(500, "topicId must not be null ", pageNo, pageSize);
 		}
 		pageNo = (pageNo-1)*pageSize;
 		int count = 0;
 		List<NewsInfo> newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(topicId,pageNo,pageSize);
 		List<Map> resultList = new ArrayList<Map>();
-		if(newsInfoList != null && newsInfoList.size() > 0){
-			count = this.newsInfoDao.countTopicNewsByNewsInfoId(topicId);
+		count = newsInfoList.size();
+		if(newsInfoList != null && count > 0){
 			for(NewsInfo news:newsInfoList){
 				Map resultMap = new HashMap();
 				resultMap.put("topicId", topicId);
 				resultMap.put("newsTitle", news.getNewsTitle());
 				resultMap.put("newsId", news.getNewsId());
 				resultMap.put("newsTags", news.getNewsTags());
-				resultMap.put("publishTime", news.getPublishTime());
+				String publishTime = RongLianUtils.changeDateTime(news.getPublishTime());
+				resultMap.put("publishTime", publishTime);
 				resultMap.put("newsSort", news.getNewsSort());
 				resultMap.put("showType", news.getShowType());
 				resultMap.put("fullColumnImgUrl", news.getShowType());
@@ -380,21 +381,6 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				resultMap.put("isTopic", news.getIsTopic());
 				resultMap.put("topicUniqueId", news.getTopicUniqueId());
 				
-				if(news.getIsTopic() == 1){
-					NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicId);
-					if(topic != null){
-						Map topicDetail = new HashMap();
-						topicDetail.put("topicDesc", topic.getTopicDesc());
-						topicDetail.put("bannerPhoto", topic.getBannerImage());
-						topicDetail.put("coverPhoto", topic.getListImage());
-						resultMap.put("topicDetail",topicDetail);
-					}else{
-						resultMap.put("topicDetail",null);
-					}
-				}else{
-					resultMap.put("topicDetail",null);
-				}
-
 				Integer imageCount = news.getImageList();
 				if(imageCount == null){
 					imageCount = 0;
@@ -424,7 +410,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			}
 			return PageCountResult.build(0, "ok",count,pageNo, pageSize, resultList);
 		}else{
-			return PageCountResult.error(500, "专锟斤拷锟接︼拷锟斤拷锟斤拷锟斤拷锟斤拷莶锟斤拷锟斤拷锟�", pageNo, pageSize);
+			return PageCountResult.error(101, "查询结果为null", pageNo, pageSize);
 		}
 	}
 	/**
@@ -540,6 +526,21 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				String liveUsChatid = null;
 				String appointCoverImage = null;
 				
+				Byte isTopnews = null;
+				Byte isEditRecom = null;
+				Byte isTopnewsTotop = null;
+				obj = map.get("isTopnews");
+				if(obj != null){
+					isTopnews = Byte.parseByte(obj.toString());
+				}
+				obj = map.get("isEditRecom");
+				if(obj != null){
+					isEditRecom = Byte.parseByte(obj.toString());
+				}
+				obj = map.get("isTopnewsTotop");
+				if(obj != null){
+					isTopnewsTotop = Byte.parseByte(obj.toString());
+				}
 				obj = map.get("liveUrl");
 				if(obj != null){
 					liveUrl = obj.toString();
@@ -565,6 +566,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				newsInfo.setLiveHostChatid(liveHostChatid);
 				newsInfo.setLiveUsChatid(liveUsChatid);
 				newsInfo.setAppointCoverImage(appointCoverImage);
+				newsInfo.setIsEditRecom(isEditRecom);
+				newsInfo.setIsTopnews(isTopnews);
+				newsInfo.setIsTopnewsTotop(isTopnewsTotop);
 				//录入APP后台数据库
 				newsPictureDao.deleteByNewsID(newsInfo.getNewsId());
 				int i=0;
@@ -678,8 +682,88 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				return RongLianResult.ok(resultList);
 			}
 		}else{
-			return RongLianResult.build(500, "锟斤拷前图锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷图锟斤拷");
+			return RongLianResult.build(101, "查询的结果为空");
 		}
+	}
+	@Override
+	public RongLianResult getTopnewsAhead() {
+		// TODO Auto-generated method stub
+		List<NewsInfo> list = this.newsInfoDao.selectTopnewsAhead();
+		if(list == null || !(list.size() > 0)){
+			return RongLianResult.build(0, "查询数据为空！", null);
+		}
+		List resultList = new ArrayList();
+		for(NewsInfo news:list){
+			Map resultMap = new HashMap();
+			resultMap.put("newsTitle", news.getNewsTitle());
+			resultMap.put("newsId", news.getNewsId());
+			resultMap.put("newsTags", news.getNewsTags());
+			resultMap.put("publishTime", RongLianUtils.changeDateTime(news.getPublishTime()));
+			resultMap.put("newsSort", news.getNewsSort());
+			resultMap.put("showType", news.getShowType());
+			resultMap.put("fullColumnImgUrl", news.getShowType());
+			resultMap.put("hasVideo", news.getHasVideo());
+			resultMap.put("isLive", news.getIsLive());
+			resultMap.put("isLiveReplay", news.getIsLiveReplay());
+			resultMap.put("channelName", news.getChannelName());
+			resultMap.put("channelUniqueId", news.getChannelUniqueId());
+			resultMap.put("appointCoverImage ",news.getAppointCoverImage());
+			resultMap.put("liveUrl",news.getLiveUrl());
+			resultMap.put("liveReplayUrl",news.getLiveReplayUrl());
+			resultMap.put("liveHostChatid",news.getLiveHostChatid());
+			resultMap.put("liveUsChatid",news.getLiveUsChatid());
+			Integer isTopic = news.getIsTopic();
+			resultMap.put("isTopic", news.getIsTopic());
+			String topicUniqueId = null;
+			if(isTopic > 0){
+				topicUniqueId = news.getTopicUniqueId();
+				resultMap.put("topicUniqueId", topicUniqueId);
+			}
+			//如果是isTopic不为null,说明是专题
+			if(StringUtils.isNotBlank(topicUniqueId)){
+				//根据专题的uniqueId查询专题
+				NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicUniqueId);
+				if(topic != null){
+					Map topicDetail = new HashMap();
+					topicDetail.put("topicDesc", topic.getTopicDesc());
+					topicDetail.put("bannerPhoto", topic.getBannerImage());
+					topicDetail.put("coverPhoto", topic.getListImage());
+					resultMap.put("topicDetail",topicDetail);
+				}else{
+					resultMap.put("topicDetail",null);
+				}
+			}else{
+				resultMap.put("topicDetail",null);
+			}
+			
+			Integer imageCount = news.getImageList();
+			if(imageCount == null){
+				imageCount = 0;
+			}
+			resultMap.put("imageCount", imageCount);
+			
+			if(imageCount > 0){
+				List<NewsPicture> pictures = this.newsPictureDao.selectNewsPictureByNewsId(news.getNewsId());
+				if(pictures != null && pictures.size() > 0){
+					List<Map> photoList = new ArrayList<Map>();
+					for(NewsPicture picture:pictures){
+						Map photo = new HashMap();
+						photo.put("pictureId", picture.getPictureId());
+						photo.put("picPath", picture.getImagePath());
+						photo.put("picTitle", picture.getPictureTitle());
+						photo.put("picDesc", picture.getPictureDesc());
+						photoList.add(photo);
+					}
+					resultMap.put("photoList",photoList);
+				}else{
+					resultMap.put("photoList",null);
+				}
+			}else{
+				resultMap.put("photoList",null);
+			}
+			resultList.add(resultMap);
+		}
+		return RongLianResult.ok(resultList);
 	}
 	
 }
