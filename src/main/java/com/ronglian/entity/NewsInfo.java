@@ -149,7 +149,7 @@ public class NewsInfo implements Serializable {
 	
 	@ManyToMany
 	@JoinTable(
-		name="topic_news"
+		name="topic_and_news"
 		, joinColumns={
 			@JoinColumn(name="news_id")
 			}
@@ -569,6 +569,59 @@ public class NewsInfo implements Serializable {
 		this.topnewsSort = topnewsSort;
 		this.topnewsTopExpire = topnewsTopExpire;
 		this.newsTopics = newsTopics;
+		this.dataStatus = dataStatus;
+		this.showType = showType;
+		this.fullColumnImgUrl = fullColumnImgUrl;
+		this.hasVideo = hasVideo;
+		this.isLive = isLive;
+		this.isLiveReplay = isLiveReplay;
+		this.topicUniqueId = topicUniqueId;
+	}
+	public NewsInfo(String newsId, String canComment, String channelUniqueId,
+			String channelName, Integer commentNum, Integer contentId,
+			Integer contentType, Date createTime, Date editExpire,
+			Integer imageList, Byte isEditRecom, Byte isToTop, Integer isTopic,
+			Byte isTopnews, Byte isTopnewsTotop, String keywords,
+			Date modifyTime, String newsAuthors, String newsContent,
+			String newsOrganization, Integer newsOriginal, Integer newsSort,
+			String newsSource, String newsSourceUrl, Integer newsStatus,
+			String newsSummary, String newsTags, String newsTitle,
+			Date publishTime, Date topExpire, Integer topnewsSort,
+			Date topnewsTopExpire, 
+			Integer dataStatus, Integer showType, String fullColumnImgUrl,
+			Byte hasVideo, Byte isLive, Byte isLiveReplay,String topicUniqueId) {
+		super();
+		this.newsId = newsId;
+		this.canComment = canComment;
+		this.channelUniqueId = channelUniqueId;
+		this.channelName = channelName;
+		this.commentNum = commentNum;
+		this.contentId = contentId;
+		this.contentType = contentType;
+		this.createTime = createTime;
+		this.editExpire = editExpire;
+		this.imageList = imageList;
+		this.isEditRecom = isEditRecom;
+		this.isToTop = isToTop;
+		this.isTopic = isTopic;
+		this.isTopnews = isTopnews;
+		this.isTopnewsTotop = isTopnewsTotop;
+		this.keywords = keywords;
+		this.modifyTime = modifyTime;
+		this.newsAuthors = newsAuthors;
+		this.newsContent = newsContent;
+		this.newsOrganization = newsOrganization;
+		this.newsOriginal = newsOriginal;
+		this.newsSort = newsSort;
+		this.newsSource = newsSource;
+		this.newsSourceUrl = newsSourceUrl;
+		this.newsSummary = newsSummary;
+		this.newsTags = newsTags;
+		this.newsTitle = newsTitle;
+		this.publishTime = publishTime;
+		this.topExpire = topExpire;
+		this.topnewsSort = topnewsSort;
+		this.topnewsTopExpire = topnewsTopExpire;
 		this.dataStatus = dataStatus;
 		this.showType = showType;
 		this.fullColumnImgUrl = fullColumnImgUrl;

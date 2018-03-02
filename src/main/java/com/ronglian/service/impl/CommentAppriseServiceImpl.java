@@ -43,7 +43,7 @@ public class CommentAppriseServiceImpl implements CommentAppriseService {
 			//校验commentId合法性
 			NewsComment comment = commentDao.findOne(obj.getCommentId());
 			if(comment == null){
-				return RongLianResult.build(500, "commentId是虚构的数据");
+				return RongLianResult.build(200, "commentId is a fake data ");
 			}
 			//检验是否已经点赞？如果不可以连续点赞，将注释放开！！！
 			/*
@@ -55,13 +55,13 @@ public class CommentAppriseServiceImpl implements CommentAppriseService {
 			obj.setCreateTime(new Date());
 			NewsCommentApprise result = commentAppriseDao.save(obj);
 			if(result == null){
-				return RongLianResult.build(500, "save点赞失败");
+				return RongLianResult.build(200, "save Apprise failed");
 			}
 			//点赞数统计到评论表中
 			this.commentDao.updateNewsCommentById(obj.getCommentId());
 			return RongLianResult.ok();
 		}else{
-			return RongLianResult.build(500, "请求参数有问题");
+			return RongLianResult.build(200, "request param has problem");
 		}
 	}
 	

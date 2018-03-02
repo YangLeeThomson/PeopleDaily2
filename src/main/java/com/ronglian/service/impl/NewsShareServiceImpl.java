@@ -62,12 +62,12 @@ public class NewsShareServiceImpl implements NewsShareService {
 						resultMap.put("count", newsInfo.getShareNum());
 						return RongLianResult.ok(resultMap);
 					}
-					return RongLianResult.build(500,"分享成功，但同步newsInfo失败！");
+					return RongLianResult.build(200,"分享成功，但同步newsInfo失败！");
 				}else{
-					return RongLianResult.build(500, "该文章已经分享！"); 
+					return RongLianResult.build(200, "该文章已经分享！"); 
 				}
 			}else{
-				return RongLianResult.build(500,"缺少必须请求参数");
+				return RongLianResult.build(200,"缺少必须请求参数");
 			}
 		}else{
 			return RongLianResult.build(500, "请求参数不能为空！");

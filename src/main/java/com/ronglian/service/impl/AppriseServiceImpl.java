@@ -65,16 +65,16 @@ public class AppriseServiceImpl implements AppriseService {
 						this.newsInfoDao.updateAppriseDownNum(newsId);
 						return RongLianResult.ok(result);
 					}else{
-						return RongLianResult.build(500, "参数good有问题，good必须是1或-1");
+						return RongLianResult.build(200, "param good has problem，the value of good should be 1 or -1");
 					}
 				}else{
-					return RongLianResult.build(500, "你已经点过赞了");
+					return RongLianResult.build(200, "you have apprised");
 				}
 			}else{
-				return RongLianResult.build(500, "请求参数不正确");
+				return RongLianResult.build(200, "request param is incorrect");
 			}
 		}else{
-			return RongLianResult.build(500, "入参不可以为null");
+			return RongLianResult.build(200, "request param can not be null");
 		}
 	}
 
@@ -106,16 +106,16 @@ public class AppriseServiceImpl implements AppriseService {
 						this.newsInfoDao.deleteAppriseDownNum(newsId);
 						return RongLianResult.ok();
 					}else{
-						return RongLianResult.build(500, "参数good有问题，good必须是1或-1");
+						return RongLianResult.build(200, "参数good有问题，good必须是1或-1");
 					}
 				}else{
-					return RongLianResult.build(500, "你要删除的点赞数据已经删除或不存在");
+					return RongLianResult.build(200, "你要删除的点赞数据已经删除或不存在");
 				}
 			}else{
-				return RongLianResult.build(500, "请求参数不正确");
+				return RongLianResult.build(200, "请求参数不正确");
 			}
 		}else{
-			return RongLianResult.build(500, "请求参数不可以为空");
+			return RongLianResult.build(200, "请求参数不可以为空");
 		}
 	}
 
@@ -130,7 +130,7 @@ public class AppriseServiceImpl implements AppriseService {
  			list= this.appriseDao.selectAppriseList(deviceId,userId);
 			return RongLianResult.ok(list);
 		}else{
-			return RongLianResult.build(500, "deviceId不能为null或空串！");
+			return RongLianResult.build(200, "deviceId can not be null");
 		}
 	}
 

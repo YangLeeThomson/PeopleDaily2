@@ -508,7 +508,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 								(map.get("newsOrganization")!=null)?map.get("newsOrganization").toString():null, (map.get("newsOriginal")!=null)?(int)map.get("newsOriginal"):null, (map.get("newsSort")!=null)?(int)map.get("newsSort"):null,
 										(map.get("newsSource")!=null)?map.get("newsSource").toString():null, (map.get("newsSourceUrl")!=null)?map.get("newsSourceUrl").toString():null, null,
 												(map.get("newsSummary")!=null)?map.get("newsSummary").toString():null, (map.get("newsTags")!=null)?map.get("newsTags").toString():null, (map.get("newsTitle")!=null)?map.get("newsTitle").toString():null,
-														(map.get("publishTime")!=null)?sdf.parse(map.get("publishTime").toString()):null, (map.get("topExpire")!=null)?sdf.parse(map.get("topExpire").toString()):null, null,null, null,
+														(map.get("publishTime")!=null)?sdf.parse(map.get("publishTime").toString()):null, (map.get("topExpire")!=null)?sdf.parse(map.get("topExpire").toString()):null,null,null,
 																(map.get("dataStatus")!=null)?(int)map.get("dataStatus"):null, (map.get("showType")!=null)?(int)map.get("showType"):null,(map.get("fullColumnImgUrl")!=null)?map.get("fullColumnImgUrl").toString():null,
 																		(map.get("hasVideo")!=null)?(map.get("hasVideo").toString().equals("true")?(byte)1:(byte)0):null, (map.get("isLive")!=null)?(map.get("isLive").toString().equals("true")?(byte)1:(byte)0):null,(map.get("isLiveReplay")!=null)?(map.get("isLiveReplay").toString().equals("true")?(byte)1:(byte)0):null,topicUniqueId);
 				/*
@@ -525,10 +525,31 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				String liveHostChatid = null;
 				String liveUsChatid = null;
 				String appointCoverImage = null;
+				Integer topnewsSort = null;
 				
 				Byte isTopnews = null;
 				Byte isEditRecom = null;
 				Byte isTopnewsTotop = null;
+				Byte isLive = null;
+				Byte isLiveReplay = null;
+				Byte isToTop = null;
+				
+				obj = map.get("topnewsSort");
+				if(obj != null){
+					topnewsSort = Integer.parseInt(obj.toString());
+				}
+				obj = map.get("isToTop");
+				if(obj != null){
+					isToTop = Byte.parseByte(obj.toString());
+				}
+				obj = map.get("isLive");
+				if(obj != null){
+					isLive = Byte.parseByte(obj.toString());
+				}
+				obj = map.get("isLiveReplay");
+				if(obj != null){
+					isLiveReplay = Byte.parseByte(obj.toString());
+				}
 				obj = map.get("isTopnews");
 				if(obj != null){
 					isTopnews = Byte.parseByte(obj.toString());
@@ -569,6 +590,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				newsInfo.setIsEditRecom(isEditRecom);
 				newsInfo.setIsTopnews(isTopnews);
 				newsInfo.setIsTopnewsTotop(isTopnewsTotop);
+				newsInfo.setIsLive(isLive);
+				newsInfo.setIsLiveReplay(isLiveReplay);
+				newsInfo.setIsToTop(isToTop);
+				newsInfo.setTopnewsSort(topnewsSort);
 				//录入APP后台数据库
 				newsPictureDao.deleteByNewsID(newsInfo.getNewsId());
 				int i=0;

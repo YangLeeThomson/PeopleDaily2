@@ -58,10 +58,10 @@ public class CollectionServiceImpl implements CollectionService {
 				return RongLianResult.ok(result);
 			}else{
 				//数据库存在该新闻
-				return RongLianResult.build(500, "收藏失败，你已经收藏了该新闻");
+				return RongLianResult.build(200, "save failed，as you have saved this news");
 			}
 		}else{
-			return RongLianResult.build(500, "请求的必须参数不能为null");
+			return RongLianResult.build(200, "request params must not be null");
 		}
 	}
 
@@ -81,7 +81,7 @@ public class CollectionServiceImpl implements CollectionService {
 			}
 				return RongLianResult.ok(list);
 		}else{
-			return RongLianResult.build(500, "请求参数device不能为null");
+			return RongLianResult.build(200, "deviceId can not be null");
 		}
 	}
 

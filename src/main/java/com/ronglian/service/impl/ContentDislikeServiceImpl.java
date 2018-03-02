@@ -38,7 +38,7 @@ public class ContentDislikeServiceImpl implements ContentDislikeService {
 			NewsInfoDislike newsInfoDislike = newsInfoDislikeDao.save(obj);
 			return RongLianResult.ok(newsInfoDislike);
 		}else{
-			return RongLianResult.build(500, "请求参数有问题");
+			return RongLianResult.build(200, "request params has problem");
 		}
 		
 	} 

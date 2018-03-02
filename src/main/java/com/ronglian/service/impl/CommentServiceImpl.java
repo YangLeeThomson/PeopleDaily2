@@ -51,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
 						return RongLianResult.ok();
 			}
 		}else{
-			return RongLianResult.build(500, "请求参数不正确");
+			return RongLianResult.build(200, "request param is incorrect");
 		}
 		
 		
@@ -79,7 +79,7 @@ public class CommentServiceImpl implements CommentService {
 			this.newsInfoDao.updateCommentNum(comment.getNewsId());
 			return RongLianResult.ok(result);
 		}else{
-			return RongLianResult.build(500, "请求参数或格式不对");
+			return RongLianResult.build(200, "request param is error");
 		}
 	}
 	/* (non-Javadoc)

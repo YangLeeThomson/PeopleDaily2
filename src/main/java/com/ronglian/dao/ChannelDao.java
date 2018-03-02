@@ -21,7 +21,7 @@ import com.ronglian.entity.User;
  */
 public interface ChannelDao extends CrudRepository<Channel, Integer>{
 
-	 @Query(value="select u from news_channel u where u.data_status = ?1",nativeQuery= true)
+	 @Query(value="select u.* from news_channel u where u.data_status = ?1",nativeQuery= true)
 	    List<Channel> getList(int dataStatus);
 	 
 	 @Query(value="select c.channel_name from news_channel c where c.unique_id = ?1",nativeQuery= true)

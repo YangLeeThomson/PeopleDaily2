@@ -32,11 +32,11 @@ public class UserChannelConfigServiceImpl implements UserChannelConfigService {
 		if(list !=null && list.size() > 0){
 			List<UserChannelConfig> result = (List<UserChannelConfig>) this.userChannelConfigDao.save(list);
 			if(result == null){
-				return RongLianResult.build(500, "save用户自定义栏目失败！");
+				return RongLianResult.build(200, "save failed");
 			}
 			return RongLianResult.ok();
 		}else{
-			return RongLianResult.build(500, "请求数据为空或不正确");
+			return RongLianResult.build(200, "request param is incorrect ");
 		}
 		
 		
@@ -56,7 +56,7 @@ public class UserChannelConfigServiceImpl implements UserChannelConfigService {
 			result = this.userChannelConfigDao.selectUserChannelConfigByDeviceId(deviceId);
 			return RongLianResult.ok(result);
 		}else{
-			return RongLianResult.build(500, "请求参数不正确");
+			return RongLianResult.build(200, "request param is incorrect ");
 		}
 	}
 

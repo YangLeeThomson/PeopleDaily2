@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ronglian.entity.NewsComment;
+import com.ronglian.entity.User;
 import com.ronglian.service.CommentService;
+import com.ronglian.service.UserService;
 import com.ronglian.utils.PageCountResult;
 import com.ronglian.utils.RongLianResult;
 import com.ronglian.utils.model.request.RongLianRequest;
@@ -36,21 +38,62 @@ public class CommentController {
 
 	@Autowired
 	private CommentService commentService;
+	@Autowired
+	private UserService userService;
 	/**
-	 * 锟矫伙拷锟斤拷锟斤拷锟斤拷锟桔诧拷询锟接匡拷
+	 * 3.5.9	用户评论列表接口
 	 * */
 	@RequestMapping(value="/1.0/usercomments",method=RequestMethod.GET)
-	public RongLianResult getComments(String deviceId,String userId){
+	public RongLianResult getComments(String deviceId,String userId,String accessToken){
+		//登录信息校验
+		if(StringUtils.isNotBlank(accessToken)){
+			RongLianResult  result = this.userService.getUserInfo(accessToken);
+			if(result.getData() == null){
+				return RongLianResult.build(200, "accessToken is error");
+			}
+			User user = (User) result.getData();
+			String userId2 = user.getUserId();
+			if(!userId2.equals(userId)){
+				return RongLianResult.build(200, "maybe param userId is error");
+			}	
+		}
+		//未登录时，信息校验
+		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
+			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
+		}
 		return  this.commentService.getComments(deviceId, userId);
 	}
 	/**
-	 * 锟斤拷锟斤拷锟斤拷劢涌锟�
+	 * 3.5.5	用户对文章评论接口
 	 * */
 	@RequestMapping(value="/1.0/contentcomment",method=RequestMethod.POST)
 	public RongLianResult addComment(@RequestBody RongLianRequest<NewsComment> commentBody){
 		NewsComment comment = null;
+		String accessToken = null;
+		String userId = null;
 		if(commentBody != null){
 			comment = commentBody.getData();
+			accessToken = commentBody.getAccessToken();
+		}
+		//获取请求的userId
+		if(comment != null){
+			userId = comment.getUserId();
+		}
+		//登录信息校验
+		if(StringUtils.isNotBlank(accessToken)){
+			RongLianResult  result = this.userService.getUserInfo(accessToken);
+			if(result.getData() == null){
+				return RongLianResult.build(200, "accessToken is error");
+			}
+			User user = (User) result.getData();
+			String userId2 = user.getUserId();
+			if(!userId2.equals(userId)){
+				return RongLianResult.build(200, "maybe param userId is error");
+			}	
+		}
+		//未登录时，信息校验
+		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
+			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
 		return this.commentService.addComment(comment);
 	}
@@ -62,22 +105,47 @@ public class CommentController {
 		return this.commentService.getCommentList(userId,newsId,deviceId);
 	}
 	
-	//删锟斤拷锟矫伙拷锟斤拷锟桔接匡拷
+	/**
+	 * 3.5.10	用户评论删除接口
+	 * */
 	@RequestMapping(value="/1.0/deletecomment",method=RequestMethod.POST)
 	public RongLianResult delComment(@RequestBody RongLianRequest<Map> requestBody){
 		Map requestMap = null;
 		String commentId = null;
+		String accessToken = null;
+		String userId = null;
 		if(requestBody != null){
 			requestMap = requestBody.getData();
+			accessToken = requestBody.getAccessToken();
 		}
 		if(requestMap.get("commentId") != null){
 			commentId = (String) requestMap.get("commentId");
+		}
+		//获取请求的userId
+		if(requestMap != null){
+			userId = (String) requestMap.get("userId");
+		}
+		//登录信息校验
+		if(StringUtils.isNotBlank(accessToken)){
+			RongLianResult  result = this.userService.getUserInfo(accessToken);
+			if(result.getData() == null){
+				return RongLianResult.build(200, "accessToken is error");
+			}
+			User user = (User) result.getData();
+			String userId2 = user.getUserId();
+			if(!userId2.equals(userId)){
+				return RongLianResult.build(200, "maybe param userId is error");
+			}	
+		}
+		//未登录时，信息校验
+		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
+			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
 		try {
 				return this.commentService.delCommentById(commentId);
 		} catch (Exception e) {
 			// TODO: handle exception
-			return RongLianResult.build(500, "删锟斤拷失锟杰ｏ拷锟斤拷锟斤拷锟角革拷锟斤拷锟斤拷锟窖憋拷锟斤拷锟�");
+			return RongLianResult.build(500, "the server maybe error");
 		}
 	}
 	//锟斤拷锟斤拷锟斤拷锟斤拷锟截的接口ｏ拷锟斤拷imedia锟斤拷锟斤拷锟斤拷
