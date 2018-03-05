@@ -98,4 +98,18 @@ public class Collection implements Serializable {
 		this.userId = userId;
 	}
 
+	/*
+	 * @author 李楊
+	 * @comment 新闻图片链接url
+	 * @createTime 2018/3/5新增字段
+	 * */
+	@Column(name="img_url")
+	private String imgUrl;
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
 }

@@ -709,4 +709,27 @@ public class NewsInfo implements Serializable {
 	public void setLiveUsChatid(String liveUsChatid) {
 		this.liveUsChatid = liveUsChatid;
 	}
+	
+	//20180305Ôö¼Ó×Ö¶Î	
+	@Column(name="data_mode")
+	private Byte dataMode;
+	
+	@Column(name="link")
+	private String link;
+
+	public Byte getDataMode() {
+		return dataMode;
+	}
+
+	public void setDataMode(Byte dataMode) {
+		this.dataMode = dataMode;
+	}
+
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
+	
 }

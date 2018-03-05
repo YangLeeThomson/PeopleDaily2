@@ -85,4 +85,9 @@ public class CollectionServiceImpl implements CollectionService {
 		}
 	}
 
+	@Override//3月5日來了周一继续写
+	public RongLianResult delCollectionById(String collectionId){
+		this.collectionDao.delete(collectionId);
+		return RongLianResult.ok();
+	}
 }

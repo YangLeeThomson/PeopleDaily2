@@ -38,7 +38,7 @@ import com.ronglian.dao.TopicDao;
 
 /**
  * @author liyang
- * @createTime 2017锟斤拷12锟斤拷27锟斤拷
+ * @createTime 2017/12/27
  */
 @Service
 public class NewsInfoServiceImpl implements NewsInfoService {
@@ -58,7 +58,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		if(result != null){
 			return RongLianResult.ok();
 		}else{
-			return RongLianResult.build(500, "save error");
+			return RongLianResult.build(200, "save failed");
 		}
 	}
 	/**
@@ -94,6 +94,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					resultMap.put("liveReplayUrl",news.getLiveReplayUrl());
 					resultMap.put("liveHostChatid",news.getLiveHostChatid());
 					resultMap.put("liveUsChatid",news.getLiveUsChatid());
+					
+					//追加dataMode、link两个字段
+					resultMap.put("link",news.getLink());
+					resultMap.put("dataMode",news.getDataMode());
 					
 					Integer isTopic = news.getIsTopic();
 					resultMap.put("isTopic", news.getIsTopic());
@@ -149,10 +153,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				}
 				return PageCountResult.build(0, "ok",counter,pageNo, pageSize, resultList);
 			}else{
-				return PageCountResult.error(500, "锟斤拷询锟斤拷锟轿拷栈锟斤拷锟斤拷莶锟斤拷锟斤拷锟�", pageNo, pageSize);
+				return PageCountResult.error(200, "result is null", pageNo, pageSize);
 			}
 		}else{
-			return PageCountResult.error(500, "锟斤拷锟斤拷锟斤拷锟絚hannelUniqueId锟斤拷锟斤拷为锟斤拷", pageNo, pageSize);
+			return PageCountResult.error(200, "channelUniqueId can not be null", pageNo, pageSize);
 		}
 		
 	}
@@ -188,6 +192,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					resultMap.put("liveHostChatid",news.getLiveHostChatid());
 					resultMap.put("liveUsChatid",news.getLiveUsChatid());
 					
+					//追加dataMode、link两个字段
+					resultMap.put("link",news.getLink());
+					resultMap.put("dataMode",news.getDataMode());
+					
 					Integer isTopic = news.getIsTopic();
 					resultMap.put("isTopic", news.getIsTopic());
 					String topicUniqueId = null;
@@ -211,7 +219,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					}else{
 						resultMap.put("topicDetail",null);
 					}
-					//锟介看图片锟斤拷目锟角凤拷锟斤拷0锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷0锟斤拷锟斤拷要锟斤拷一锟斤拷锟介看
+					//图片张数
 					Integer imageCount = news.getImageList();
 					if(imageCount == null){
 						imageCount = 0;
@@ -241,10 +249,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				}
 				return RongLianResult.ok(resultList);
 			}else{
-				return RongLianResult.build(500, "锟斤拷询锟斤拷锟轿拷栈锟斤拷锟斤拷莶锟斤拷锟斤拷锟�");
+				return RongLianResult.build(200, "result is null");
 			}
 		}else{
-			return RongLianResult.build(500, "锟斤拷锟斤拷锟斤拷锟絚hannelUniqueId锟斤拷锟斤拷为锟斤拷");
+			return RongLianResult.build(200, "channelUniqueId can not be null");
 		}
 		
 	}
@@ -282,6 +290,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					resultMap.put("liveHostChatid",news.getLiveHostChatid());
 					resultMap.put("liveUsChatid",news.getLiveUsChatid());
 					
+					//追加dataMode、link两个字段
+					resultMap.put("link",news.getLink());
+					resultMap.put("dataMode",news.getDataMode());
+					
 					Integer isTopic = news.getIsTopic();
 					resultMap.put("isTopic", news.getIsTopic());
 					String topicUniqueId = null;
@@ -305,7 +317,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					}else{
 						resultMap.put("topicDetail",null);
 					}
-					//锟介看图片锟斤拷目锟角凤拷锟斤拷0锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷0锟斤拷锟斤拷要锟斤拷一锟斤拷锟介看
+					//
 					Integer imageCount = news.getImageList();
 					if(imageCount == null){
 						imageCount = 0;
@@ -328,17 +340,17 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						}else{
 							resultMap.put("photoList",null);
 						}
-					}else{//imageList锟斤拷锟斤拷0
+					}else{
 						resultMap.put("photoList",null);
 					}
 					resultList.add(resultMap);
 				}
 				return RongLianResult.ok(resultList);
 			}else{
-				return RongLianResult.build(101, "查询结果不存在!");
+				return RongLianResult.build(200, "result is null");
 			}
 		}else{
-			return RongLianResult.build(500, "锟斤拷锟斤拷锟斤拷锟絚hannelUniqueId锟斤拷锟斤拷为锟斤拷");
+			return RongLianResult.build(200, "channelUniqueId can not be null");
 		}
 	}
 	/**
@@ -348,7 +360,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public PageCountResult findTopicNewsList(String topicId,int pageNo,int pageSize) {
 		if(topicId == null ){
-			return PageCountResult.error(500, "topicId must not be null ", pageNo, pageSize);
+			return PageCountResult.error(200, "topicId can not be null ", pageNo, pageSize);
 		}
 		pageNo = (pageNo-1)*pageSize;
 		int count = 0;
@@ -377,6 +389,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				resultMap.put("liveReplayUrl",news.getLiveReplayUrl());
 				resultMap.put("liveHostChatid",news.getLiveHostChatid());
 				resultMap.put("liveUsChatid",news.getLiveUsChatid());
+				//追加dataMode、link两个字段
+				resultMap.put("link",news.getLink());
+				resultMap.put("dataMode",news.getDataMode());
 				
 				resultMap.put("isTopic", news.getIsTopic());
 				resultMap.put("topicUniqueId", news.getTopicUniqueId());
@@ -403,14 +418,14 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					}else{
 						resultMap.put("photoList",null);
 					}
-				}else{//imageList锟斤拷锟斤拷0
+				}else{
 					resultMap.put("photoList",null);
 				}
 				resultList.add(resultMap);
 			}
-			return PageCountResult.build(0, "ok",count,pageNo, pageSize, resultList);
+			return PageCountResult.build(200, "ok",count,pageNo, pageSize, resultList);
 		}else{
-			return PageCountResult.error(101, "查询结果为null", pageNo, pageSize);
+			return PageCountResult.error(200, "result is null", pageNo, pageSize);
 		}
 	}
 	/**
@@ -420,7 +435,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public RongLianResult getNewsInfoContent(String newsId) {
 		if(newsId == null){
-			return RongLianResult.build(500, "锟斤拷锟斤拷锟斤拷锟絥ewsId锟斤拷锟斤拷锟斤拷为锟斤拷");
+			return RongLianResult.build(200, "newsId can not be null");
 		}
 		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
 		if(newsInfo != null){
@@ -461,7 +476,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			}
 			return RongLianResult.ok(data);
 		}else{
-			return RongLianResult.build(500, "锟斤拷锟斤拷询锟斤拷锟斤拷锟斤拷锟斤拷锟捷诧拷锟斤拷锟斤拷");
+			return RongLianResult.build(200, "The content of newsInfo is null ");
 		}
 	}
 	@Override
@@ -477,10 +492,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		Map map = (Map)mapRes.get("data");
 		if(map != null){
 			if(map.get("newsId")==null){
-				return RongLianResult.build(500, "newsId锟斤拷锟斤拷为锟斤拷");
+				return RongLianResult.build(200, "newsId can not be null");
 			}else{
 				if(map.get("channelUniqueId")==null||map.get("channelName")==null){
-					return RongLianResult.build(500, "缺锟劫诧拷锟斤拷");
+					return RongLianResult.build(200, "channelUniqueId or channelName can not be null");
 				}
 				/*
 				 * @author liyang
@@ -594,6 +609,25 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				newsInfo.setIsLiveReplay(isLiveReplay);
 				newsInfo.setIsToTop(isToTop);
 				newsInfo.setTopnewsSort(topnewsSort);
+				
+				/*
+				 *  @author liyang
+				 * @createTime 2018年3月5日
+				 * 追加 的字段：String link
+     			* 			Byte dataMode
+				*/
+				String link = null;
+				Byte dataMode = null;
+				obj = map.get("link");
+				if(obj != null){
+					link = obj.toString();
+				}
+				obj = map.get("dataMode");
+				if(obj != null){
+					dataMode = Byte.parseByte(obj.toString());
+				}
+				newsInfo.setDataMode(dataMode);
+				newsInfo.setLink(link);
 				//录入APP后台数据库
 				newsPictureDao.deleteByNewsID(newsInfo.getNewsId());
 				int i=0;
@@ -626,7 +660,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				return RongLianResult.ok();
 			}
 		}else{
-			return RongLianResult.build(500, "未锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟绞斤拷锟斤拷锟�");
+			return RongLianResult.build(200, "maybe requestBody is null");
 		}
 	}
 	
@@ -665,7 +699,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public RongLianResult getPhotoNewsByNewsId(String newsID,Integer incNo){
 		if(incNo == null){
-			return RongLianResult.build(500, "锟斤拷锟斤拷锟斤拷锟絠ncNo锟斤拷锟斤拷为null");
+			return RongLianResult.build(200, "the param incNo can not be null");
 		}
 		List<NewsInfo> list = this.newsInfoDao.selectNewsInfoNearUpByIncNo(incNo);
 		List<NewsInfo> list2 = this.newsInfoDao.selectNewsInfoNearDownByIncNo(incNo);
@@ -698,16 +732,16 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				result.put("pictureList", pictureList);
 				resultList.add(result);
 			}
-			//4锟斤拷锟斤拷锟捷ｏ拷2锟斤拷锟斤拷锟捷★拷1锟斤拷锟斤拷锟斤拷锟�
+			//
 			if(resultList.size() == 4 || resultList.size() == 2 || resultList.size() == 1){
 				return RongLianResult.ok(resultList);
 			}else{
-				//3锟斤拷锟斤拷锟捷ｏ拷删锟斤拷1锟斤拷锟斤拷锟斤拷锟�2锟斤拷
+				//
 				resultList.remove(0);
 				return RongLianResult.ok(resultList);
 			}
 		}else{
-			return RongLianResult.build(101, "查询的结果为空");
+			return RongLianResult.build(200, "the result is null");
 		}
 	}
 	@Override
@@ -715,7 +749,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		// TODO Auto-generated method stub
 		List<NewsInfo> list = this.newsInfoDao.selectTopnewsAhead();
 		if(list == null || !(list.size() > 0)){
-			return RongLianResult.build(0, "查询数据为空！", null);
+			return RongLianResult.build(200, "result is null", null);
 		}
 		List resultList = new ArrayList();
 		for(NewsInfo news:list){
@@ -737,6 +771,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			resultMap.put("liveReplayUrl",news.getLiveReplayUrl());
 			resultMap.put("liveHostChatid",news.getLiveHostChatid());
 			resultMap.put("liveUsChatid",news.getLiveUsChatid());
+			
+			//追加dataMode、link两个字段
+			resultMap.put("link",news.getLink());
+			resultMap.put("dataMode",news.getDataMode());
+			
 			Integer isTopic = news.getIsTopic();
 			resultMap.put("isTopic", news.getIsTopic());
 			String topicUniqueId = null;

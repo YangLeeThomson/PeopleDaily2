@@ -15,4 +15,6 @@ public interface CollectionService {
 	public RongLianResult insertUserCollection(Collection collect);
 
 	public RongLianResult getUserCollection(String userId,String deviceId);
+	
+	public RongLianResult delCollectionById(String collectionId);
 }

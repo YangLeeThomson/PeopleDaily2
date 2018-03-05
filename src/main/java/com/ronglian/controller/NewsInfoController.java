@@ -107,7 +107,7 @@ public class NewsInfoController {
 			@RequestParam(value="pageSize",required=false,defaultValue="5")int pageSize,
 			@RequestParam(value="pageNo",required=false,defaultValue="1")int pageNo){
 		if(topicId == null){
-			return PageCountResult.error(500, "请求参数topicId不能为空", pageNo, pageSize);
+			return PageCountResult.error(200, "请求参数topicId不能为空", pageNo, pageSize);
 		}
 		return this.newsInfoService.findTopicNewsList(topicId,pageNo,pageSize);
 	}
