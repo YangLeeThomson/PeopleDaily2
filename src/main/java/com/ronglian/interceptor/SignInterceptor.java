@@ -146,9 +146,21 @@ public class SignInterceptor implements HandlerInterceptor{
 			int index2 = jsonStr.lastIndexOf("},");
 			//非原生json在末尾
 			int index3 = jsonStr.lastIndexOf("}}");
+			//data数据是数组或list
+			int index4 = jsonStr.lastIndexOf("]}");
+			int index5 = jsonStr.lastIndexOf("],");
+			
+			
 			if(index3 > 0){
 				index = index3;
-			}else if(index2 > 0){
+			}
+			if(index4 > 0){
+				index = index4;
+			}
+			if(index5 > 0){
+				index = index5;
+			}
+			if(!(index3 > 0) && !(index4 > 0) && !(index5 > 0) && index2 > 0){
 				index = index2;
 			}
 			int start = jsonStr.indexOf("data");
@@ -164,7 +176,7 @@ public class SignInterceptor implements HandlerInterceptor{
         /*
 		 * 锟斤拷锟捷客伙拷锟斤拷锟斤拷锟斤拷锟絬rl锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟剿帮拷锟斤拷同锟斤拷锟侥癸拷锟斤拷锟斤拷锟斤拷sign签锟斤拷锟斤拷锟斤拷锟斤拷sign锟斤拷锟角凤拷锟斤拷取锟�
 		 */
-        String IsSign = RongLianUtils.createSign(params, SALT);
+         String IsSign = RongLianUtils.createSign(params, SALT);
         if(IsSign != null && sign.equals(IsSign)){
         	return true;
         }else{
