@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 				 if(user.getOpenid() != null){
 					 loginUser = userDao.getUserByOpenid(user.getOpenid());
 				 }else{
-					 RongLianResult.build(500, "缺失openid参数"); 
+					 RongLianResult.build(200, "缺失openid参数"); 
 				 }
 			}
 			//twinter
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 				 if(user.getTwOpenid() != null){
 					 loginUser = userDao.getUserBytwOpenid(user.getTwOpenid()); 
 				 }else{
-					 RongLianResult.build(500, "缺失twOpenid参数");
+					 RongLianResult.build(200, "缺失twOpenid参数");
 				 }
 			}
 			//faceBook
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 				if(user.getFaceOpenid() != null){
 				 loginUser = userDao.getUserByfaceOpenid(user.getFaceOpenid());
 				}else{
-					RongLianResult.build(500, "缺失faceBook参数");
+					RongLianResult.build(200, "缺失faceBook参数");
 				}
 			}
 			//判断登录用户是否注册
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
 			this.jedisDao.expire(accessToken,RongLianConstant.REDIS_ACCESS_TOKEN_EXPIRE );
 			return RongLianResult.ok(resultMap);
 		}else{
-			return RongLianResult.build(500, "user信息为null或缺失type参数");
+			return RongLianResult.build(200, "user信息为null或缺失type参数");
 		}
 	}
 
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
 			this.jedisDao.expire(accessToken, RongLianConstant.REDIS_ACCESS_TOKEN_EXPIRE);
 			return RongLianResult.ok(user);
 		}
-		return RongLianResult.build(500, "请先登录");
+		return RongLianResult.build(106, "请先登录");
 	}
 
 	/* (non-Javadoc)

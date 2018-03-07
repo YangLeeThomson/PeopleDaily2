@@ -517,7 +517,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						null, (map.get("createTime")!=null)?sdf.parse(map.get("createTime").toString()):null, (map.get("editExpire")!=null)?sdf.parse(map.get("editExpire").toString()):null,
 						null, (map.get("isEditRecom")!=null)?(map.get("isEditRecom").toString().equals("true")?(byte)1:(byte)0):null, (map.get("isToTop")!=null)?(map.get("isToTop").toString().equals("true")?(byte)1:(byte)0):null , 
 						//(map.get("isTopic")!=null)?(int)map.get("isTopic"):null,
-								(map.get("isTopic")!=null)?(map.get("isTopic").toString().equals("true")?1:0):null,
+								null,
 						null, null, null,
 						(map.get("modifyTime")!=null)?sdf.parse(map.get("modifyTime").toString()):null, (map.get("newsAuthors")!=null)?map.get("newsAuthors").toString():null, (map.get("newsContent")!=null)?map.get("newsContent").toString():null,
 								(map.get("newsOrganization")!=null)?map.get("newsOrganization").toString():null, (map.get("newsOriginal")!=null)?(int)map.get("newsOriginal"):null, (map.get("newsSort")!=null)?(int)map.get("newsSort"):null,
@@ -548,7 +548,12 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				Byte isLive = null;
 				Byte isLiveReplay = null;
 				Byte isToTop = null;
+				Integer isTopic = null;
 				
+				obj = map.get("isTopic");
+				if(obj != null){
+					isTopic = Integer.parseInt(obj.toString());
+				}
 				obj = map.get("topnewsSort");
 				if(obj != null){
 					topnewsSort = Integer.parseInt(obj.toString());
@@ -597,6 +602,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				if(obj != null){
 					appointCoverImage = obj.toString();
 				}
+				newsInfo.setIsTopic(isTopic);
 				newsInfo.setLiveUrl(liveUrl);
 				newsInfo.setLiveReplayUrl(liveReplayUrl);
 				newsInfo.setLiveHostChatid(liveHostChatid);
@@ -686,9 +692,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	                str = str + "," + temp;  
 	            }  
 	        }  
-	    }  
+	    }
+	    
 	    if (!"".equals(str)) {  
-	        images = str.split(",");  
+	    	String cutStr = str.replace(",http:"," ,http:");
+	        images = cutStr.split(" ,");  
 	    }  
 	    return images;  
 	}  

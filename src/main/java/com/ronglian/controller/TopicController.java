@@ -36,14 +36,14 @@ public class TopicController {
 	private TopicNewsService topicNewsService;
 	
 	/**
-	 * ï¿½á¹©ï¿½ï¿½iMediaï¿½ï¿½Ì¨Í¬ï¿½ï¿½×¨ï¿½ï¿½Ä½Ó¿ï¿½
+	 * Í¬²½×¨Ìâ
 	 * */
 	@RequestMapping(value="/1.0/setTopic",method=RequestMethod.POST)
 	public RongLianResult addTopic(@RequestBody RongLianRequest<Map> requestMap){
 		return topicService.addTopicMap(requestMap.getData());
 	}
 	/**
-	 * ï¿½á¹©ï¿½ï¿½iMedia×¨ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ý¹ï¿½Ïµï¿½Ä½Ó¿ï¿½
+	 * ×¨ÌâÄÚÈÝÓ³Éä
 	 * */
 	@RequestMapping(value="/1.0/setNewsOfTopic",method=RequestMethod.POST)
 	public RongLianResult addTopicAndNews( @RequestBody RongLianRequest<List<TopicNewsRelation>> requestList){

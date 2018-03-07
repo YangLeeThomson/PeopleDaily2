@@ -53,7 +53,7 @@ public class ContentDislikeController {
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
-				return RongLianResult.build(200, "accessToken is error");
+				return RongLianResult.build(106, "accessToken is error");
 			}
 			User user = (User) result.getData();
 			String userId2 = user.getUserId();

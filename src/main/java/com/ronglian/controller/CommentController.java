@@ -49,7 +49,7 @@ public class CommentController {
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
-				return RongLianResult.build(200, "accessToken is error");
+				return RongLianResult.build(106, "accessToken is error");
 			}
 			User user = (User) result.getData();
 			String userId2 = user.getUserId();
@@ -83,7 +83,7 @@ public class CommentController {
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
-				return RongLianResult.build(200, "accessToken is error");
+				return RongLianResult.build(106, "accessToken is error");
 			}
 			User user = (User) result.getData();
 			String userId2 = user.getUserId();
@@ -129,7 +129,7 @@ public class CommentController {
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
-				return RongLianResult.build(200, "accessToken is error");
+				return RongLianResult.build(106, "accessToken is error");
 			}
 			User user = (User) result.getData();
 			String userId2 = user.getUserId();
@@ -148,7 +148,7 @@ public class CommentController {
 			return RongLianResult.build(500, "the server maybe error");
 		}
 	}
-	//锟斤拷锟斤拷锟斤拷锟斤拷锟截的接口ｏ拷锟斤拷imedia锟斤拷锟斤拷锟斤拷
+	//
 	@RequestMapping(value="/1.0/commentCheck",method=RequestMethod.POST)
 	public RongLianResult getCheckComment(@RequestBody RongLianRequest<Map> requestBody){
 		Map requestMap = null;
@@ -165,7 +165,7 @@ public class CommentController {
 			return this.commentService.checkComment(status,commentId);
 		} catch (Exception e) {
 			// TODO: handle exception
-			return RongLianResult.build(500, "删锟斤拷失锟杰ｏ拷锟斤拷锟斤拷锟角革拷锟斤拷锟斤拷锟窖憋拷锟斤拷锟�");
+			return RongLianResult.build(500, "error");
 		}
 	}
 	//锟斤拷锟斤拷锟斤拷氐慕涌冢锟斤拷锟絠media锟斤拷锟斤拷锟斤拷
