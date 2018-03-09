@@ -151,17 +151,21 @@ public class SignInterceptor implements HandlerInterceptor{
 			int index5 = jsonStr.lastIndexOf("],");
 			
 			
-			if(index3 > 0){
+			if(index3 > index){
 				index = index3;
 			}
-			if(index4 > 0){
-				index = index4;
+			if(index4>index){
+					index = index4;
 			}
-			if(index5 > 0){
+			if(index5>index){
+				
 				index = index5;
 			}
-			if(!(index3 > 0) && !(index4 > 0) && !(index5 > 0) && index2 > 0){
+			/*if(!(index3 > 0) && !(index4 > 0) && !(index5 > 0) && index2 > 0){
 				index = index2;
+			}*/
+			if(index2>index){
+				index=index2;
 			}
 			int start = jsonStr.indexOf("data");
 			if(start > 0 && index > 0)
