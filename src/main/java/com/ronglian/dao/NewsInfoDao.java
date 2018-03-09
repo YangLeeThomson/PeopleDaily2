@@ -74,6 +74,9 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
     @Query("delete from NewsInfo news where news.newsId in ( :list)")
 	int deleteByNewsID(@Param("list") List<String> list); 
 	
+    @Query("select * from NewsInfo news where news.newsId in ( :list)")
+    List<NewsInfo>  selectByNewsID(@Param("list") List<String> list); 
+	
 	@Transactional
     @Modifying
     @Query(value="update news_info  set comment_num = comment_num + 1 where news_Id = :newsId",nativeQuery= true)

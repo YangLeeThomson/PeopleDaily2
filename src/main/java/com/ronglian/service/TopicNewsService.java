@@ -4,6 +4,7 @@
 package com.ronglian.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ronglian.entity.TopicAndNews;
 import com.ronglian.utils.RongLianResult;
@@ -16,7 +17,6 @@ import com.ronglian.utils.model.request.TopicNewsRelation;
 public interface TopicNewsService {
 
 	public RongLianResult addTopicNews(List<TopicNewsRelation> topicNewses);
-	
 	public RongLianResult deleteTopicNewsByNewsID(List<String> list);
 	
 	public RongLianResult deleteTopicNewsByByTopicUniqueID(List<String> list);

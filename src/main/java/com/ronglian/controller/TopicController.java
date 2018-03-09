@@ -49,7 +49,6 @@ public class TopicController {
 	public RongLianResult addTopicAndNews( @RequestBody RongLianRequest<List<TopicNewsRelation>> requestList){
 		return this.topicNewsService.addTopicNews(requestList.getData());
 	}
-
 	/**
 	 * ����ר�⣬ɾ����Ӧ��������ӳ��
 	 * */

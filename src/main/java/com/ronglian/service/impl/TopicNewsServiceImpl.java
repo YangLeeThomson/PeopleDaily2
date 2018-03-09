@@ -2,8 +2,10 @@
 package com.ronglian.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,7 @@ public class TopicNewsServiceImpl implements TopicNewsService {
 			return RongLianResult.build(500, "saved error");
 		}
 	}
+
 	@Override
 	public RongLianResult deleteTopicNewsByNewsID(List<String> list) {
 		if(list!=null&&list.size()>0){
