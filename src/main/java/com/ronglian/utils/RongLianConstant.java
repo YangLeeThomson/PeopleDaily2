@@ -20,4 +20,7 @@ public class RongLianConstant {
 	
 	//redis缓存(登录accessToken)失效时间（1周）
 	public static final int REDIS_ACCESS_TOKEN_EXPIRE = 604800;
+	
+	//专题列表显示条目数(不超过4条)
+	public static final int TOPIC_NEWS_NUMBER = 4;
 }

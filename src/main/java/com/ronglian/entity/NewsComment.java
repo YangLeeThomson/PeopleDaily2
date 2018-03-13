@@ -46,7 +46,7 @@ public class NewsComment implements Serializable {
 	private String newsId;
 
 	@Column(name="nickname")
-	private String nickName;
+	private String nickname;
 
 
 	//	×´Ì¬0£ºÎ´ÉóºË£¬1£ºÒÑÉóºË',3:É¾³ý
@@ -131,15 +131,16 @@ public class NewsComment implements Serializable {
 		this.deviceId = deviceId;
 	}
 
-	public String getNickName() {
-		return nickName;
-	}
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-
 	
+	
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 
 	public String getUserId() {
 		return this.userId;

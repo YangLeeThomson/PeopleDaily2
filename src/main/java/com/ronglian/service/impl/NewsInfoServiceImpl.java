@@ -30,6 +30,7 @@ import com.ronglian.entity.NewsTopic;
 import com.ronglian.service.NewsInfoService;
 import com.ronglian.utils.PageCountResult;
 import com.ronglian.utils.PageResult;
+import com.ronglian.utils.RongLianConstant;
 import com.ronglian.utils.RongLianResult;
 import com.ronglian.utils.RongLianUtils;
 import com.ronglian.utils.model.request.ImageInfo;
@@ -584,7 +585,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			}
 			resultList.add(resultMap);
 			if (StringUtils.isNotBlank(topicUniqueId)) {
-				resultList = this.findTopicNews(resultList, topicUniqueId, 3);
+				resultList = this.findTopicNews(resultList, topicUniqueId, RongLianConstant.TOPIC_NEWS_NUMBER);
 			}
 		}
 		return resultList;

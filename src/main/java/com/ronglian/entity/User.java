@@ -24,7 +24,7 @@ public class User implements Serializable{
 	    private String passWord;
 
 	    @Column(name="nickname")
-	    private String nickName;
+	    private String nickname;
 
 	    @Column(name="email")
 	    private String email;
@@ -76,9 +76,6 @@ public class User implements Serializable{
 			this.passWord = passWord;
 		}
 
-		public String getNickName() {
-			return nickName;
-		}
 
 		public String getOpenid() {
 			return openid;
@@ -136,8 +133,13 @@ public class User implements Serializable{
 			this.city = city;
 		}
 
-		public void setNickName(String nickName) {
-			this.nickName = nickName;
+
+		public String getNickname() {
+			return nickname;
+		}
+
+		public void setNickname(String nickname) {
+			this.nickname = nickname;
 		}
 
 		public String getEmail() {
