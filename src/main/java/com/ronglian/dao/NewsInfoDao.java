@@ -16,7 +16,7 @@ import com.ronglian.entity.NewsInfo;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ27ÈÕ
+ * @createTime 2017ï¿½ï¿½12ï¿½ï¿½27ï¿½ï¿½
  */
 public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 
@@ -25,7 +25,10 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	
 	@Query(value="select * from news_info news where news.data_status = 2 and news.channel_unique_id = ?1 order by publish_time desc limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectNewsInfoByChannel(String channelUniqueId,int pageNo,int pageSize);
-
+	
+	@Query(value="select * from news_info news where news.data_status = 2 and news.news_id in ?1 order by news_id limit ?2,?3",nativeQuery= true)
+	List<NewsInfo> selectPageInfo(List<String> newsIdList,int start,int pageSize);
+	
 	@Query(value="select count(*) from news_info news where news.channel_unique_id = ?1 ",nativeQuery= true)
 	int countNewsInfoByChannel(String channelUniqueId);
 	

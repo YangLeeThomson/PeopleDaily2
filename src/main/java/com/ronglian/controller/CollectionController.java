@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ronglian.entity.Collection;
@@ -26,7 +27,7 @@ import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ29ÈÕ
+ * @createTime 2017ï¿½ï¿½12ï¿½ï¿½29ï¿½ï¿½
  */
 @RestController
 @RequestMapping("/api")
@@ -39,7 +40,7 @@ public class CollectionController {
 	@Autowired
 	private NewsPictureService pictureService;
 	/**
-	 * ÓÃ»§ÄÚÈÝÊÕ²Ø½Ó¿Ú
+	 * ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ²Ø½Ó¿ï¿½
 	 */
 	@RequestMapping(value = "/1.0/usercollection", method = RequestMethod.POST)
 	public RongLianResult addCollection(@RequestBody RongLianRequest<Collection> collectionBody) {
@@ -50,11 +51,11 @@ public class CollectionController {
 			collection = collectionBody.getData();
 			accessToken = collectionBody.getAccessToken();
 		}
-		// »ñÈ¡ÇëÇóµÄuserId
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½userId
 		if (collection != null) {
 			userId = collection.getUserId();
 		}
-		// µÇÂ¼ÐÅÏ¢Ð£Ñé
+		// ï¿½ï¿½Â¼ï¿½ï¿½Ï¢Ð£ï¿½ï¿½
 		if (StringUtils.isNotBlank(accessToken)) {
 			RongLianResult result = this.userService.getUserInfo(accessToken);
 			if (result.getData() == null) {
@@ -66,11 +67,11 @@ public class CollectionController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}
 		}
-		// Î´µÇÂ¼Ê±£¬ÐÅÏ¢Ð£Ñé
+		// Î´ï¿½ï¿½Â¼Ê±ï¿½ï¿½ï¿½ï¿½Ï¢Ð£ï¿½ï¿½
 		if (StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)) {
 			return RongLianResult.build(200, "you have not logined ,so userId should be null ");
 		}
-		//²¹È«Êý¾Ý
+		//ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½
 		List<NewsPicture> list = this.pictureService.findPicture(collection.getNewsId());
 		if(list != null && list.size() > 0){
 			collection.setImgUrl(list.get(0).getImagePath());
@@ -83,9 +84,12 @@ public class CollectionController {
 		}
 	}
 
+//	@RequestMapping(value = "/1.0/collectionList", method = RequestMethod.GET)
+//	public RongLianResult getCollection(String deviceId, String userId, String accessToken) {
 	@RequestMapping(value = "/1.0/collectionList", method = RequestMethod.GET)
-	public RongLianResult getCollection(String deviceId, String userId, String accessToken) {
-		// µÇÂ¼ÐÅÏ¢Ð£Ñé
+	public RongLianResult getCollection(String deviceId, String userId, String accessToken,
+			@RequestParam(value="pageNo",defaultValue="1",required=false)Integer pageNo,
+			@RequestParam(value="pageSize",defaultValue="10",required=false)Integer pageSize) {
 		if (StringUtils.isNotBlank(accessToken)) {
 			RongLianResult result = this.userService.getUserInfo(accessToken);
 			if (result.getData() == null) {
@@ -97,12 +101,12 @@ public class CollectionController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}
 		}
-		// Î´µÇÂ¼Ê±£¬ÐÅÏ¢Ð£Ñé
 		if (StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)) {
 			return RongLianResult.build(200, "you have not logined ,so userId should be null ");
 		}
 		try {
-			return this.collectionService.getUserCollection(userId, deviceId);
+//			return this.collectionService.getUserCollection(userId, deviceId);
+			return this.collectionService.getUserCollection(userId, deviceId,pageNo,pageSize);
 		} catch (Exception e) {
 			// TODO: handle exception
 			return RongLianResult.build(500, "server error");
@@ -127,9 +131,9 @@ public class CollectionController {
 		if(collectionId == null){
 			return RongLianResult.build(200, "The param collectionId of data can not be null");
 		}
-		// »ñÈ¡ÇëÇóµÄuserId
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½userId
 		userId = (String) requestMap.get("userId");
-		// µÇÂ¼ÐÅÏ¢Ð£Ñé
+		// ï¿½ï¿½Â¼ï¿½ï¿½Ï¢Ð£ï¿½ï¿½
 		if (StringUtils.isNotBlank(accessToken)) {
 			RongLianResult result = this.userService.getUserInfo(accessToken);
 			if (result.getData() == null) {
@@ -141,7 +145,7 @@ public class CollectionController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}
 		}
-		// Î´µÇÂ¼Ê±£¬ÐÅÏ¢Ð£Ñé
+		// Î´ï¿½ï¿½Â¼Ê±ï¿½ï¿½ï¿½ï¿½Ï¢Ð£ï¿½ï¿½
 		if (StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)) {
 			return RongLianResult.build(200, "you have not logined ,so userId should be null ");
 		}

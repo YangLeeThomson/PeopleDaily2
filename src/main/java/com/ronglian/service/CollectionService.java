@@ -8,13 +8,15 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ2ÈÕ
+ * @createTime 2018ï¿½ï¿½1ï¿½ï¿½2ï¿½ï¿½
  */
 public interface CollectionService {
 
 	public RongLianResult insertUserCollection(Collection collect);
 
-	public RongLianResult getUserCollection(String userId,String deviceId);
+//	public RongLianResult getUserCollection(String userId,String deviceId);
+	
+	public RongLianResult getUserCollection(String userId,String deviceId,Integer pageNo,Integer pageSize);
 	
 	public RongLianResult delCollectionById(String collectionId);
 }

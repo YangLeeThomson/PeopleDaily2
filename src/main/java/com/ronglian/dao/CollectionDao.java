@@ -13,7 +13,7 @@ import com.ronglian.entity.Collection;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ2ÈÕ
+ * @createTime 2018ï¿½ï¿½1ï¿½ï¿½2ï¿½ï¿½
  */
 public interface CollectionDao extends CrudRepository<Collection, String> {
 
@@ -23,10 +23,15 @@ public interface CollectionDao extends CrudRepository<Collection, String> {
 	@Query("select  c from Collection c where c.deviceId = :deviceId and c.newsId = :newsId")
 	public Collection selectCollectionByDeviceId(@Param("deviceId")String deviceId,@Param("newsId")String newsId);
 
-	@Query("select  c from Collection c where c.userId = :userId")
-	public List<Collection> selectCollectionListByUserId(@Param("userId")String userId);
-	
-	@Query("select  c from Collection c where c.deviceId = :deviceId and c.userId is null")
-	public List<Collection> selectCollectionListByDeviceId(@Param("deviceId")String deviceId);
+//	@Query("select  c from Collection c where c.userId = :userId")
+//	public List<Collection> selectCollectionListByUserId(@Param("userId")String userId);
+//	
+//	@Query("select  c from Collection c where c.deviceId = :deviceId and c.userId is null")
+//	public List<Collection> selectCollectionListByDeviceId(@Param("deviceId")String deviceId);
 
+	@Query("select  c from Collection c where c.userId = :userId order by newsId")
+	public List<Collection> selectCollectionListByUserIdSort(@Param("userId")String userId);
+	
+	@Query("select  c from Collection c where c.deviceId = :deviceId and c.userId is null order by newsId")
+	public List<Collection> selectCollectionListByDeviceIdSort(@Param("deviceId")String deviceId);
 }

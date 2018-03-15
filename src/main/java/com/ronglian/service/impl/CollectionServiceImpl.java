@@ -3,8 +3,11 @@
  */
 package com.ronglian.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,26 +15,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ronglian.dao.CollectionDao;
+import com.ronglian.dao.NewsInfoDao;
+import com.ronglian.dao.NewsPictureDao;
+import com.ronglian.dao.TopicDao;
+import com.ronglian.dao.TopicNewsDao;
 import com.ronglian.entity.Collection;
+import com.ronglian.entity.NewsInfo;
+import com.ronglian.entity.NewsPicture;
+import com.ronglian.entity.NewsTopic;
 import com.ronglian.service.CollectionService;
+import com.ronglian.utils.RongLianConstant;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.RongLianUtils;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ2ÈÕ
+ * @createTime 2018ï¿½ï¿½1ï¿½ï¿½2ï¿½ï¿½
  */
 @Service
 public class CollectionServiceImpl implements CollectionService {
 
-	/** 
-	 * @parameter 
+	/**
+	 * @parameter
 	 */
-	@Autowired 
+	@Autowired
 	private CollectionDao collectionDao;
-	
+	@Autowired
+	private NewsInfoDao newsInfoDao;
+	@Autowired
+	private NewsPictureDao newsPictureDao;
+	@Autowired
+	private TopicDao topicDao;
+	@Autowired
+	private TopicNewsDao topicAndNewsDao;
+
 	/**
 	 * @author liyang
-	 * @createTime 2018Äê1ÔÂ2ÈÕ
+	 * @createTime 2018ï¿½ï¿½1ï¿½ï¿½2ï¿½ï¿½
 	 */
 	@Override
 	public RongLianResult insertUserCollection(Collection collection) {
@@ -40,54 +60,141 @@ public class CollectionServiceImpl implements CollectionService {
 		String newsId = collection.getNewsId();
 		String deviceId = collection.getDeviceId();
 		Collection result = null;
-		if( StringUtils.isNotBlank(newsId)
-				&& StringUtils.isNotBlank(deviceId)	
-				){
-			//ÓÃ»§µÇÂ¼×´Ì¬Ê±
-			if(StringUtils.isNotBlank(userId) ){
-				result = this.collectionDao.selectCollectionByUserId(userId, newsId);
-			}else{//Ã»ÓĞµÇÂ¼Ê±
-				result = this.collectionDao.selectCollectionByDeviceId(deviceId, newsId);
+		if (StringUtils.isNotBlank(newsId) && StringUtils.isNotBlank(deviceId)) {
+			// ï¿½Ã»ï¿½ï¿½ï¿½Â¼×´Ì¬Ê±
+			if (StringUtils.isNotBlank(userId)) {
+				result = this.collectionDao.selectCollectionByUserId(userId,
+						newsId);
+			} else {// Ã»ï¿½Ğµï¿½Â¼Ê±
+				result = this.collectionDao.selectCollectionByDeviceId(
+						deviceId, newsId);
 			}
-			//ÅĞ¶ÏResultÔÚÊı¾İ¿âÖĞÊÇ·ñ´æÔÚ
-			if(result == null){
-				//Êı¾İ¿â²»´æÔÚ£¬ÔòÊÕ²Ø¸ÃĞÂÎÅ
+			// ï¿½Ğ¶ï¿½Resultï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
+			if (result == null) {
+				// ï¿½ï¿½ï¿½İ¿â²»ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½Õ²Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½
 				collection.setCreateTime(new Date());
 				collection.setCollectionId(UUID.randomUUID().toString());
 				result = this.collectionDao.save(collection);
 				return RongLianResult.ok(result);
-			}else{
-				//Êı¾İ¿â´æÔÚ¸ÃĞÂÎÅ
-				return RongLianResult.build(200, "save failed£¬as you have saved this news");
+			} else {
+				// ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½
+				return RongLianResult.build(200,
+						"save failedï¿½ï¿½as you have saved this news");
 			}
-		}else{
+		} else {
 			return RongLianResult.build(200, "request params must not be null");
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.CollectionService#getUserCollection(java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ronglian.service.CollectionService#getUserCollection(java.lang.String
+	 * , java.lang.String)
 	 */
 	@Override
-	public RongLianResult getUserCollection(String userId, String deviceId) {
+	public RongLianResult getUserCollection(String userId, String deviceId,
+			Integer pageNo, Integer pageSize) {
 		// TODO Auto-generated method stub
 		List<Collection> list = null;
-		if(StringUtils.isNotBlank(deviceId)){
-			if(StringUtils.isBlank(userId)){
-				//sqlÓï¾äÌŞ³ıuserId²»ÎªnullµÄÊı¾İ
-				list = this.collectionDao.selectCollectionListByDeviceId(deviceId);
-			}else{
-				list = this.collectionDao.selectCollectionListByUserId(userId);
-			}
-				return RongLianResult.ok(list);
-		}else{
+		Integer start = (pageNo-1) * pageSize;
+		if (StringUtils.isBlank(deviceId)) {
 			return RongLianResult.build(200, "deviceId can not be null");
 		}
+		if (StringUtils.isBlank(userId)) {
+//			list = this.collectionDao.selectCollectionListByDeviceId(deviceId);
+			list = this.collectionDao.selectCollectionListByDeviceIdSort(deviceId);
+		}else{
+			list = this.collectionDao.selectCollectionListByUserIdSort(userId);
+		}
+		if(list == null || list.size() < 1){
+			return RongLianResult.build(200, "you have never collected News");
+		}
+		List<String> newsIdList = new ArrayList<String>();
+		Map<String,Collection> map = new HashMap<String,Collection>();
+		String newsId = null;
+		for(Collection collect:list){
+			newsId = collect.getNewsId();
+			newsIdList.add(newsId);
+			map.put(newsId, collect);
+		}
+		List<NewsInfo> newsList = this.newsInfoDao.selectPageInfo(newsIdList,start,pageSize);
+		List<Map> result  = this.changeDataContent(newsList, map);
+		return RongLianResult.ok(result);
 	}
 
-	@Override//3ÔÂ5ÈÕíÁËÖÜÒ»¼ÌĞøĞ´
-	public RongLianResult delCollectionById(String collectionId){
+	@Override
+	// 3ï¿½ï¿½5ï¿½Õï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ğ´
+	public RongLianResult delCollectionById(String collectionId) {
 		this.collectionDao.delete(collectionId);
 		return RongLianResult.ok();
+	}
+
+	/*
+	 * @param List<NewsInfo> list ----é‚ä¼´æ¤ˆé’æ¥„ã€ƒ é¶å¥»indé¨å‹¬æšŸé¹î‡†ç´ç¼å‹«æ‚é™æ¨»å´²é´æ„¬å¢ ç»”îˆæ¸¶ç‘•ä½ºæ®‘éç…ç´¡é”›ï¿½
+	 */
+	public List<Map> changeDataContent(List<NewsInfo> list,Map<String,Collection> map) {
+		List<Map> resultList = new ArrayList<Map>();
+		for (NewsInfo news : list) {
+			Map resultMap = new HashMap();
+			resultMap.put("newsTitle", news.getNewsTitle());
+			String newsId = news.getNewsId();
+			Collection collect = map.get(newsId);
+			resultMap.put("collectionId", collect.getCollectionId());
+			resultMap.put("userId", collect.getUserId());
+			resultMap.put("deviceId", collect.getDeviceId());
+			resultMap.put("newsId", newsId);
+			
+			resultMap.put("newsTags", news.getNewsTags());
+			resultMap.put("channelName", news.getChannelName());
+			resultMap.put("channelUniqueId", news.getChannelUniqueId());
+			resultMap.put("publishTime", RongLianUtils.changeDateTime(news.getPublishTime()));
+			resultMap.put("newsSort", news.getNewsSort());
+			resultMap.put("showType", news.getShowType());
+			resultMap.put("fullColumnImgUrl", news.getFullColumnImgUrl());
+			resultMap.put("hasVideo", news.getHasVideo());
+			resultMap.put("isLive", news.getIsLive());
+			resultMap.put("isLiveReplay", news.getIsLiveReplay());
+			// æ©è—‰å§é©å­˜æŒ±5æ¶“î„ç“§å¨ˆï¿½
+			resultMap.put("appointCoverImage ", news.getAppointCoverImage());
+			resultMap.put("liveUrl", news.getLiveUrl());
+			resultMap.put("liveReplayUrl", news.getLiveReplayUrl());
+			resultMap.put("liveHostChatid", news.getLiveHostChatid());
+			resultMap.put("liveUsChatid", news.getLiveUsChatid());
+			// æ©è—‰å§dataModeéŠ†ä¹´inkæ¶“ã‚„é‡œç€›æ¥î†Œ
+			resultMap.put("link", news.getLink());
+			resultMap.put("dataMode", news.getDataMode());
+			//è§†é¢‘æ€»é•¿
+			resultMap.put("videoDuration", news.getVideoDuration());
+			//è§†é¢‘ç›¸å…³å­—æ®µ
+			Integer videoDuration = null;
+			videoDuration = news.getVideoDuration();
+			resultMap.put("videoDuration", videoDuration);
+			// éŒãƒ§æ¹…é¥å‰§å¢–
+			Integer imageCount = news.getImageList();
+			if (imageCount == null) {
+				imageCount = 0;
+			}
+			resultMap.put("imageCount", imageCount);
+			resultMap.put("photoList", null);
+			if (imageCount > 0) {
+				List<NewsPicture> pictures = this.newsPictureDao.selectNewsPictureByNewsId(news.getNewsId());
+				if (pictures != null && pictures.size() > 0) {
+					List<Map> photoList = new ArrayList<Map>();
+					for (NewsPicture picture : pictures) {
+						Map photo = new HashMap();
+						photo.put("pictureId", picture.getPictureId());
+						photo.put("picPath", picture.getImagePath());
+						photo.put("picTitle", picture.getPictureTitle());
+						photo.put("picDesc", picture.getPictureDesc());
+						photoList.add(photo);
+					}
+					resultMap.put("photoList", photoList);
+				}
+			}
+			resultList.add(resultMap);
+		}
+		return resultList;
 	}
 }
