@@ -73,7 +73,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017年12月27日
+	 * @createTime 2017骞�12鏈�27鏃�
 	 * @updateYime 2018/3/9
 	 */
 	@Override
@@ -97,7 +97,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017年12月27日
+	 * @createTime 2017骞�12鏈�27鏃�
 	 */
 	@Override
 	public RongLianResult findTopnewsList(String channelUniqueId) {
@@ -115,7 +115,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017年12月27日
+	 * @createTime 2017骞�12鏈�27鏃�
 	 */
 	@Override
 	public RongLianResult findEditorNewsList(String channelUniqueId) {
@@ -133,7 +133,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017年12月27日
+	 * @createTime 2017骞�12鏈�27鏃�
 	 */
 	@Override
 	public PageCountResult findTopicNewsList(String topicId, int pageNo, int pageSize) {
@@ -155,7 +155,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017年12月27日
+	 * @createTime 2017骞�12鏈�27鏃�
 	 */
 	@Override
 	public RongLianResult getNewsInfoContent(String newsId) {
@@ -174,6 +174,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			data.put("appriseUPCount", newsInfo.getAppriseUpNum());
 			data.put("appriseDownCount", newsInfo.getAppriseDownNum());
 			data.put("commentNum", newsInfo.getCommentNum());
+			data.put("newsTags", newsInfo.getNewsTags());
+			data.put("videoDuration", newsInfo.getVideoDuration());
 			Integer imageCount = newsInfo.getImageList();
 			if (imageCount == null) {
 				imageCount = 0;
@@ -207,7 +209,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	@Override
 	/**
-	 * 刘瀚博 imedia后台同步新闻内容
+	 * 鍒樼�氬崥 imedia鍚庡彴鍚屾鏂伴椈鍐呭
 	 */
 	public RongLianResult addNewsInfo(String newsStr)
 			throws JsonParseException, JsonMappingException, IOException, NumberFormatException, ParseException {
@@ -226,7 +228,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				/*
 				 * @author liyang
 				 * 
-				 * @createTime 2018年2月5日 追加返回字段 获取专题信息
+				 * @createTime 2018骞�2鏈�5鏃� 杩藉姞杩斿洖瀛楁 鑾峰彇涓撻淇℃伅
 				 */
 				String topicUniqueId = null;
 				Object obj = map.get("topicUniqueId");
@@ -236,8 +238,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				/*
 				 * @author liyang
 				 * 
-				 * @createTime 2018年2月5日 追加返回字段
-				 * 获取直播：liveUrl、liveReplayUrl、liveHostChatid、liveUsChatid、
+				 * @createTime 2018骞�2鏈�5鏃� 杩藉姞杩斿洖瀛楁
+				 * 鑾峰彇鐩存挱锛歭iveUrl銆乴iveReplayUrl銆乴iveHostChatid銆乴iveUsChatid銆�
 				 * appointCoverImage
 				 */
 				NewsInfo newsInfo = new NewsInfo(map.get("newsId").toString(),
@@ -279,7 +281,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				/*
 				 * @author liyang
 				 * 
-				 * @createTime 2018年2月5日 追加 直播的字段：String liveUrl String
+				 * @createTime 2018骞�2鏈�5鏃� 杩藉姞 鐩存挱鐨勫瓧娈碉細String liveUrl String
 				 * liveReplayUrl String liveHostChatid String liveUsChatid
 				 * String appointCoverImage
 				 */
@@ -363,11 +365,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				newsInfo.setIsLiveReplay(isLiveReplay);
 				newsInfo.setIsToTop(isToTop);
 				newsInfo.setTopnewsSort(topnewsSort);
-
 				/*
 				 * @author liyang
 				 * 
-				 * @createTime 2018年3月5日 追加 的字段：String link Byte dataMode
+				 * @createTime 2018骞�3鏈�5鏃� 杩藉姞 鐨勫瓧娈碉細String link Byte dataMode
 				 */
 				String link = null;
 				Byte dataMode = null;
@@ -381,7 +382,19 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				}
 				newsInfo.setDataMode(dataMode);
 				newsInfo.setLink(link);
-				// 录入APP后台数据库
+				
+				/*
+				 * @author liyang
+				 * 
+				 * @createTime 20180315 添加视频总长（单位秒）
+				 * */
+				Integer videoDuration  = null;
+				obj = map.get("videoDuration");
+				if (obj != null) {
+					videoDuration = Integer.parseInt(obj.toString());
+				}
+				newsInfo.setVideoDuration(videoDuration);
+				// 褰曞叆APP鍚庡彴鏁版嵁搴�
 				newsPictureDao.deleteByNewsID(newsInfo.getNewsId());
 				int i = 0;
 				boolean less = false;
@@ -450,7 +463,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017年12月27日
+	 * @createTime 2017骞�12鏈�27鏃�
 	 */
 	@Override
 	public RongLianResult getPhotoNewsByNewsId(String newsID, Integer incNo) {
@@ -513,7 +526,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	}
 
 	/*
-	 * @param List<NewsInfo> list ----新闻列表 把find的数据，组合变换成前端需要的格式：
+	 * @param List<NewsInfo> list ----鏂伴椈鍒楄〃 鎶奻ind鐨勬暟鎹紝缁勫悎鍙樻崲鎴愬墠绔渶瑕佺殑鏍煎紡锛�
 	 */
 	public List<Map> changeDataContent(List<NewsInfo> list) {
 		List<Map> resultList = new ArrayList<Map>();
@@ -531,16 +544,18 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			resultMap.put("hasVideo", news.getHasVideo());
 			resultMap.put("isLive", news.getIsLive());
 			resultMap.put("isLiveReplay", news.getIsLiveReplay());
-			// 追加直播5个字段
+			// 杩藉姞鐩存挱5涓瓧娈�
 			resultMap.put("appointCoverImage ", news.getAppointCoverImage());
 			resultMap.put("liveUrl", news.getLiveUrl());
 			resultMap.put("liveReplayUrl", news.getLiveReplayUrl());
 			resultMap.put("liveHostChatid", news.getLiveHostChatid());
 			resultMap.put("liveUsChatid", news.getLiveUsChatid());
-			// 追加dataMode、link两个字段
+			// 杩藉姞dataMode銆乴ink涓や釜瀛楁
 			resultMap.put("link", news.getLink());
 			resultMap.put("dataMode", news.getDataMode());
-			// 判断是否是专题
+			//视频总长
+			resultMap.put("videoDuration", news.getVideoDuration());
+			// 鍒ゆ柇鏄惁鏄笓棰�
 			Integer isTopic = news.getIsTopic();
 			resultMap.put("isTopic", news.getIsTopic());
 			String topicUniqueId = null;
@@ -550,7 +565,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			}
 			//
 			if (StringUtils.isNotBlank(topicUniqueId)) {
-				// 根据专题的uniqueId查询专题
+				// 鏍规嵁涓撻鐨剈niqueId鏌ヨ涓撻
 				NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicUniqueId);
 				if (topic != null) {
 					Map topicDetail = new HashMap();
@@ -560,8 +575,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					resultMap.put("topicDetail", topicDetail);
 				}
 			}
-
-			// 查看图片
+			//视频相关字段
+			Integer videoDuration = null;
+			videoDuration = news.getVideoDuration();
+			resultMap.put("videoDuration", videoDuration);
+			// 鏌ョ湅鍥剧墖
 			Integer imageCount = news.getImageList();
 			if (imageCount == null) {
 				imageCount = 0;
@@ -592,13 +610,13 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	}
 
 	/*
-	 * 根据专题的uniqueId 查询专题映射的新闻列表。。。。。。。。
+	 * 鏍规嵁涓撻鐨剈niqueId 鏌ヨ涓撻鏄犲皠鐨勬柊闂诲垪琛ㄣ�傘�傘�傘�傘�傘�傘�傘��
 	 * 
-	 * @param int n ---- 不超过n条新闻才会显示
+	 * @param int n ---- 涓嶈秴杩噉鏉℃柊闂绘墠浼氭樉绀�
 	 * 
-	 * @param String topicUniqueId ----专题id
+	 * @param String topicUniqueId ----涓撻id
 	 * 
-	 * @param resultList ----返回的结果集
+	 * @param resultList ----杩斿洖鐨勭粨鏋滈泦
 	 */
 	public List<Map> findTopicNews(List<Map> resultList, String topicUniqueId, int n) {
 		List<String> newsIdList = this.topicAndNewsDao.selectNewsInfoIdByTopic(topicUniqueId);
@@ -618,16 +636,18 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				topicNews.put("hasVideo", newsInfo.getHasVideo());
 				topicNews.put("isLive", newsInfo.getIsLive());
 				topicNews.put("isLiveReplay", newsInfo.getIsLiveReplay());
-				// 追加直播5个字段
+				// 杩藉姞鐩存挱5涓瓧娈�
 				topicNews.put("appointCoverImage ", newsInfo.getAppointCoverImage());
 				topicNews.put("liveUrl", newsInfo.getLiveUrl());
 				topicNews.put("liveReplayUrl", newsInfo.getLiveReplayUrl());
 				topicNews.put("liveHostChatid", newsInfo.getLiveHostChatid());
 				topicNews.put("liveUsChatid", newsInfo.getLiveUsChatid());
-				// 追加dataMode、link两个字段
+				// 杩藉姞dataMode銆乴ink涓や釜瀛楁
 				topicNews.put("link", newsInfo.getLink());
 				topicNews.put("dataMode", newsInfo.getDataMode());
-				// 判断是否是专题
+				//视频总长
+				topicNews.put("videoDuration", newsInfo.getVideoDuration());
+				// 鍒ゆ柇鏄惁鏄笓棰�
 				topicNews.put("isTopic", newsInfo.getIsTopic());
 				resultList.add(topicNews);
 			}

@@ -731,5 +731,17 @@ public class NewsInfo implements Serializable {
 	public void setLink(String link) {
 		this.link = link;
 	}
+	//20180315追加视频总长字段
+	@Column(name="video_duration")
+	private Integer videoDuration;
+
+	public Integer getVideoDuration() {
+		return videoDuration;
+	}
+
+	public void setVideoDuration(Integer videoDuration) {
+		this.videoDuration = videoDuration;
+	}
+	
 	
 }

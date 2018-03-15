@@ -30,7 +30,7 @@ import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
- * @createTime 2017锟斤拷12锟斤拷22锟斤拷
+ * @createTime 2017��12��22��
  */
 @RestController
 @RequestMapping("/api")
@@ -41,11 +41,11 @@ public class CommentController {
 	@Autowired
 	private UserService userService;
 	/**
-	 * 3.5.9	用户评论列表接口
+	 * 3.5.9	�û������б��ӿ�
 	 * */
 	@RequestMapping(value="/1.0/usercomments",method=RequestMethod.GET)
 	public RongLianResult getComments(String deviceId,String userId,String accessToken){
-		//登录信息校验
+		//��¼��ϢУ��
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -57,14 +57,14 @@ public class CommentController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//未登录时，信息校验
+		//δ��¼ʱ����ϢУ��
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
 		return  this.commentService.getComments(deviceId, userId);
 	}
 	/**
-	 * 3.5.5	用户对文章评论接口
+	 * 3.5.5	�û����������۽ӿ�
 	 * */
 	@RequestMapping(value="/1.0/contentcomment",method=RequestMethod.POST)
 	public RongLianResult addComment(@RequestBody RongLianRequest<NewsComment> commentBody){
@@ -75,11 +75,11 @@ public class CommentController {
 			comment = commentBody.getData();
 			accessToken = commentBody.getAccessToken();
 		}
-		//获取请求的userId
+		//��ȡ�����userId
 		if(comment != null){
 			userId = comment.getUserId();
 		}
-		//登录信息校验
+		//��¼��ϢУ��
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -91,22 +91,27 @@ public class CommentController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//未登录时，信息校验
+		//δ��¼ʱ����ϢУ��
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
 		return this.commentService.addComment(comment);
 	}
 	/**
-	 * 锟斤拷锟脚ｏ拷锟斤拷锟叫ｏ拷锟斤拷锟斤拷锟叫憋拷锟窖�
+	 * 
 	 * */
 	@RequestMapping(value="/1.0/comments",method=RequestMethod.GET)
-	public RongLianResult getCommentList(String userId,String newsId,String deviceId){
-		return this.commentService.getCommentList(userId,newsId,deviceId);
+	public RongLianResult getCommentList(String userId,String newsId,String deviceId,
+			@RequestParam(value="pageNo",defaultValue="1",required=false)int pageNo,
+			@RequestParam(value="pageSize",defaultValue="10",required=false)int pageSize
+			){
+//		return this.commentService.getCommentList(userId,newsId,deviceId);
+		int start = (pageNo - 1)*10;
+		return this.commentService.getCommentList(userId, newsId, deviceId, start, pageSize);
 	}
 	
 	/**
-	 * 3.5.10	用户评论删除接口
+	 * 3.5.10	�û�����ɾ���ӿ�
 	 * */
 	@RequestMapping(value="/1.0/deletecomment",method=RequestMethod.POST)
 	public RongLianResult delComment(@RequestBody RongLianRequest<Map> requestBody){
@@ -121,11 +126,11 @@ public class CommentController {
 		if(requestMap.get("commentId") != null){
 			commentId = (String) requestMap.get("commentId");
 		}
-		//获取请求的userId
+		//��ȡ�����userId
 		if(requestMap != null){
 			userId = (String) requestMap.get("userId");
 		}
-		//登录信息校验
+		//��¼��ϢУ��
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -137,7 +142,7 @@ public class CommentController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//未登录时，信息校验
+		//δ��¼ʱ����ϢУ��
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
@@ -168,7 +173,7 @@ public class CommentController {
 			return RongLianResult.build(500, "error");
 		}
 	}
-	//锟斤拷锟斤拷锟斤拷氐慕涌冢锟斤拷锟絠media锟斤拷锟斤拷锟斤拷
+	//������صĽӿڣ���imedia������
 	@RequestMapping(value="/1.0/comment",method=RequestMethod.GET)
 	public PageCountResult searchCommentList(Integer status,String newsTitle,
 			@RequestParam(value="pageNo",defaultValue="1",required=false)int pageNo,

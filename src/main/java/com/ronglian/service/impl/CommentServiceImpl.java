@@ -73,6 +73,7 @@ public class CommentServiceImpl implements CommentService {
 			comment.setAppriseNum(0);
 			comment.setCreateTime(date);
 			comment.setModifyTime(date);
+			comment.setStatus(0);
 			NewsComment result = this.commentDao.save(comment);
 			
 			//同步newsInfo表的comment_num 数据
@@ -85,16 +86,32 @@ public class CommentServiceImpl implements CommentService {
 	/* (non-Javadoc)
 	 * @see com.ronglian.service.CommentService#getCommentList(java.lang.String, java.lang.String)
 	 */
+//	@Override
+//	public RongLianResult getCommentList(String userId, String newsId,String deviceId) {
+//		// TODO Auto-generated method stub
+//		List<NewsComment> list = null;
+//		if(StringUtils.isNotBlank(newsId) && 
+//				StringUtils.isNotBlank(deviceId) ){
+//			if(StringUtils.isNotBlank(userId)){//用户登录时
+//				list = this.commentDao.getUserCommentListByUserId(newsId, userId);
+//			}else{//用户没登录时
+//				list = this.commentDao.getUserCommentListByDeviceId(newsId, deviceId);
+//			}
+//		}else{
+//			return RongLianResult.build(500, "请补全必须请求参数");
+//		}
+//		return RongLianResult.ok(list);
+//	}
 	@Override
-	public RongLianResult getCommentList(String userId, String newsId,String deviceId) {
+	public RongLianResult getCommentList(String userId, String newsId,String deviceId,int start,int pageSize) {
 		// TODO Auto-generated method stub
 		List<NewsComment> list = null;
 		if(StringUtils.isNotBlank(newsId) && 
 				StringUtils.isNotBlank(deviceId) ){
 			if(StringUtils.isNotBlank(userId)){//用户登录时
-				list = this.commentDao.getUserCommentListByUserId(newsId, userId);
+				list = this.commentDao.getUserCommentListByUserIdLimt(newsId, userId, start, pageSize);
 			}else{//用户没登录时
-				list = this.commentDao.getUserCommentListByDeviceId(newsId, deviceId);
+				list = this.commentDao.getUserCommentListByDeviceIdLimt(newsId, deviceId, start, pageSize);
 			}
 		}else{
 			return RongLianResult.build(500, "请补全必须请求参数");

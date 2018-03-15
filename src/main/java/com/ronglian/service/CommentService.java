@@ -17,11 +17,14 @@ public interface CommentService {
 	
 	public RongLianResult addComment(NewsComment comment);
 	
-	public RongLianResult getCommentList(String userId,String newsId,String deviceId);
+//	public RongLianResult getCommentList(String userId,String newsId,String deviceId);
 	
 	public RongLianResult delCommentById(String commentId);
 	
 	public RongLianResult checkComment(Integer status,String commentId);
 	
 	public PageCountResult fingCommentList(Integer status,String newsTitle,int pageNo,int pageSize);
+	
+	public RongLianResult getCommentList(String userId, String newsId,String deviceId,int start,int pageSize); 
+
 }
