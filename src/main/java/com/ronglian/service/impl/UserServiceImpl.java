@@ -22,7 +22,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ29ÈÕ
+ * @createTime 2017ï¿½ï¿½12ï¿½ï¿½29ï¿½ï¿½
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,20 +38,20 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public RongLianResult login(User user) {
-		//ÅÐ¶ÏÊÇ·ñÎª¿Õ user
+		//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ user
 		User loginUser = null;
 		String accessToken = null;
 		Map resultMap = new HashMap();
 		
 		if(user != null && user.getType() >= 0){
-			//ÅÐ¶ÏµÇÂ¼·½Ê½£ºtype(0:weixin/1:twinter/2:faceBook)
+			//ï¿½Ð¶Ïµï¿½Â¼ï¿½ï¿½Ê½ï¿½ï¿½type(0:weixin/1:twinter/2:faceBook)
 			int type = user.getType();
-			//Î¢ÐÅweixin
+			//Î¢ï¿½ï¿½weixin
 			if(type == 0){
 				 if(user.getOpenid() != null){
 					 loginUser = userDao.getUserByOpenid(user.getOpenid());
 				 }else{
-					 RongLianResult.build(200, "È±Ê§openid²ÎÊý"); 
+					 RongLianResult.build(200, "openid can not be null"); 
 				 }
 			}
 			//twinter
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 				 if(user.getTwOpenid() != null){
 					 loginUser = userDao.getUserBytwOpenid(user.getTwOpenid()); 
 				 }else{
-					 RongLianResult.build(200, "È±Ê§twOpenid²ÎÊý");
+					 RongLianResult.build(200, "twOpenid can not be null");
 				 }
 			}
 			//faceBook
@@ -67,26 +67,26 @@ public class UserServiceImpl implements UserService {
 				if(user.getFaceOpenid() != null){
 				 loginUser = userDao.getUserByfaceOpenid(user.getFaceOpenid());
 				}else{
-					RongLianResult.build(200, "È±Ê§faceBook²ÎÊý");
+					RongLianResult.build(200, "faceBook can not be null");
 				}
 			}
-			//ÅÐ¶ÏµÇÂ¼ÓÃ»§ÊÇ·ñ×¢²á
+			//ï¿½Ð¶Ïµï¿½Â¼ï¿½Ã»ï¿½ï¿½Ç·ï¿½×¢ï¿½ï¿½
 			if(loginUser == null){
-				//²¹È«Êý¾Ý
+				//ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½
 				user.setUserId(UUID.randomUUID().toString());
 				user.setCreateTime(new Date());
 				user.setModifyTime(new Date());
-				//Èç¹ûÃ»×¢²á£¬ÏÈ×¢²á£¬ÔÙµÇÂ½
+				//ï¿½ï¿½ï¿½Ã»×¢ï¿½á£¬ï¿½ï¿½×¢ï¿½á£¬ï¿½Ùµï¿½Â½
 				loginUser = this.userDao.save(user);
 			}
 			accessToken = UUID.randomUUID().toString().replaceAll("-", "");
 			resultMap.put("accessToken", accessToken);
-			//½«userµÇÂ¼ÐÅÏ¢·Åµ½redis»º´æÖÐ
+			//ï¿½ï¿½userï¿½ï¿½Â¼ï¿½ï¿½Ï¢ï¿½Åµï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			this.jedisDao.set(accessToken, JsonUtils.objectToJson(loginUser));
 			this.jedisDao.expire(accessToken,RongLianConstant.REDIS_ACCESS_TOKEN_EXPIRE );
 			return RongLianResult.ok(resultMap);
 		}else{
-			return RongLianResult.build(200, "userÐÅÏ¢Îªnull»òÈ±Ê§type²ÎÊý");
+			return RongLianResult.build(200, "user and type can not be null");
 		}
 	}
 
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
 			this.jedisDao.expire(accessToken, RongLianConstant.REDIS_ACCESS_TOKEN_EXPIRE);
 			return RongLianResult.ok(user);
 		}
-		return RongLianResult.build(106, "ÇëÏÈµÇÂ¼");
+		return RongLianResult.build(106, "ï¿½ï¿½ï¿½Èµï¿½Â¼");
 	}
 
 	/* (non-Javadoc)

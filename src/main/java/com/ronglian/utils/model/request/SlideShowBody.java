@@ -13,7 +13,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * @author liyang
- * @createTime 2018Äê2ÔÂ2ÈÕ
+ * @createTime 2018ï¿½ï¿½2ï¿½ï¿½2ï¿½ï¿½
  */
 public class SlideShowBody implements Serializable{
 		private static final long serialVersionUID = 1L;
@@ -31,8 +31,14 @@ public class SlideShowBody implements Serializable{
 		}
 		private String title;
 		private String desc;
-		private String dataStatus;
+		private Integer dataStatus;
 		private Integer sort;
+		public Integer getDataStatus() {
+			return dataStatus;
+		}
+		public void setDataStatus(Integer dataStatus) {
+			this.dataStatus = dataStatus;
+		}
 		public String getSlideShowId() {
 			return slideShowId;
 		}
@@ -74,12 +80,6 @@ public class SlideShowBody implements Serializable{
 		}
 		public void setDesc(String desc) {
 			this.desc = desc;
-		}
-		public String getDataStatus() {
-			return dataStatus;
-		}
-		public void setDataStatus(String dataStatus) {
-			this.dataStatus = dataStatus;
 		}
 		public Integer getSort() {
 			return sort;

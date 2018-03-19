@@ -41,11 +41,11 @@ public class CommentController {
 	@Autowired
 	private UserService userService;
 	/**
-	 * 3.5.9	ÓÃ»§ÆÀÂÛÁÐ±í½Ó¿Ú
+	 * 3.5.9	ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½Ó¿ï¿½
 	 * */
 	@RequestMapping(value="/1.0/usercomments",method=RequestMethod.GET)
 	public RongLianResult getComments(String deviceId,String userId,String accessToken){
-		//µÇÂ¼ÐÅÏ¢Ð£Ñé
+		//ï¿½ï¿½Â¼ï¿½ï¿½Ï¢Ð£ï¿½ï¿½
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -57,14 +57,14 @@ public class CommentController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//Î´µÇÂ¼Ê±£¬ÐÅÏ¢Ð£Ñé
+		//Î´ï¿½ï¿½Â¼Ê±ï¿½ï¿½ï¿½ï¿½Ï¢Ð£ï¿½ï¿½
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
 		return  this.commentService.getComments(deviceId, userId);
 	}
 	/**
-	 * 3.5.5	ÓÃ»§¶ÔÎÄÕÂÆÀÂÛ½Ó¿Ú
+	 * 3.5.5	ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û½Ó¿ï¿½
 	 * */
 	@RequestMapping(value="/1.0/contentcomment",method=RequestMethod.POST)
 	public RongLianResult addComment(@RequestBody RongLianRequest<NewsComment> commentBody){
@@ -75,11 +75,11 @@ public class CommentController {
 			comment = commentBody.getData();
 			accessToken = commentBody.getAccessToken();
 		}
-		//»ñÈ¡ÇëÇóµÄuserId
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½userId
 		if(comment != null){
 			userId = comment.getUserId();
 		}
-		//µÇÂ¼ÐÅÏ¢Ð£Ñé
+		//ï¿½ï¿½Â¼ï¿½ï¿½Ï¢Ð£ï¿½ï¿½
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -91,7 +91,7 @@ public class CommentController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//Î´µÇÂ¼Ê±£¬ÐÅÏ¢Ð£Ñé
+		//Î´ï¿½ï¿½Â¼Ê±ï¿½ï¿½ï¿½ï¿½Ï¢Ð£ï¿½ï¿½
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
@@ -106,12 +106,12 @@ public class CommentController {
 			@RequestParam(value="pageSize",defaultValue="10",required=false)int pageSize
 			){
 //		return this.commentService.getCommentList(userId,newsId,deviceId);
-		int start = (pageNo - 1)*10;
+		int start = (pageNo - 1)*pageSize;
 		return this.commentService.getCommentList(userId, newsId, deviceId, start, pageSize);
 	}
 	
 	/**
-	 * 3.5.10	ÓÃ»§ÆÀÂÛÉ¾³ý½Ó¿Ú
+	 * 3.5.10	ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ó¿ï¿½
 	 * */
 	@RequestMapping(value="/1.0/deletecomment",method=RequestMethod.POST)
 	public RongLianResult delComment(@RequestBody RongLianRequest<Map> requestBody){
@@ -126,11 +126,11 @@ public class CommentController {
 		if(requestMap.get("commentId") != null){
 			commentId = (String) requestMap.get("commentId");
 		}
-		//»ñÈ¡ÇëÇóµÄuserId
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½userId
 		if(requestMap != null){
 			userId = (String) requestMap.get("userId");
 		}
-		//µÇÂ¼ÐÅÏ¢Ð£Ñé
+		//ï¿½ï¿½Â¼ï¿½ï¿½Ï¢Ð£ï¿½ï¿½
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -142,7 +142,7 @@ public class CommentController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//Î´µÇÂ¼Ê±£¬ÐÅÏ¢Ð£Ñé
+		//Î´ï¿½ï¿½Â¼Ê±ï¿½ï¿½ï¿½ï¿½Ï¢Ð£ï¿½ï¿½
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
@@ -158,7 +158,7 @@ public class CommentController {
 	public RongLianResult getCheckComment(@RequestBody RongLianRequest<Map> requestBody){
 		Map requestMap = null;
 		String commentId = null;
-		Integer status=null;
+		Integer status = null;
 		if(requestBody != null){
 			requestMap = requestBody.getData();
 		}

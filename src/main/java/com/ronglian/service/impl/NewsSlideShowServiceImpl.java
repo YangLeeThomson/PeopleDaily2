@@ -22,7 +22,7 @@ import com.ronglian.utils.model.request.SlideShowBody;
 
 /**
  * @author liyang
- * @createTime 2017年12月28日
+ * @createTime 2017锟斤拷12锟斤拷28锟斤拷
  */
 @Service
 public class NewsSlideShowServiceImpl implements NewsSlideShowService {
@@ -36,7 +36,7 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 	public RongLianResult addSlideShow(NewsSlideshow slideShow) {
 		if(slideShow.getSlideShowId()==null||slideShow.getImageUrl()==null||slideShow.getChannelUniqueId()==null
 				||slideShow.getTitle()==null||slideShow.getDesc()==null){
-			return RongLianResult.build(500, "缺少数据");
+			return RongLianResult.build(500, "缺锟斤拷锟斤拷锟斤拷");
 		}
 		slideShow.setCreateTime((slideShowDao.findOne(slideShow.getSlideShowId())!=null)?slideShowDao.findOne(slideShow.getSlideShowId()).getCreateTime():(new Date()));
 		NewsSlideshow result = this.slideShowDao.save(slideShow);
@@ -74,7 +74,7 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 				resultList.add(slideBody);
 			}
 		}else{
-			return RongLianResult.build(500, "请求参数channelUniqueId不可以为null");
+			return RongLianResult.build(200, "channelUniqueId can not be null");
 		}
 		return RongLianResult.ok(resultList);
 	}

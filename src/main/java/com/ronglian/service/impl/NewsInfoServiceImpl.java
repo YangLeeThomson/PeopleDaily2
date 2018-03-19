@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.persistence.Column;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -176,6 +178,16 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			data.put("commentNum", newsInfo.getCommentNum());
 			data.put("newsTags", newsInfo.getNewsTags());
 			data.put("videoDuration", newsInfo.getVideoDuration());
+			data.put("shareNum",newsInfo.getShareNum());
+			data.put("hasVideo",newsInfo.getHasVideo());
+			data.put("isLive",newsInfo.getIsLive());
+			data.put("isLiveReplay",newsInfo.getIsLiveReplay());
+			data.put("appointCoverImage",newsInfo.getAppointCoverImage());
+			data.put("liveUrl",newsInfo.getLiveUrl());
+			data.put("liveReplayUrl",newsInfo.getLiveReplayUrl());
+			data.put("liveHostChatid",newsInfo.getLiveHostChatid());
+			data.put("liveUsChatid",newsInfo.getLiveUsChatid());
+			
 			Integer imageCount = newsInfo.getImageList();
 			if (imageCount == null) {
 				imageCount = 0;
@@ -618,10 +630,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * 
 	 * @param resultList ----杩斿洖鐨勭粨鏋滈泦
 	 */
-	public List<Map> findTopicNews(List<Map> resultList, String topicUniqueId, int n) {
+	public List<Map> findTopicNews(List<Map> resultList, String topicUniqueId,int n) {
 		List<String> newsIdList = this.topicAndNewsDao.selectNewsInfoIdByTopic(topicUniqueId);
 		if (newsIdList != null && newsIdList.size() <= n) {
 			List<NewsInfo> newsInfoList = this.newsInfoDao.selectByNewsID(newsIdList);
+			List<Map> topicNewsList = new ArrayList<Map>();
 			for (NewsInfo newsInfo : newsInfoList) {
 				Map topicNews = new HashMap();
 				topicNews.put("newsTitle", newsInfo.getNewsTitle());
@@ -649,8 +662,12 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				topicNews.put("videoDuration", newsInfo.getVideoDuration());
 				// 鍒ゆ柇鏄惁鏄笓棰�
 				topicNews.put("isTopic", newsInfo.getIsTopic());
-				resultList.add(topicNews);
+				topicNewsList.add(topicNews);
 			}
+			int position = topicNewsList.size() - 1;
+			Map topicListBody = topicNewsList.get(position);
+			topicListBody.put("topicNewsList", topicNewsList);
+			resultList.set(position, topicListBody);
 		}
 		return resultList;
 	}

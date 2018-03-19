@@ -42,7 +42,7 @@ public class NewsSlideshow implements Serializable {
 	private String desc;
 	
 	@Column(name="data_status")
-	private String dataStatus;
+	private Integer dataStatus;
 
 	@Column(name="sort")
 	private Integer sort;
@@ -106,11 +106,12 @@ public class NewsSlideshow implements Serializable {
 		this.desc = desc;
 	}
 
-	public String getDataStatus() {
+
+	public Integer getDataStatus() {
 		return dataStatus;
 	}
 
-	public void setDataStatus(String dataStatus) {
+	public void setDataStatus(Integer dataStatus) {
 		this.dataStatus = dataStatus;
 	}
 
