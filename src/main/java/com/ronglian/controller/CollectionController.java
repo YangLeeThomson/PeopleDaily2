@@ -27,7 +27,7 @@ import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
- * @createTime 2017��12��29��
+ * @createTime 2017年12月29日
  */
 @RestController
 @RequestMapping("/api")
@@ -40,7 +40,7 @@ public class CollectionController {
 	@Autowired
 	private NewsPictureService pictureService;
 	/**
-	 * �û������ղؽӿ�
+	 * 用户收藏接口
 	 */
 	@RequestMapping(value = "/1.0/usercollection", method = RequestMethod.POST)
 	public RongLianResult addCollection(@RequestBody RongLianRequest<Collection> collectionBody) {
@@ -51,11 +51,9 @@ public class CollectionController {
 			collection = collectionBody.getData();
 			accessToken = collectionBody.getAccessToken();
 		}
-		// ��ȡ�����userId
 		if (collection != null) {
 			userId = collection.getUserId();
 		}
-		// ��¼��ϢУ��
 		if (StringUtils.isNotBlank(accessToken)) {
 			RongLianResult result = this.userService.getUserInfo(accessToken);
 			if (result.getData() == null) {
@@ -67,11 +65,9 @@ public class CollectionController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}
 		}
-		// δ��¼ʱ����ϢУ��
 		if (StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)) {
 			return RongLianResult.build(200, "you have not logined ,so userId should be null ");
 		}
-		//��ȫ����
 		List<NewsPicture> list = this.pictureService.findPicture(collection.getNewsId());
 		if(list != null && list.size() > 0){
 			collection.setImgUrl(list.get(0).getImagePath());
@@ -79,13 +75,15 @@ public class CollectionController {
 		try {
 			return collectionService.insertUserCollection(collection);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return RongLianResult.build(500, "save failed");
 		}
 	}
 
 //	@RequestMapping(value = "/1.0/collectionList", method = RequestMethod.GET)
 //	public RongLianResult getCollection(String deviceId, String userId, String accessToken) {
+	/**
+	 * 获取用户收藏列表接口
+	 * */
 	@RequestMapping(value = "/1.0/collectionList", method = RequestMethod.GET)
 	public RongLianResult getCollection(String deviceId, String userId, String accessToken,
 			@RequestParam(value="pageNo",defaultValue="1",required=false)Integer pageNo,
@@ -108,11 +106,13 @@ public class CollectionController {
 //			return this.collectionService.getUserCollection(userId, deviceId);
 			return this.collectionService.getUserCollection(userId, deviceId,pageNo,pageSize);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return RongLianResult.build(500, "server error");
 		}
 	}
 
+	/**
+	 * 取消用户收藏接口
+	 * */
 	@RequestMapping(value = "/1.0/cancleCollection", method = RequestMethod.POST)
 	public RongLianResult getCollection(@RequestBody RongLianRequest<Map> requestBody) {
 		Map requestMap = null;
@@ -131,9 +131,7 @@ public class CollectionController {
 		if(collectionId == null){
 			return RongLianResult.build(200, "The param collectionId of data can not be null");
 		}
-		// ��ȡ�����userId
 		userId = (String) requestMap.get("userId");
-		// ��¼��ϢУ��
 		if (StringUtils.isNotBlank(accessToken)) {
 			RongLianResult result = this.userService.getUserInfo(accessToken);
 			if (result.getData() == null) {
@@ -145,14 +143,12 @@ public class CollectionController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}
 		}
-		// δ��¼ʱ����ϢУ��
 		if (StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)) {
 			return RongLianResult.build(200, "you have not logined ,so userId should be null ");
 		}
 		try {
 			return this.collectionService.delCollectionById(collectionId);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return RongLianResult.build(500, "The server maybe error or you have deleted");
 		}
 	}

@@ -17,7 +17,7 @@ public class RongLianResult {
     // 定义jackson对象
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    // 响应业务状态，0表示成功响应
+    // 响应业务状态，200表示成功响应
     private Integer code;
 
     // 响应消息

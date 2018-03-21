@@ -88,4 +88,12 @@ public class SlideShowBody implements Serializable{
 			this.sort = sort;
 		}
 		
+		//追加轮播图对应新闻内容
+		private NewsInfoBody newsInfoBody;
+		public NewsInfoBody getNewsInfoBody() {
+			return newsInfoBody;
+		}
+		public void setNewsInfoBody(NewsInfoBody newsInfoBody) {
+			this.newsInfoBody = newsInfoBody;
+		}
 }

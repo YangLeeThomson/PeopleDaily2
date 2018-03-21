@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ28ÈÕ
+ * @createTime 2017å¹´12æœˆ28æ—¥
  */
 @Entity
 @Table(name="app_start_picture")

@@ -13,7 +13,7 @@ import com.ronglian.entity.UserChannelConfig;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ29ÈÕ
+ * @createTime 2017å¹´12æœˆ29æ—¥
  */
 public interface UserChannelConfigDao extends CrudRepository<UserChannelConfig, Integer> {
 

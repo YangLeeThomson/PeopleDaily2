@@ -13,7 +13,7 @@ import com.ronglian.entity.User;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ22ÈÕ
+ * @createTime 2017å¹´12æœˆ22æ—¥
  */
 public interface UserDao extends CrudRepository<User, String>{
 

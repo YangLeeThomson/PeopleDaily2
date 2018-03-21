@@ -664,8 +664,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				topicNews.put("isTopic", newsInfo.getIsTopic());
 				topicNewsList.add(topicNews);
 			}
-			int position = topicNewsList.size() - 1;
-			Map topicListBody = topicNewsList.get(position);
+			int position = resultList.size() - 1;
+			Map topicListBody = resultList.get(position);
 			topicListBody.put("topicNewsList", topicNewsList);
 			resultList.set(position, topicListBody);
 		}

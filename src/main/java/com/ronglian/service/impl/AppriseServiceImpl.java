@@ -21,7 +21,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ2ÈÕ
+ * @createTime 2018å¹´1æœˆ2æ—¥
  */
 @Service
 public class AppriseServiceImpl implements AppriseService {
@@ -51,7 +51,7 @@ public class AppriseServiceImpl implements AppriseService {
 					&& good != null
 					){
 				
-				//ÏÈ²éÒ»ÏÂ£¬ÊÇ·ñÒÑ¾­µãÔŞ
+				//å…ˆæŸ¥ä¸€ä¸‹ï¼Œæ˜¯å¦å·²ç»ç‚¹èµ
 				result = this.appriseDao.getNewsInfoApprise(deviceId,userId,newsId);
 				if(result == null){
 					apprise.setAppriseId(UUID.randomUUID().toString());
@@ -65,7 +65,7 @@ public class AppriseServiceImpl implements AppriseService {
 						this.newsInfoDao.updateAppriseDownNum(newsId);
 						return RongLianResult.ok(result);
 					}else{
-						return RongLianResult.build(200, "param good has problem£¬the value of good should be 1 or -1");
+						return RongLianResult.build(200, "param good has problemï¿½ï¿½the value of good should be 1 or -1");
 					}
 				}else{
 					return RongLianResult.build(200, "you have apprised");
@@ -95,7 +95,7 @@ public class AppriseServiceImpl implements AppriseService {
 					&& StringUtils.isNotBlank(newsId)
 					&& good != null
 					){
-				//ÏÈ²éÒ»ÏÂ£¬ÊÇ·ñÒÑ¾­µãÔŞ
+				//å…ˆæŸ¥ä¸€ä¸‹ï¼Œæ˜¯å¦å·²ç»ç‚¹èµ
 				result = this.appriseDao.getNewsInfoApprise(deviceId,userId,newsId);
 				if(result != null){
 					this.appriseDao.delete(result);
@@ -106,16 +106,16 @@ public class AppriseServiceImpl implements AppriseService {
 						this.newsInfoDao.deleteAppriseDownNum(newsId);
 						return RongLianResult.ok();
 					}else{
-						return RongLianResult.build(200, "²ÎÊıgoodÓĞÎÊÌâ£¬good±ØĞëÊÇ1»ò-1");
+						return RongLianResult.build(200, "å‚æ•°goodæœ‰é—®é¢˜ï¼Œgoodå¿…é¡»æ˜¯1æˆ–-1");
 					}
 				}else{
-					return RongLianResult.build(200, "ÄãÒªÉ¾³ıµÄµãÔŞÊı¾İÒÑ¾­É¾³ı»ò²»´æÔÚ");
+					return RongLianResult.build(200, "ä½ è¦åˆ é™¤çš„ç‚¹èµæ•°æ®å·²ç»åˆ é™¤æˆ–ä¸å­˜åœ¨");
 				}
 			}else{
-				return RongLianResult.build(200, "ÇëÇó²ÎÊı²»ÕıÈ·");
+				return RongLianResult.build(200, "è¯·æ±‚å‚æ•°ä¸æ­£ç¡®");
 			}
 		}else{
-			return RongLianResult.build(200, "ÇëÇó²ÎÊı²»¿ÉÒÔÎª¿Õ");
+			return RongLianResult.build(200, "è¯·æ±‚å‚æ•°ä¸å¯ä»¥ä¸ºç©º");
 		}
 	}
 

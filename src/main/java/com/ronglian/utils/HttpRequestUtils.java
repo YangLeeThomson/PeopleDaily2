@@ -5,7 +5,7 @@ package com.ronglian.utils;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ26ÈÕ
+ * @createTime 2017å¹´12æœˆ26æ—¥
  */
 import java.io.IOException;  
 import java.util.HashMap;
@@ -24,17 +24,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 /* 
- * ½âÎöPOSTÌá½»µÄjsonÊı¾İ¹¤¾ßÀà 
- */   
+ * è§£æPOSTæäº¤çš„jsonæ•°æ®å·¥å…·ç±» 
+ */     
 public class HttpRequestUtils {
 
 	private static Logger log = Logger.getLogger(HttpRequestUtils.class);  
 	  
     /** 
-     * ½âÎörequestµÄÊäÈëÁ÷ 
+     * è§£ærequestçš„è¾“å…¥æµ 
      * @param request 
-     * @return ÇëÇóµÄjson×Ö·û´® 
-     */  
+     * @return è¯·æ±‚çš„jsonå­—ç¬¦ä¸² 
+     */   
     public static synchronized String getRequestBody(HttpServletRequest request) {  
         String str = null;  
         try {  
@@ -49,7 +49,7 @@ public class HttpRequestUtils {
       
   
     /** 
-     * ½âÎörequestµÄjsonÊı¾İ 
+     * è§£ærequestçš„jsonæ•°æ® 
      * @param request 
      * @return Map 
      */  
@@ -59,7 +59,7 @@ public class HttpRequestUtils {
         try {  
             String req = getRequestBody(request);  
             if(! StringUtils.isBlank(req)){
-            	// json¸ñÊ½×Ö·û´®jsonString×ª»¯ÎªJSONObject¶ÔÏó
+            	// jsonï¿½ï¿½Ê½ï¿½Ö·ï¿½ï¿½ï¿½jsonString×ªï¿½ï¿½ÎªJSONObjectï¿½ï¿½ï¿½ï¿½
             	Map jsonObject = JSON.parseObject(req);
             	Set<String> keys = new HashSet<String>();
             	keys = jsonObject.keySet();
@@ -79,7 +79,7 @@ public class HttpRequestUtils {
       
   
     /** 
-     * »ñÈ¡mapµÄvalue 
+     * è·å–mapçš„value 
      * @param map 
      * @param key 
      * @return  

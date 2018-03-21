@@ -23,7 +23,7 @@ import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
- * @createTime 2017骞�12鏈�22鏃�
+ * @createTime 2017-12-22
  */
 @RestController
 @RequestMapping("/api")

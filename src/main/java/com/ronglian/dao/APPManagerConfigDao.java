@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import com.ronglian.entity.APPManagerConfig;
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ22ÈÕ
+ * @createTime 2017å¹´12æœˆ22æ—¥
  */
 public interface APPManagerConfigDao extends CrudRepository<APPManagerConfig, Integer> {
 

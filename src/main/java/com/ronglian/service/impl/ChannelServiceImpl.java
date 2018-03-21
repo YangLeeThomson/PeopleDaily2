@@ -20,7 +20,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ27ÈÕ
+ * @createTime 2017å¹´12æœˆ27æ—¥
  */
 @Service
 public class ChannelServiceImpl implements ChannelService {
@@ -38,7 +38,7 @@ public class ChannelServiceImpl implements ChannelService {
 		if(result != null){
 			return RongLianResult.build(0, "ok");
 		}else{
-			return RongLianResult.build(500, "saved error!");
+			return RongLianResult.build(200, "saved failed!");
 		}
 	}
 	/* (non-Javadoc)
@@ -62,7 +62,7 @@ public class ChannelServiceImpl implements ChannelService {
 			}
 			return RongLianResult.ok(resultList);
 		}else{
-			return RongLianResult.build(500, "find null");
+			return RongLianResult.build(200, "find null");
 		}
 	}
 
@@ -70,7 +70,7 @@ public class ChannelServiceImpl implements ChannelService {
 	public RongLianResult addChannelMap(Map requestMap) {
 		if(requestMap.get("id")==null||requestMap.get("name")==null||requestMap.get("sort")==null
 				||requestMap.get("dataStatus")==null||requestMap.get("uniqueID")==null){
-			return RongLianResult.build(500, "È±ÉÙÊı¾İ");
+			return RongLianResult.build(200, "è¯·è¡¥é½æ•°æ®ï¼");
 		}
 		Channel channel=new Channel((int)requestMap.get("id"), requestMap.get("name").toString(),
 				(int)requestMap.get("sort"),requestMap.get("uniqueID").toString(), (int)requestMap.get("dataStatus"));
@@ -83,7 +83,7 @@ public class ChannelServiceImpl implements ChannelService {
 		if(result != null){
 			return RongLianResult.build(0, "ok");
 		}else{
-			return RongLianResult.build(500, "saved error!");
+			return RongLianResult.build(200, "saved failed!");
 		}
 	}
 }

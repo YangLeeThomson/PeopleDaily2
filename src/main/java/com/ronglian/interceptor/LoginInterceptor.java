@@ -19,7 +19,7 @@ import com.ronglian.utils.RongLianConstant;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ8ÈÕ
+ * @createTime 2018å¹´1æœˆ18æ—¥
  */
 @Component
 public class LoginInterceptor implements HandlerInterceptor{

@@ -17,11 +17,11 @@ import com.alibaba.fastjson.JSON;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ24ÈÕ
+ * @createTime 2018å¹´1æœˆ24æ—¥
  */
 public class GetRequestJsonUtils {
 	/*** 
-     * »ñÈ¡ request ÖĞ json ×Ö·û´®µÄÄÚÈİ 
+     * è·å– request ä¸­ json å­—ç¬¦ä¸²çš„å†…å®¹ 
      *  
      * @param request 
      * @return : <code>byte[]</code> 
@@ -40,9 +40,9 @@ public class GetRequestJsonUtils {
     }  
   
     /**    
-     * ÃèÊö:»ñÈ¡ post ÇëÇóµÄ byte[] Êı×é 
+     * æè¿°:è·å– post è¯·æ±‚çš„ byte[] æ•°ç»„ 
      * <pre> 
-     * ¾ÙÀı£º 
+     * ä¸¾ä¾‹ï¼š 
      * </pre> 
      * @param request 
      * @return 
@@ -68,9 +68,9 @@ public class GetRequestJsonUtils {
     }  
   
     /**    
-     * ÃèÊö:»ñÈ¡ post ÇëÇóÄÚÈİ 
+     * æè¿°:è·å– post è¯·æ±‚å†…å®¹ 
      * <pre> 
-     * ¾ÙÀı£º 
+     * ä¸¾ä¾‹ï¼š
      * </pre> 
      * @param request 
      * @return 
@@ -87,13 +87,13 @@ public class GetRequestJsonUtils {
     }  
     
     /*
-     * ½«JSONstring×ª»»ÎªMap¼¯ºÏ
+     * å°†JSONstringè½¬æ¢ä¸ºMapé›†åˆ
      * */
     public static synchronized Map<String, Object> parseObject(String str){
     	  Map<String, Object> map = new HashMap<String, Object>() ;  
           try {  
               if(! StringUtils.isBlank(str)){
-              	// json¸ñÊ½×Ö·û´®jsonString×ª»¯ÎªJSONObject¶ÔÏó
+              	// jsonï¿½ï¿½Ê½ï¿½Ö·ï¿½ï¿½ï¿½jsonString×ªï¿½ï¿½ÎªJSONObjectï¿½ï¿½ï¿½ï¿½
               	Map jsonObject = JSON.parseObject(str);
               	Set<String> keys = new HashSet<String>();
               	keys = jsonObject.keySet();

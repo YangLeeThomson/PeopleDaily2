@@ -159,7 +159,7 @@ public class NewsInfo implements Serializable {
 		)
 	private List<NewsTopic> newsTopics;
 
-/*20180111Ìí¼ÓµÄ×Ö¶Î*/
+/*20180111æ–°å¢žå­—æ®µ*/
 	
 	@Column(name="data_status")
 	private Integer dataStatus;
@@ -630,7 +630,7 @@ public class NewsInfo implements Serializable {
 		this.isLiveReplay = isLiveReplay;
 		this.topicUniqueId = topicUniqueId;
 	}
-//20180112Ôö¼Ó×Ö¶Î
+//20180112ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½
 	@Column(name="share_num")
 	private Integer shareNum;
 
@@ -641,7 +641,7 @@ public class NewsInfo implements Serializable {
 	public void setShareNum(Integer shareNum) {
 		this.shareNum = shareNum;
 	}
-//20180113Ôö¼Ó×Ö¶Î
+//20180113æ–°å¢žå­—æ®µ
 	@Column(name="topic_id")
 	private String topicUniqueId;
 
@@ -654,7 +654,7 @@ public class NewsInfo implements Serializable {
 	}
 
 	
-	//20180207Ôö¼Ó×Ö¶Î	
+	//20180207æ–°å¢žå­—æ®µ	
 	@Column(name="appoint_cover_image")
 	private String appointCoverImage;
 	
@@ -710,7 +710,7 @@ public class NewsInfo implements Serializable {
 		this.liveUsChatid = liveUsChatid;
 	}
 	
-	//20180305Ôö¼Ó×Ö¶Î	
+	//20180305æ–°å¢žå­—æ®µ	
 	@Column(name="data_mode")
 	private Byte dataMode;
 	
@@ -731,7 +731,7 @@ public class NewsInfo implements Serializable {
 	public void setLink(String link) {
 		this.link = link;
 	}
-	//20180315×·¼ÓÊÓÆµ×Ü³¤×Ö¶Î
+	//20180315æ–°å¢žå­—æ®µ
 	@Column(name="video_duration")
 	private Integer videoDuration;
 

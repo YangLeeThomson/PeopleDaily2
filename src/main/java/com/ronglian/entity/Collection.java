@@ -98,10 +98,10 @@ public class Collection implements Serializable {
 		this.userId = userId;
 	}
 
-	/*
-	 * @author 李楊
-	 * @comment 新闻图片链接url
-	 * @createTime 2018/3/5新增字段
+	/**
+	 * @author 鏉庢
+	 * @comment 鏂伴椈鍥剧墖閾炬帴url
+	 * @createTime 2018/3/5鏂板瀛楁
 	 * */
 	@Column(name="img_url")
 	private String imgUrl;

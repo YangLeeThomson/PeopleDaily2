@@ -6,21 +6,22 @@ package com.ronglian.utils;
  * */
 public class RongLianConstant {
 
-	//¼ÓÃÜµÄÑÎsalt
-	public static final String SALT = "ronglian";
-	
-	//½Ó¿ÚÈÏÖ¤Ê±¼ä´ÁµÄ°²È«¼ä¸ô£¨120·ÖÖÓ£©
-	public static final long INTERVAL = 120*60;
-	
-	//redis»º´æ(ÁîÅÆtokenId)Ê§Ğ§Ê±¼ä£¨30·ÖÖÓ£©
-	public static final int REDIS_KEY_EXPIRE = 3000;
-	
-	//À¹½ØÆ÷·ÅĞĞµÄuri(»ñÈ¡ÁîÅÆtokenIdµÄÇëÇó·ÅĞĞ)
-	public static final String TOKEN_URI = "/oauth/token";
-	
-	//redis»º´æ(µÇÂ¼accessToken)Ê§Ğ§Ê±¼ä£¨1ÖÜ£©
-	public static final int REDIS_ACCESS_TOKEN_EXPIRE = 604800;
-	
-	//×¨ÌâÁĞ±íÏÔÊ¾ÌõÄ¿Êı(²»³¬¹ı4Ìõ)
-	public static final int TOPIC_NEWS_NUMBER = 4;
+		//åŠ å¯†çš„ç›salt
+		public static final String SALT = "ronglian";
+		
+		//æ¥å£è®¤è¯æ—¶é—´æˆ³çš„å®‰å…¨é—´éš”ï¼ˆ120åˆ†é’Ÿï¼‰
+		public static final long INTERVAL = 120*60;
+		
+		//redisç¼“å­˜(ä»¤ç‰ŒtokenId)å¤±æ•ˆæ—¶é—´ï¼ˆ30åˆ†é’Ÿï¼‰
+		public static final int REDIS_KEY_EXPIRE = 3000;
+		
+		//æ‹¦æˆªå™¨æ”¾è¡Œçš„uri(è·å–ä»¤ç‰ŒtokenIdçš„è¯·æ±‚æ”¾è¡Œ)
+		public static final String TOKEN_URI = "/oauth/token";
+		
+		//redisç¼“å­˜(ç™»å½•accessToken)å¤±æ•ˆæ—¶é—´ï¼ˆ1å‘¨ï¼‰
+		public static final int REDIS_ACCESS_TOKEN_EXPIRE = 604800;
+		
+		//ä¸“é¢˜åˆ—è¡¨æ˜¾ç¤ºæ¡ç›®æ•°(ä¸è¶…è¿‡4æ¡)
+		public static final int TOPIC_NEWS_NUMBER = 4;
+
 }

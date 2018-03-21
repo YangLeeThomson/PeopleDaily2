@@ -19,7 +19,7 @@ import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ29ÈÕ
+ * @createTime 2017å¹´12æœˆ29æ—¥
  */
 @RestController
 @RequestMapping("/api")
@@ -30,7 +30,7 @@ public class CommentAppriseController {
 	@Autowired
 	private UserService userService;
 	/**
-	 * ÓÃ»§¶ÔÆÀÂÛ½øĞĞµãÔŞ½Ó¿Ú
+	 * ç”¨æˆ·å¯¹è¯„è®ºè¿›è¡Œç‚¹èµæ¥å£
 	 * */
 	@RequestMapping(value="/1.0/commentApprise",method=RequestMethod.POST)
 	public RongLianResult addCommentApprise(@RequestBody RongLianRequest<NewsCommentApprise> commentAppriseBody){
@@ -41,11 +41,11 @@ public class CommentAppriseController {
 			commentApprise = commentAppriseBody.getData();
 			accessToken = commentAppriseBody.getAccessToken();
 		}
-		//»ñÈ¡ÇëÇóµÄuserId
+		//è·å–è¯·æ±‚çš„userId
 		if(commentApprise != null){
 			userId = commentApprise.getUserId();
 		}
-		//µÇÂ¼ĞÅÏ¢Ğ£Ñé
+		//ç™»å½•ä¿¡æ¯æ ¡éªŒ
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -57,7 +57,7 @@ public class CommentAppriseController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//Î´µÇÂ¼Ê±£¬ĞÅÏ¢Ğ£Ñé
+		//æœªç™»å½•æ—¶ï¼Œä¿¡æ¯æ ¡éªŒ
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}

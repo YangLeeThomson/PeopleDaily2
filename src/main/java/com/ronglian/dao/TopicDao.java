@@ -17,7 +17,7 @@ import com.ronglian.entity.NewsTopic;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ27ÈÕ
+ * @createTime 2017å¹´12æœˆ27æ—¥
  */
 public interface TopicDao  extends CrudRepository<NewsTopic, Integer>{
 	@Transactional

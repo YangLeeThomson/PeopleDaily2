@@ -24,7 +24,7 @@ import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ29ÈÕ
+ * @createTime 2017å¹´12æœˆ29æ—¥
  */
 @RestController
 @RequestMapping("/api")
@@ -35,7 +35,7 @@ public class ChannelChooseController {
 	@Autowired
 	private UserService userService;
 	/**
-	 * ÓÃ»§¶©ÔÄÀ¸Ä¿¹ÜÀí½Ó¿Ú
+	 * ç”¨æˆ·è®¢é˜…æ ç›®ç®¡ç†æ¥å£
 	 * */
 	@RequestMapping(value="/1.0/channelfavorites",method=RequestMethod.POST)
 	public RongLianResult chooseChannels(@RequestBody RongLianRequest<List<UserChannelConfig>> listBody){
@@ -48,11 +48,11 @@ public class ChannelChooseController {
 		}
 
 	
-		//»ñÈ¡ÇëÇóµÄuserId
+		//è·å–è¯·æ±‚çš„userId
 		if(list != null){
 			userId = list.get(0).getUserId();
 		}
-		//µÇÂ¼ĞÅÏ¢Ğ£Ñé
+		//ç™»å½•ä¿¡æ¯æ ¡éªŒ
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -64,7 +64,7 @@ public class ChannelChooseController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//Î´µÇÂ¼Ê±£¬ĞÅÏ¢Ğ£Ñé
+		//æœªç™»å½•æ—¶ï¼Œä¿¡æ¯æ ¡éªŒ
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
@@ -72,11 +72,11 @@ public class ChannelChooseController {
 	}
 	
 	/**
-	 * »ñÈ¡ÓÃ»§×Ô¶¨Òå¶©ÔÄÀ¸Ä¿
-	 */ 
+	 * è·å–ç”¨æˆ·è‡ªå®šä¹‰è®¢é˜…æ ç›®
+	 */  
 	@RequestMapping(value="/1.0/getUserChannelFavorites",method=RequestMethod.GET)
 	public RongLianResult getChannels(String deviceId,String userId,String accessToken){
-		//µÇÂ¼ĞÅÏ¢Ğ£Ñé
+		//ç™»å½•ä¿¡æ¯æ ¡éªŒ
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -88,7 +88,7 @@ public class ChannelChooseController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//Î´µÇÂ¼Ê±£¬ĞÅÏ¢Ğ£Ñé
+		//æœªç™»å½•æ—¶ï¼Œä¿¡æ¯æ ¡éªŒ
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}

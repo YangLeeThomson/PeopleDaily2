@@ -12,15 +12,14 @@ import com.ronglian.interceptor.SignInterceptor;
  * @author liyang
  * 
  * @createTime 2017-12-21
- * ������������config��
  */
 @EnableWebMvc
 @Configuration
 public class InterceptorConfiguration extends WebMvcConfigurerAdapter{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-//	       registry.addInterceptor(new SignInterceptor()).addPathPatterns("/**");
-//	       super.addInterceptors(registry);
+	       registry.addInterceptor(new SignInterceptor()).addPathPatterns("/**");
+	       super.addInterceptors(registry);
 	}
     @Bean
     public SignInterceptor signInterceptor(){

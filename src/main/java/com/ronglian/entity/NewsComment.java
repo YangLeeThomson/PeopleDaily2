@@ -49,7 +49,7 @@ public class NewsComment implements Serializable {
 	private String nickname;
 
 
-	//	×´Ì¬0£ºÎ´ÉóºË£¬1£ºÒÑÉóºË',3:É¾³ı
+//	çŠ¶æ€0ï¼šæœªå®¡æ ¸ï¼Œ1ï¼šå·²å®¡æ ¸',3:åˆ é™¤
 	@Column(name="status")
 	private Integer status;
 	

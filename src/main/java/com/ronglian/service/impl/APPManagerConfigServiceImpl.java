@@ -30,7 +30,7 @@ public class APPManagerConfigServiceImpl implements APPManagerConfigService{
 	private JedisDao jedisDao;
 	
 	/*
-	 * ����appID������ȡ����tokenId�ķ���
+	 * 获取令牌tokenId
 	 * */
 	@Override
 	public String getTokenByAppId(String appId,String timeStamp,String sign) {
@@ -42,28 +42,20 @@ public class APPManagerConfigServiceImpl implements APPManagerConfigService{
 		APPManagerConfig cfg = null;
 		
 		cfg = appManagerConfigDao.selectAPPManagerConfigByAppId(appId);
-		//����appId�˺��Ƿ�Ϸ�
 		if(cfg != null){
 			secretKey = cfg.getSecretKey();
 			sign2 = builder.append(timeStamp).append(appId).append(secretKey).toString();
 			try {
 				sign2 = DigestUtils.md5DigestAsHex(sign2.getBytes("UTF-8"));
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//����ǩ���Ƿ�Ϸ�
 			if(sign2.equals(sign)){
-				//ǩ���Ϸ�����tokenId����cfg���ݷ���redis���棬�ɹ�������tokenId
 				tokenId = UUID.randomUUID().toString().replaceAll("-", "");
-				//��cfg��Ϣ,���appkey��secretkey��Ϣ��
 				cfg.setAppKey("null");
 				cfg.setSecretKey("null");
-				//��cfg��Ϣ����redis������
 				this.jedisDao.set(tokenId, JsonUtils.objectToJson(cfg));
-				//���õ�ǰ�������Ϣ��ʧЧʱ��
 				this.jedisDao.expire(tokenId, RongLianConstant.REDIS_KEY_EXPIRE);
-				
 				return tokenId;
 			}
 		}
@@ -72,7 +64,6 @@ public class APPManagerConfigServiceImpl implements APPManagerConfigService{
 	public boolean getTokenBytokenId(String tokenId){
 		String result = this.jedisDao.get(tokenId);
 		if(result != null){
-			//��������ʧЧʱ��
 			this.jedisDao.expire(tokenId, RongLianConstant.REDIS_KEY_EXPIRE);
 			return false;
 		}else{
@@ -83,7 +74,6 @@ public class APPManagerConfigServiceImpl implements APPManagerConfigService{
 	public String getSecretKeyByToken(String tokenId){
 		String result = this.jedisDao.get(tokenId);
 		if(result != null){
-			//��������ʧЧʱ��
 			this.jedisDao.expire(tokenId, RongLianConstant.REDIS_KEY_EXPIRE);
 			Map<String, Object> params = GetRequestJsonUtils.parseObject(result);
 			String appId =  (String)params.get("appId");

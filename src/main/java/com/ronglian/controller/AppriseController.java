@@ -24,7 +24,7 @@ import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ2ÈÕ
+ * @createTime 2018å¹´1æœˆ2æ—¥
  */
 @RestController
 @RequestMapping("/api")
@@ -35,10 +35,11 @@ public class AppriseController {
 	@Autowired
 	private UserService userService;
 
+
 	/**
-	 * µãÔŞ½Ó¿Ú
+	 * ç‚¹èµæ¥å£
 	 * 
-	 * good:1,µãÔŞ good£º-1£¬ÍÂ²Û
+	 * good:1,ç‚¹èµ goodï¼š-1ï¼Œåæ§½
 	 */
 	@RequestMapping(value = "/1.0/connectapprises", method = RequestMethod.POST)
 	public RongLianResult addApprise(@RequestBody RongLianRequest<NewsInfoApprise> appriseBody) {
@@ -49,11 +50,11 @@ public class AppriseController {
 			apprise = appriseBody.getData();
 			accessToken = appriseBody.getAccessToken();
 		}
-		// »ñÈ¡ÇëÇóµÄuserId
+		// è·å–è¯·æ±‚çš„userId
 		if (apprise != null) {
 			userId = apprise.getUserId();
 		}
-		// µÇÂ¼ĞÅÏ¢Ğ£Ñé
+		// ç™»å½•ä¿¡æ¯æ ¡éªŒ
 		if (StringUtils.isNotBlank(accessToken)) {
 			RongLianResult result = this.userService.getUserInfo(accessToken);
 			if (result.getData() == null) {
@@ -65,7 +66,7 @@ public class AppriseController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}
 		}
-		// Î´µÇÂ¼Ê±£¬ĞÅÏ¢Ğ£Ñé
+		// æœªç™»å½•æ—¶ï¼Œä¿¡æ¯æ ¡éªŒ
 		if (StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)) {
 			return RongLianResult.build(200, "you have not logined ,so userId should be null ");
 		}
@@ -78,7 +79,7 @@ public class AppriseController {
 	}
 
 	/**
-	 * È¡ÏûµãÔŞ½Ó¿Ú
+	 * å–æ¶ˆç‚¹èµæ¥å£
 	 */
 	@RequestMapping(value = "/1.0/cancleapprises", method = RequestMethod.POST)
 	public RongLianResult cancleApprise(@RequestBody RongLianRequest<NewsInfoApprise> appriseBody) {
@@ -90,11 +91,11 @@ public class AppriseController {
 			accessToken = appriseBody.getAccessToken();
 		}
 
-		// »ñÈ¡ÇëÇóµÄuserId
+		// è·å–è¯·æ±‚çš„userId
 		if (apprise != null) {
 			userId = apprise.getUserId();
 		}
-		// µÇÂ¼ĞÅÏ¢Ğ£Ñé
+		// ç™»å½•ä¿¡æ¯æ ¡éªŒ
 		if (StringUtils.isNotBlank(accessToken)) {
 			RongLianResult result = this.userService.getUserInfo(accessToken);
 			if (result.getData() == null) {
@@ -106,7 +107,7 @@ public class AppriseController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}
 		}
-		// Î´µÇÂ¼Ê±£¬ĞÅÏ¢Ğ£Ñé
+		// æœªç™»å½•æ—¶ï¼Œä¿¡æ¯æ ¡éªŒ
 		if (StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)) {
 			return RongLianResult.build(200, "you have not logined ,so userId should be null ");
 		}
@@ -119,11 +120,11 @@ public class AppriseController {
 	}
 
 	/**
-	 * »ñÈ¡µãÔŞÁĞ±í
+	 * è·å–ç‚¹èµåˆ—è¡¨
 	 */
 	@RequestMapping(value = "/1.0/appriselist", method = RequestMethod.GET)
 	public RongLianResult getAppriseList(String deviceId, String userId, String accessToken) {
-		// µÇÂ¼ĞÅÏ¢Ğ£Ñé
+		// ç™»å½•ä¿¡æ¯æ ¡éªŒ
 		if (StringUtils.isNotBlank(accessToken)) {
 			RongLianResult result = this.userService.getUserInfo(accessToken);
 			if (result.getData() == null) {
@@ -135,7 +136,7 @@ public class AppriseController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}
 		}
-		// Î´µÇÂ¼Ê±£¬ĞÅÏ¢Ğ£Ñé
+		// æœªç™»å½•æ—¶ï¼Œä¿¡æ¯æ ¡éªŒ
 		if (StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)) {
 			return RongLianResult.build(200, "you have not logined ,so userId should be null ");
 		}

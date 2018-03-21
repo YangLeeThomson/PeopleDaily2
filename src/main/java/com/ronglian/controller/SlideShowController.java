@@ -21,11 +21,20 @@ public class SlideShowController {
 
 	@Autowired
 	private NewsSlideShowService slideShowService;
+	/**
+	 * 同步轮播图
+	 * @param slideShow
+	 * @return
+	 */
 	@RequestMapping(value="/1.0/setSlideShow",method=RequestMethod.POST)
 	public RongLianResult addNewsSlideShow(@RequestBody RongLianRequest<NewsSlideshow> slideShow){
 		return this.slideShowService.addSlideShow(slideShow.getData());
 	}
-	//��Ŀ�ֲ�ͼ�б�����ӿ�
+	/**
+	 * 获取栏目轮播图列表
+	 * @param channelUniqueId
+	 * @return
+	 */
 	@RequestMapping(value="/1.0/channelSlidePictures",method=RequestMethod.GET)
 	public RongLianResult getChannelSlidePictureList(String channelUniqueId){
 

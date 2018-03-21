@@ -22,20 +22,20 @@ import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ2ÈÕ
+ * @createTime 2018å¹´1æœˆ2æ—¥
  */
 @RestController
 @RequestMapping("/api")
 public class ShareController {
 
-	/**
-	 * ÓÃ»§·ÖÏíÎÄÕÂ¼ÆÊı½Ó¿Ú
-	 * */
+	
 	@Autowired
 	private NewsShareService newsShareService;
 	@Autowired
 	private UserService userService;
-	
+	/**
+	 * ç”¨æˆ·åˆ†äº«æ–‡ç« è®¡æ•°æ¥å£
+	 * */
 	@RequestMapping(value="/1.0/sharecount",method=RequestMethod.POST)
 	public RongLianResult ShareCount(@RequestBody RongLianRequest<NewsShare> newsShareBody){
 		NewsShare newsShare = null;
@@ -45,11 +45,11 @@ public class ShareController {
 			newsShare = newsShareBody.getData();
 			accessToken = newsShareBody.getAccessToken();
 		}
-		//»ñÈ¡ÇëÇóµÄuserId
+		//è·å–è¯·æ±‚çš„userId
 		if(newsShare != null){
 			userId = newsShare.getUserId();
 		}
-		//µÇÂ¼ĞÅÏ¢Ğ£Ñé
+		//ç™»å½•ä¿¡æ¯æ ¡éªŒ
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -61,16 +61,14 @@ public class ShareController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//Î´µÇÂ¼Ê±£¬ĞÅÏ¢Ğ£Ñé
+		//æœªç™»å½•æ—¶ï¼Œä¿¡æ¯æ ¡éªŒ
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
 		try {
 			return this.newsShareService.countNewsShare(newsShare);
 		} catch (Exception e) {
-			// TODO: handle exception
-//			System.out.println(e.getMessage());
-			return RongLianResult.build(500, "Í³¼Æ·şÎñÊ§°Ü£¡");
+			return RongLianResult.build(500, "ç»Ÿè®¡æœåŠ¡å¤±è´¥ï¼");
 		}
 	}
 }

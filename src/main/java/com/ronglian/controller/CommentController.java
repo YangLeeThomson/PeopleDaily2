@@ -41,11 +41,10 @@ public class CommentController {
 	@Autowired
 	private UserService userService;
 	/**
-	 * 3.5.9	�û������б�ӿ�
+	 * 用户评论列表接口
 	 * */
 	@RequestMapping(value="/1.0/usercomments",method=RequestMethod.GET)
 	public RongLianResult getComments(String deviceId,String userId,String accessToken){
-		//��¼��ϢУ��
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -57,14 +56,13 @@ public class CommentController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//δ��¼ʱ����ϢУ��
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
 		return  this.commentService.getComments(deviceId, userId);
 	}
 	/**
-	 * 3.5.5	�û����������۽ӿ�
+	 * 用户评论内容接口
 	 * */
 	@RequestMapping(value="/1.0/contentcomment",method=RequestMethod.POST)
 	public RongLianResult addComment(@RequestBody RongLianRequest<NewsComment> commentBody){
@@ -75,11 +73,9 @@ public class CommentController {
 			comment = commentBody.getData();
 			accessToken = commentBody.getAccessToken();
 		}
-		//��ȡ�����userId
 		if(comment != null){
 			userId = comment.getUserId();
 		}
-		//��¼��ϢУ��
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -91,14 +87,13 @@ public class CommentController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//δ��¼ʱ����ϢУ��
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
 		return this.commentService.addComment(comment);
 	}
 	/**
-	 * 
+	 * 新闻对应评论的接口
 	 * */
 	@RequestMapping(value="/1.0/comments",method=RequestMethod.GET)
 	public RongLianResult getCommentList(String userId,String newsId,String deviceId,
@@ -111,7 +106,7 @@ public class CommentController {
 	}
 	
 	/**
-	 * 3.5.10	�û�����ɾ���ӿ�
+	 * 删除评论的接口
 	 * */
 	@RequestMapping(value="/1.0/deletecomment",method=RequestMethod.POST)
 	public RongLianResult delComment(@RequestBody RongLianRequest<Map> requestBody){
@@ -126,11 +121,9 @@ public class CommentController {
 		if(requestMap.get("commentId") != null){
 			commentId = (String) requestMap.get("commentId");
 		}
-		//��ȡ�����userId
 		if(requestMap != null){
 			userId = (String) requestMap.get("userId");
 		}
-		//��¼��ϢУ��
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -142,18 +135,19 @@ public class CommentController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//δ��¼ʱ����ϢУ��
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}
 		try {
 				return this.commentService.delCommentById(commentId);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return RongLianResult.build(500, "the server maybe error");
 		}
 	}
-	//
+	/**
+	 * 评论审核接口
+	 *
+	 */
 	@RequestMapping(value="/1.0/commentCheck",method=RequestMethod.POST)
 	public RongLianResult getCheckComment(@RequestBody RongLianRequest<Map> requestBody){
 		Map requestMap = null;
@@ -173,7 +167,14 @@ public class CommentController {
 			return RongLianResult.build(500, "error");
 		}
 	}
-	//������صĽӿڣ���imedia������
+	/**
+	 * imedia搜索评论接口
+	 * @param status
+	 * @param newsTitle
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
 	@RequestMapping(value="/1.0/comment",method=RequestMethod.GET)
 	public PageCountResult searchCommentList(Integer status,String newsTitle,
 			@RequestParam(value="pageNo",defaultValue="1",required=false)int pageNo,

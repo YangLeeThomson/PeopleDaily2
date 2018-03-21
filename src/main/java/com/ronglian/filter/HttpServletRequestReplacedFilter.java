@@ -17,14 +17,15 @@ import javax.servlet.http.HttpServletRequest;
 import com.ronglian.utils.model.request.MyHttpServletRequestWrapper;
 
 /**
- *  Ê¹ÓÃ×¢½â±ê×¢¹ıÂËÆ÷
- * @WebFilter½«Ò»¸öÊµÏÖÁËjavax.servlet.Filter½Ó¿ÚµÄÀà¶¨ÒåÎª¹ıÂËÆ÷
- * ÊôĞÔfilterNameÉùÃ÷¹ıÂËÆ÷µÄÃû³Æ,¿ÉÑ¡
- * ÊôĞÔurlPatternsÖ¸¶¨Òª¹ıÂË µÄURLÄ£Ê½,Ò²¿ÉÊ¹ÓÃÊôĞÔvalueÀ´ÉùÃ÷.(Ö¸¶¨Òª¹ıÂËµÄURLÄ£Ê½ÊÇ±ØÑ¡ÊôĞÔ)
- * ´´½¨Ò»¸öÊµÏÖFilterµÄÀà£¬ÖØĞ´doFilter·½·¨£¬½«ServletRequestÌæ»»Îª×Ô¶¨ÒåµÄmyRequestÀà 
+ *  ä½¿ç”¨æ³¨è§£æ ‡æ³¨è¿‡æ»¤å™¨
+ * @WebFilterå°†ä¸€ä¸ªå®ç°äº†javax.servlet.Filteræ¥å£çš„ç±»å®šä¹‰ä¸ºè¿‡æ»¤å™¨
+ * å±æ€§filterNameå£°æ˜è¿‡æ»¤å™¨çš„åç§°,å¯é€‰
+ * å±æ€§urlPatternsæŒ‡å®šè¦è¿‡æ»¤ çš„URLæ¨¡å¼,ä¹Ÿå¯ä½¿ç”¨å±æ€§valueæ¥å£°æ˜.(æŒ‡å®šè¦è¿‡æ»¤çš„URLæ¨¡å¼æ˜¯å¿…é€‰å±æ€§)
+ * åˆ›å»ºä¸€ä¸ªå®ç°Filterçš„ç±»ï¼Œé‡å†™doFilteræ–¹æ³•ï¼Œå°†ServletRequestæ›¿æ¢ä¸ºè‡ªå®šä¹‰çš„myRequestç±» 
  * @author liyang
- * @createTime 2018Äê1ÔÂ24ÈÕ
+ * @createTime 2018å¹´1æœˆ24æ—¥
  */
+
 @WebFilter(filterName="myFilter",urlPatterns="/*")
 public class HttpServletRequestReplacedFilter implements Filter {
 
@@ -50,7 +51,7 @@ public class HttpServletRequestReplacedFilter implements Filter {
 	        if(requestWrapper == null) {  
 	            chain.doFilter(request, response);  
 	        } else {  
-	        	//½«ServletRequestÌæ»»Îª×Ô¶¨ÒåµÄmyRequestÀà 
+	        	//å°†ServletRequestæ›¿æ¢ä¸ºè‡ªå®šä¹‰çš„myRequestç±» 
 	            chain.doFilter(requestWrapper, response);  
 	        }     
 	}

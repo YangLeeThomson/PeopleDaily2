@@ -34,7 +34,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ27ÈÕ
+ * @createTime 2017å¹´12æœˆ27æ—¥
  */
 @RestController
 @RequestMapping("/api")
@@ -46,7 +46,17 @@ public class NewsInfoController {
 	@Autowired
 	private TopicNewsService topicNewsService;
 	
-	//imediaÍ¬²½newsÄÚÈİ½Ó¿Ú
+	/**
+	 * imediaåŒæ­¥newså†…å®¹æ¥å£
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 * @throws NumberFormatException
+	 * @throws ParseException
+	 */
 	@RequestMapping(value="/1.0/setNewsInfo",method=RequestMethod.POST)
 	public RongLianResult addNewsInfo(HttpServletRequest request,
 			HttpServletResponse response) throws JsonParseException,
@@ -68,7 +78,7 @@ public class NewsInfoController {
 		return newsInfoService.addNewsInfo(str.toString());
 	}
 	/**
-	 * »ñÈ¡channelĞÂÎÅÁĞ±í½Ó¿Ú
+	 * è·å–channelæ–°é—»åˆ—è¡¨æ¥å£
 	 * */
 	@RequestMapping(value="/1.0/getChannelNews",method=RequestMethod.GET)
 	public PageCountResult getNewsList(@RequestParam(value="pageSize",defaultValue="5",required=false)Integer pageSize,
@@ -77,7 +87,7 @@ public class NewsInfoController {
 	}
 	
 	/**
-	 * channelÖÃ¶¥ĞÂÎÅÁĞ±íµÄ½Ó¿Ú
+	 * channelç½®é¡¶æ–°é—»åˆ—è¡¨çš„æ¥å£
 	 * 
 	 * */
 	@RequestMapping(value="/1.0/channeltopnews",method=RequestMethod.GET)
@@ -85,29 +95,28 @@ public class NewsInfoController {
 		return this.newsInfoService.findTopnewsList(channelUniqueId);
 	}
 	/**
-	 * topNewsÀ¸Ä¿ »ñÈ¡ÖÃ¶¥ĞÂÎÅÁĞ±í½Ó¿Ú
+	 * topNewsæ ç›® è·å–ç½®é¡¶æ–°é—»åˆ—è¡¨æ¥å£
 	 * */
 	@RequestMapping(value="/1.0/topnewsahead",method=RequestMethod.GET)
 	public RongLianResult getTopnewsAhead(){
 		return this.newsInfoService.getTopnewsAhead();
 	}
-	
 	/**
-	 *TopNewsÀ¸Ä¿  ±à¼­ÍÆ¼ö ÁĞ±íÊä³ö½Ó¿Ú
+	 *TopNewsæ ç›®  ç¼–è¾‘æ¨è åˆ—è¡¨è¾“å‡ºæ¥å£
 	 * */
 	@RequestMapping(value="/1.0/editorrecommen",method=RequestMethod.GET)
 	public RongLianResult getEditorList(String channelUniqueId){
 		return this.newsInfoService.findEditorNewsList(channelUniqueId);
 	}
 	/**
-	 * topic×¨Ìâ ĞÂÎÅÁĞ±íÊä³ö½Ó¿Ú
+	 * topicä¸“é¢˜ æ–°é—»åˆ—è¡¨è¾“å‡ºæ¥å£
 	 * */
 	@RequestMapping(value="/1.0/getTopicNews",method=RequestMethod.GET)
 	public PageCountResult getTopicNewsList(String topicId,
 			@RequestParam(value="pageSize",required=false,defaultValue="5")int pageSize,
 			@RequestParam(value="pageNo",required=false,defaultValue="1")int pageNo){
 		if(topicId == null){
-			return PageCountResult.error(200, "ÇëÇó²ÎÊıtopicId²»ÄÜÎª¿Õ", pageNo, pageSize);
+			return PageCountResult.error(200, "è¯·æ±‚å‚æ•°topicIdä¸èƒ½ä¸ºç©º", pageNo, pageSize);
 		}
 		return this.newsInfoService.findTopicNewsList(topicId,pageNo,pageSize);
 	}

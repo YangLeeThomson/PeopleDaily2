@@ -11,7 +11,7 @@ import com.ronglian.entity.NewsShare;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ12ÈÕ
+ * @createTime 2018å¹´1æœˆ12æ—¥
  */
 public interface NewsShareDao extends CrudRepository<NewsShare, String> {
 

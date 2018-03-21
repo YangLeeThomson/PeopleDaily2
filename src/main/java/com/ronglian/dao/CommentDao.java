@@ -15,7 +15,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ29ÈÕ
+ * @createTime 2017å¹´12æœˆ29æ—¥
  */
 public interface CommentDao extends CrudRepository<NewsComment, String>{
 

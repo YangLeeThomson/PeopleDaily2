@@ -16,7 +16,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author liyang
  * 
  * @createTime 2017-12-21
- * Redis≈‰÷√¿‡
+ * Redis
  */
 @Configuration
 @EnableAutoConfiguration

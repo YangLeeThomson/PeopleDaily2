@@ -19,14 +19,14 @@ import com.ronglian.utils.model.request.RongLianRequest;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ29ÈÕ
+ * @createTime 2017å¹´12æœˆ29æ—¥
  */
 @RestController
 @RequestMapping("/api")
 public class ContentDislikeController {
 
 	/**
-	 * ÓÃ»§¶ÔÄÚÈİ½øĞĞdisLike²Ù×÷
+	 * ç”¨æˆ·å¯¹å†…å®¹è¿›è¡ŒdisLikeæ“ä½œ
 	 * @param newsId
 	 * @param deviceId
 	 * @param userId
@@ -45,11 +45,11 @@ public class ContentDislikeController {
 			newsinfoDislike = newsinfoDislikeBody.getData();
 			accessToken = newsinfoDislikeBody.getAccessToken();
 		}
-		//»ñÈ¡ÇëÇóµÄuserId
+		//è·å–è¯·æ±‚çš„userId
 		if(newsinfoDislike != null){
 			userId = newsinfoDislike.getUserId();
 		}
-		//µÇÂ¼ĞÅÏ¢Ğ£Ñé
+		//ç™»å½•ä¿¡æ¯æ ¡éªŒ
 		if(StringUtils.isNotBlank(accessToken)){
 			RongLianResult  result = this.userService.getUserInfo(accessToken);
 			if(result.getData() == null){
@@ -61,7 +61,7 @@ public class ContentDislikeController {
 				return RongLianResult.build(200, "maybe param userId is error");
 			}	
 		}
-		//Î´µÇÂ¼Ê±£¬ĞÅÏ¢Ğ£Ñé
+		//æœªç™»å½•æ—¶ï¼Œä¿¡æ¯æ ¡éªŒ
 		if(StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)){
 			return RongLianResult.build(200,"you have not logined ,so userId should be null ");
 		}

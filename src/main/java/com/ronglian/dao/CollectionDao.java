@@ -13,7 +13,7 @@ import com.ronglian.entity.Collection;
 
 /**
  * @author liyang
- * @createTime 2018��1��2��
+ * @createTime 2018月12月28日
  */
 public interface CollectionDao extends CrudRepository<Collection, String> {
 

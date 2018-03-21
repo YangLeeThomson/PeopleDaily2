@@ -15,7 +15,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ28ÈÕ
+ * @createTime 2017å¹´12æœˆ28æ—¥
  */
 @Service
 public class AppStartPictureServiceImpl implements AppStartPictureService {
@@ -26,7 +26,7 @@ public class AppStartPictureServiceImpl implements AppStartPictureService {
 		AppStartPicture result = null;
 		if(appStartPicture.getId()==null||appStartPicture.getLastTime()==null
 				||appStartPicture.getImageUrl()==null||appStartPicture.getTo()==null){
-			return RongLianResult.build(500, "È±ÉÙÊı¾İ");
+			return RongLianResult.build(200, "ç¼ºå°‘å¿…é¡»æ•°æ®");
 		}
 		result = this.appStartPictureDao.save(appStartPicture);
 		if(result != null){
@@ -41,7 +41,7 @@ public class AppStartPictureServiceImpl implements AppStartPictureService {
 		if(list != null && list.size() > 0){
 			return RongLianResult.ok(list);
 		}else{
-			return RongLianResult.build(500, "ÉÁÆÁÍ¼²»´æÔÚ£ºÏµÍ³Î´Â¼ÈëÉÁÆÁÍ¼");
+			return RongLianResult.build(200, "é—ªå±å›¾ä¸å­˜åœ¨ï¼šç³»ç»Ÿæœªå½•å…¥é—ªå±å›¾");
 		}
 		
 	}

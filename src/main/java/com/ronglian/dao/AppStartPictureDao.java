@@ -9,7 +9,7 @@ import com.ronglian.entity.AppStartPicture;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ28ÈÕ
+ * @createTime 2017å¹´12æœˆ28æ—¥
  */
 public interface AppStartPictureDao extends CrudRepository<AppStartPicture, String> {
 

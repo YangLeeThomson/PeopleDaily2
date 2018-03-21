@@ -5,26 +5,26 @@ package com.ronglian.utils;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ28ÈÕ
+ * @createTime 2017å¹´12æœˆ28æ—¥
  */
 public class PageCountResult {
 
-	  // ÏìÓ¦ÒµÎñ×´Ì¬£¬0±íÊ¾³É¹¦ÏìÓ¦
+	// å“åº”ä¸šåŠ¡çŠ¶æ€ï¼Œ200è¡¨ç¤ºæˆåŠŸå“åº”
     private Integer code;
 
-    // ÏìÓ¦ÏûÏ¢
+    // å“åº”æ¶ˆæ¯
     private String msg;
 
-   // ÏìÓ¦ÖĞµÄÊı¾İ
+    // å“åº”ä¸­çš„æ•°æ®
     private Object data;
     
-    //Ã¿Ò³·µ»ØÊı¾İÌõÊı
+    //æ¯é¡µè¿”å›æ•°æ®æ¡æ•°
     private int pageSize;
     
-    //µ±Ç°Ò³Êı
+  //å½“å‰é¡µæ•°
    private int pageNo;
    
-   //Êı¾İÌõÄ¿
+ //æ•°æ®æ¡ç›®
    private int totalNewsCount;
    
    

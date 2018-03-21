@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ22ÈÕ
+ * @createTime 2017å¹´12æœˆ22æ—¥
  */
 @Entity
 @Table(name="app_manager_config")

@@ -17,7 +17,7 @@ import com.ronglian.entity.User;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ27ÈÕ
+ * @createTime 2017å¹´12æœˆ27
  */
 public interface ChannelDao extends CrudRepository<Channel, Integer>{
 

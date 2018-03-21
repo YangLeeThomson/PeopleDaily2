@@ -16,7 +16,7 @@ import com.ronglian.entity.NewsInfo;
 
 /**
  * @author liyang
- * @createTime 2017��12��27��
+ * @createTime 2017年12月27
  */
 public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 

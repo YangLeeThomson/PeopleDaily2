@@ -13,7 +13,7 @@ import com.ronglian.entity.NewsInfoApprise;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ11ÈÕ
+ * @createTime 2018å¹´12æœˆ11æ—¥
  */
 public interface AppriseDao extends CrudRepository<NewsInfoApprise, String> {
 

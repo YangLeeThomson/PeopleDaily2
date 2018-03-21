@@ -19,7 +19,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ28ÈÕ
+ * @createTime 2017å¹´12æœˆ28æ—¥
  */
 @RestController
 @RequestMapping("/api")

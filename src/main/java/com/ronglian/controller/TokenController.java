@@ -16,7 +16,7 @@ import com.ronglian.utils.RongLianResult;
  * @author liyang
  * @createtimeStamp 2017-12-20
  * @modifytimeStamp 2017-12-26
- * »ñÈ¡ÁîÅÆtoken
+ * è·å–ä»¤ç‰ŒtokenId
  * */
 @RestController
 @RequestMapping("/oauth")
@@ -24,7 +24,7 @@ public class TokenController {
 
 	@Autowired
 	private APPManagerConfigService configService;
-	//¸ù¾İappId»ñÈ¡ÁîÅÆ
+	//æ ¹æ®appIdè·å–ä»¤ç‰Œ
 	@RequestMapping(value="/token",method=RequestMethod.POST)
 	public RongLianResult getTokenIdByAppId(@RequestBody Map params){
 //		public RongLianResult getTokenIdByAppId(@RequestBody String appId, @RequestBody String timeStamp,@RequestBody String sign){
@@ -41,7 +41,7 @@ public class TokenController {
 			resultMap.put("tokenId", tokenId);
 			return RongLianResult.ok(resultMap);
 		}else{
-			return RongLianResult.build(1, "appIDÕËºÅ»òÇ©ÃûsignÓĞÎó");
+			return RongLianResult.build(107, "appIDè´¦å·æˆ–ç­¾åsignæœ‰è¯¯ï¼");
 		}
 	}	
 }

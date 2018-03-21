@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.ronglian.entity.TopicNewsKey;
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ27ÈÕ
+ * @createTime 2017å¹´12æœˆ27æ—¥
  */
 @Entity
 @Table(name = "topic_and_news")

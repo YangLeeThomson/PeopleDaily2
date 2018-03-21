@@ -19,7 +19,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ28ÈÕ
+ * @createTime 2017å¹´12æœˆ28æ—¥
  */
 @RestController
 @RequestMapping("/api")
@@ -30,7 +30,7 @@ public class PhotoNewsInfoController {
 	private NewsInfoService newsInfoService;
 	
 	/**
-	 * PhotoÀ¸Ä¿Ïà¹ØÍ¼¼¯Êä³ö½Ó¿Ú(Í¼Æ¬ĞÂÎÅ£¨×éÍ¼£©Êä³ö)
+	 * Photoæ ç›®ç›¸å…³å›¾é›†è¾“å‡ºæ¥å£(å›¾ç‰‡æ–°é—»ï¼ˆç»„å›¾ï¼‰è¾“å‡º)
 	 * */
 	@RequestMapping(value="/1.0/getNearbyNews",method=RequestMethod.GET)
 	public Object getNearByNews(String newsID,Integer incNo){
