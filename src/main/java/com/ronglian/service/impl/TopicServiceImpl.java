@@ -16,7 +16,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ27ÈÕ
+ * @createTime 2017ï¿½ï¿½12ï¿½ï¿½27ï¿½ï¿½
  */
 @Service
 public class TopicServiceImpl implements TopicService{
@@ -33,14 +33,14 @@ public class TopicServiceImpl implements TopicService{
 		if(result != null){
 			return RongLianResult.ok();	
 		}else{
-			return RongLianResult.build(500, "saved error1");
+			return RongLianResult.build(200, "saved error");
 		}
 	}
 	@Override
 	public RongLianResult addTopicMap(Map requestMap) {
 		if(requestMap.get("topicId")==null||requestMap.get("title")==null||requestMap.get("desc")==null
 				||requestMap.get("bannerPhoto")==null||requestMap.get("uniqueID")==null){
-			return RongLianResult.build(500, "È±ÉÙÊý¾Ý");
+			return RongLianResult.build(200, "the needed params can not be null");
 		}
 		NewsTopic originTopic=topicDao.findOne((int)requestMap.get("topicId"));
 		Date date=new Date();
@@ -52,7 +52,7 @@ public class TopicServiceImpl implements TopicService{
 		if(result != null){
 			return RongLianResult.ok();	
 		}else{
-			return RongLianResult.build(500, "±£´æÊ§°Ü");
+			return RongLianResult.build(200, "saved failed");
 		}
 	}
 

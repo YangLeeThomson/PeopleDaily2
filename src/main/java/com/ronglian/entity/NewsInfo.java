@@ -742,6 +742,16 @@ public class NewsInfo implements Serializable {
 	public void setVideoDuration(Integer videoDuration) {
 		this.videoDuration = videoDuration;
 	}
-	
+	//3月23日加字段short_title
+	@Column(name="short_title")
+	private String shortTitle;
+
+	public String getShortTitle() {
+		return shortTitle;
+	}
+
+	public void setShortTitle(String shortTitle) {
+		this.shortTitle = shortTitle;
+	}
 	
 }

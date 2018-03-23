@@ -38,15 +38,12 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public RongLianResult login(User user) {
-		//�ж��Ƿ�Ϊ�� user
 		User loginUser = null;
 		String accessToken = null;
 		Map resultMap = new HashMap();
 		
 		if(user != null && user.getType() >= 0){
-			//�жϵ�¼��ʽ��type(0:weixin/1:twinter/2:faceBook)
 			int type = user.getType();
-			//΢��weixin
 			if(type == 0){
 				 if(user.getOpenid() != null){
 					 loginUser = userDao.getUserByOpenid(user.getOpenid());
@@ -70,18 +67,14 @@ public class UserServiceImpl implements UserService {
 					RongLianResult.build(200, "faceBook can not be null");
 				}
 			}
-			//�жϵ�¼�û��Ƿ�ע��
 			if(loginUser == null){
-				//��ȫ����
 				user.setUserId(UUID.randomUUID().toString());
 				user.setCreateTime(new Date());
 				user.setModifyTime(new Date());
-				//���ûע�ᣬ��ע�ᣬ�ٵ�½
 				loginUser = this.userDao.save(user);
 			}
 			accessToken = UUID.randomUUID().toString().replaceAll("-", "");
 			resultMap.put("accessToken", accessToken);
-			//��user��¼��Ϣ�ŵ�redis������
 			this.jedisDao.set(accessToken, JsonUtils.objectToJson(loginUser));
 			this.jedisDao.expire(accessToken,RongLianConstant.REDIS_ACCESS_TOKEN_EXPIRE );
 			return RongLianResult.ok(resultMap);
@@ -102,7 +95,7 @@ public class UserServiceImpl implements UserService {
 			this.jedisDao.expire(accessToken, RongLianConstant.REDIS_ACCESS_TOKEN_EXPIRE);
 			return RongLianResult.ok(user);
 		}
-		return RongLianResult.build(106, "���ȵ�¼");
+		return RongLianResult.build(106, "accessToken is error");
 	}
 
 	/* (non-Javadoc)

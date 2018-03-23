@@ -16,7 +16,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ10ÈÕ
+ * @createTime 2018å¹´1æœˆ10æ—¥
  */
 @Service
 public class ContentDislikeServiceImpl implements ContentDislikeService {
@@ -29,7 +29,6 @@ public class ContentDislikeServiceImpl implements ContentDislikeService {
 	 */
 	@Override
 	public RongLianResult addContentDislike(NewsInfoDislike obj) {
-		// Êý¾Ý²¹È«Ð£Ñé
 		if(obj != null && StringUtils.isNotBlank(obj.getNewsId())
 				&& StringUtils.isNotBlank(obj.getDeviceId())
 				){

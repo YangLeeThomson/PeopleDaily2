@@ -38,7 +38,7 @@ public class TopicNewsServiceImpl implements TopicNewsService {
 		if(entities != null){
 			return RongLianResult.ok();
 		}else{
-			return RongLianResult.build(500, "saved error");
+			return RongLianResult.build(200, "saved error");
 		}
 	}
 
@@ -48,7 +48,7 @@ public class TopicNewsServiceImpl implements TopicNewsService {
 			this.topicNewsDao.deleteByNewsID(list);
 			return RongLianResult.ok();
 		}else{
-			return RongLianResult.build(500, "无数据");
+			return RongLianResult.build(200, "delete failed");
 		}
 	}
 	@Override
@@ -57,7 +57,7 @@ public class TopicNewsServiceImpl implements TopicNewsService {
 			this.topicNewsDao.deleteByTopicUniqueID(list);
 			return RongLianResult.ok();
 	}else{
-		return RongLianResult.build(500, "无数据");
+		return RongLianResult.build(200, "delete failed");
 	}
 	}
 	@Override

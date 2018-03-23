@@ -22,51 +22,54 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ29ÈÕ
+ * @createTime 2017å¹´12æœˆ29æ—¥
  */
 @Service
 public class CommentServiceImpl implements CommentService {
 
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.CommentService#getComments(java.lang.String, java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ronglian.service.CommentService#getComments(java.lang.String,
+	 * java.lang.String, java.lang.String)
 	 */
 	@Autowired
 	private CommentDao commentDao;
 	@Autowired
 	private NewsInfoDao newsInfoDao;
+
 	@Override
 	public RongLianResult getComments(String deviceId, String userId) {
 		// TODO Auto-generated method stub
 		List<NewsComment> list = null;
-		if(StringUtils.isNotBlank(deviceId)){
-			if(StringUtils.isNotBlank(userId)){
-				list = this.commentDao.getCommentsByUserId(userId);
-			}else{
-				list = this.commentDao.getCommentsByDeviceId(deviceId);
-			}
-			
-			if(list != null && list.size() > 0){
-						return RongLianResult.ok(list);
-					}else{
-						return RongLianResult.ok();
-			}
-		}else{
+		if (StringUtils.isBlank(deviceId)) {
 			return RongLianResult.build(200, "request param is incorrect");
 		}
-		
-		
+		if (StringUtils.isNotBlank(userId)) {
+			list = this.commentDao.getCommentsByUserId(userId);
+		} else {
+			list = this.commentDao.getCommentsByDeviceId(deviceId);
+		}
+		if (list == null || list.size() <= 0) {
+			return RongLianResult.ok();
+		}
+		return RongLianResult.ok(list);
+
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.CommentService#addComment(com.ronglian.entity.NewsComment)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ronglian.service.CommentService#addComment(com.ronglian.entity.
+	 * NewsComment)
 	 */
 	@Override
 	public RongLianResult addComment(NewsComment comment) {
 		// TODO Auto-generated method stub
-		if(comment != null
+		if (comment != null
 				&& StringUtils.isNotBlank(comment.getCommentContent())
 				&& StringUtils.isNotBlank(comment.getDeviceId())
-				&& StringUtils.isNotBlank(comment.getNewsId())
-				){
+				&& StringUtils.isNotBlank(comment.getNewsId())) {
 			String commentId = UUID.randomUUID().toString();
 			Date date = new Date();
 			comment.setCommentId(commentId);
@@ -75,106 +78,132 @@ public class CommentServiceImpl implements CommentService {
 			comment.setModifyTime(date);
 			comment.setStatus(0);
 			NewsComment result = this.commentDao.save(comment);
-			
-			//Í¬²½newsInfo±íµÄcomment_num Êý¾Ý
+
 			this.newsInfoDao.updateCommentNum(comment.getNewsId());
 			return RongLianResult.ok(result);
-		}else{
+		} else {
 			return RongLianResult.build(200, "request param is error");
 		}
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.CommentService#getCommentList(java.lang.String, java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ronglian.service.CommentService#getCommentList(java.lang.String,
+	 * java.lang.String)
 	 */
-//	@Override
-//	public RongLianResult getCommentList(String userId, String newsId,String deviceId) {
-//		// TODO Auto-generated method stub
-//		List<NewsComment> list = null;
-//		if(StringUtils.isNotBlank(newsId) && 
-//				StringUtils.isNotBlank(deviceId) ){
-//			if(StringUtils.isNotBlank(userId)){//ÓÃ»§µÇÂ¼Ê±
-//				list = this.commentDao.getUserCommentListByUserId(newsId, userId);
-//			}else{//ÓÃ»§Ã»µÇÂ¼Ê±
-//				list = this.commentDao.getUserCommentListByDeviceId(newsId, deviceId);
-//			}
-//		}else{
-//			return RongLianResult.build(500, "Çë²¹È«±ØÐëÇëÇó²ÎÊý");
-//		}
-//		return RongLianResult.ok(list);
-//	}
+	// @Override
+	// public RongLianResult getCommentList(String userId, String newsId,String
+	// deviceId) {
+	// // TODO Auto-generated method stub
+	// List<NewsComment> list = null;
+	// if(StringUtils.isNotBlank(newsId) &&
+	// StringUtils.isNotBlank(deviceId) ){
+	// if(StringUtils.isNotBlank(userId)){//ï¿½Ã»ï¿½ï¿½ï¿½Â¼Ê±
+	// list = this.commentDao.getUserCommentListByUserId(newsId, userId);
+	// }else{//ï¿½Ã»ï¿½Ã»ï¿½ï¿½Â¼Ê±
+	// list = this.commentDao.getUserCommentListByDeviceId(newsId, deviceId);
+	// }
+	// }else{
+	// return RongLianResult.build(500, "ï¿½ë²¹È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+	// }
+	// return RongLianResult.ok(list);
+	// }
 	@Override
-	public RongLianResult getCommentList(String userId, String newsId,String deviceId,int start,int pageSize) {
+	public RongLianResult getCommentList(String userId, String newsId,
+			String deviceId, int start, int pageSize) {
 		// TODO Auto-generated method stub
 		List<NewsComment> list = null;
-		if(StringUtils.isNotBlank(newsId) && 
-				StringUtils.isNotBlank(deviceId) ){
-			if(StringUtils.isNotBlank(userId)){//ÓÃ»§µÇÂ¼Ê±
-				list = this.commentDao.getUserCommentListByUserIdLimt(newsId, userId, start, pageSize);
-			}else{//ÓÃ»§Ã»µÇÂ¼Ê±
-				list = this.commentDao.getUserCommentListByDeviceIdLimt(newsId, deviceId, start, pageSize);
-			}
-		}else{
-			return RongLianResult.build(500, "Çë²¹È«±ØÐëÇëÇó²ÎÊý");
+		if (StringUtils.isBlank(newsId) || StringUtils.isBlank(deviceId)) {
+			return RongLianResult.build(200,
+					"The param of newsId and deviceId are not allowed null ");
+		}
+		if (StringUtils.isNotBlank(userId)) {
+			list = this.commentDao.getUserCommentListByUserIdLimt(newsId,
+					userId, start, pageSize);
+		} else {
+			list = this.commentDao.getUserCommentListByDeviceIdLimt(newsId,
+					deviceId, start, pageSize);
 		}
 		return RongLianResult.ok(list);
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.ronglian.service.CommentService#delCommentById(java.lang.String)
 	 */
 	@Override
 	public RongLianResult delCommentById(String commentId) {
 		// TODO Auto-generated method stub
-		if(StringUtils.isNotBlank(commentId)){
-			this.commentDao.delete(commentId);
-			return RongLianResult.ok();
-		}else{
-			return RongLianResult.build(500, "ÇëÇó²ÎÊýÓÐÎÊÌâ");
+		if (StringUtils.isBlank(commentId)) {
+			return RongLianResult.build(200,
+					"The param commentId must not be null");
 		}
+		this.commentDao.delete(commentId);
+		return RongLianResult.ok();
 	}
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.CommentService#checkComment(java.lang.Integer, java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ronglian.service.CommentService#checkComment(java.lang.Integer,
+	 * java.lang.String)
 	 */
 	@Override
 	@Transactional
 	public RongLianResult checkComment(Integer status, String commentId) {
 		// TODO Auto-generated method stub
-		if(status != null && StringUtils.isNotBlank(commentId)){
-			this.commentDao.updateStatusById(status,commentId);
-			return RongLianResult.ok();
-		}else{
-			return RongLianResult.build(500, "ÇëÇó²ÎÊý²»ÄÜÎª¿Õ");
+		if (status == null || StringUtils.isBlank(commentId)) {
+			return RongLianResult.build(200,
+					"The param of status and commentId are not allowed null");
 		}
+		this.commentDao.updateStatusById(status, commentId);
+		return RongLianResult.ok();
+
 	}
+
 	@Override
-	public PageCountResult fingCommentList(Integer status,String newsTitle,int pageNo,int pageSize){
-		int start = (pageNo - 1)*pageSize;
+	public PageCountResult fingCommentList(Integer status, String newsTitle,
+			int pageNo, int pageSize) {
+		int start = (pageNo - 1) * pageSize;
 		List<NewsComment> list = null;
 		int totalCount = 0;
-		if(status != null && StringUtils.isNotBlank(newsTitle)){
-			list = this.commentDao.selectCommentList(status, newsTitle, start, pageSize);
-			if(list != null && list.size() > 0){
-				totalCount = this.commentDao.countCommentByOthers(status,newsTitle);
+		if (status != null && StringUtils.isNotBlank(newsTitle)) {
+			list = this.commentDao.selectCommentList(status, newsTitle, start,
+					pageSize);
+			if (list != null && list.size() > 0) {
+				totalCount = this.commentDao.countCommentByOthers(status,
+						newsTitle);
 			}
-		}else if(status == null && StringUtils.isBlank(newsTitle)){
+		} 
+		
+		if (status == null && StringUtils.isBlank(newsTitle)) {
 			list = this.commentDao.selectCommentListAll(start, pageSize);
-			if(list != null && list.size() > 0){
+			if (list != null && list.size() > 0) {
 				totalCount = this.commentDao.countCommentAll();
 			}
-		}else if(status == null && StringUtils.isNotBlank(newsTitle)){
-			list = this.commentDao.selectCommentListByNewsTitle(newsTitle,start, pageSize);
-			if(list != null && list.size() > 0){
+		} 
+		
+		if (status == null && StringUtils.isNotBlank(newsTitle)) {
+			list = this.commentDao.selectCommentListByNewsTitle(newsTitle,
+					start, pageSize);
+			if (list != null && list.size() > 0) {
 				totalCount = this.commentDao.countComment(newsTitle);
 			}
-		}else if(status != null && StringUtils.isBlank(newsTitle)){
-			list=this.commentDao.selectCommentListByStatus(status, start, pageSize);
-			if(list != null && list.size() > 0){
+		} 
+		if (status != null && StringUtils.isBlank(newsTitle)) {
+			list = this.commentDao.selectCommentListByStatus(status, start,
+					pageSize);
+			if (list != null && list.size() > 0) {
 				totalCount = this.commentDao.countCommentByStatus(status);
 			}
 		}
-		if(list != null && list.size() > 0){
-			return PageCountResult.build(0, "ok", totalCount, pageNo, pageSize, list);
-		}else{
-			return PageCountResult.error(500, "ÆÀÂÛÁÐ±íÎª¿Õ", pageNo, pageSize);
+		if (list != null && list.size() > 0) {
+			return PageCountResult.build(0, "ok", totalCount, pageNo, pageSize,
+					list);
+		} else {
+			return PageCountResult.error(200, "result is null", pageNo, pageSize);
 		}
 	}
 

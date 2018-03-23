@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ18ÈÕ
+ * @createTime 2017å¹´12æœˆ18æ—¥
  */
 @SpringBootApplication
 @ServletComponentScan
@@ -25,10 +25,7 @@ public class PeopleDaily2Application {
 	public static void main(String[] args) {
 		SpringApplication.run(PeopleDaily2Application.class, args);
 	}
-	    /*
-	     *  ÅäÖÃÊÂÎñ¹ÜÀíÆ÷txManager
-	     *  ÆäÖĞ dataSource ¿ò¼Ü»á×Ô¶¯ÎªÎÒÃÇ×¢Èë
-	     */
+	 
 	    @Bean(name = "transactionManager")
 	    public PlatformTransactionManager txManager(DataSource dataSource) {
 	        return new DataSourceTransactionManager(dataSource);

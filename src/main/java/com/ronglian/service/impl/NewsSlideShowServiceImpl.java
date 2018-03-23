@@ -46,7 +46,7 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 				|| slideShow.getImageUrl() == null
 				|| slideShow.getChannelUniqueId() == null
 				|| slideShow.getTitle() == null || slideShow.getDesc() == null) {
-			return RongLianResult.build(500, "ȱ������");
+			return RongLianResult.build(200, "The needed params can not be null");
 		}
 		slideShow.setCreateTime((slideShowDao.findOne(slideShow
 				.getSlideShowId()) != null) ? slideShowDao.findOne(
@@ -55,7 +55,7 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 		if (result != null) {
 			return RongLianResult.ok();
 		} else {
-			return RongLianResult.build(500, "save error");
+			return RongLianResult.build(200, "save error");
 		}
 	}
 

@@ -20,14 +20,11 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ10ÈÕ
+ * @createTime 2018å¹´1æœˆ10æ—¥
  */
 @Service
 public class CommentAppriseServiceImpl implements CommentAppriseService {
 
-	/* (non-Javadoc)
-	 * @see com.ronglian.service.CommentAppriseService#addCommentApprise(com.ronglian.entity.NewsCommentApprise)
-	 */
 	@Autowired
 	private NewsCommentAppriseDao commentAppriseDao;
 	@Autowired
@@ -35,21 +32,14 @@ public class CommentAppriseServiceImpl implements CommentAppriseService {
 	@Transactional
 	@Override
 	public RongLianResult addCommentApprise(NewsCommentApprise obj) {
-		// TODO Auto-generated method stub
 		if(obj !=null && StringUtils.isNotBlank(obj.getCommentId())
 			&& StringUtils.isNotBlank(obj.getDeviceId())
 			){
 			
-			//Ğ£ÑécommentIdºÏ·¨ĞÔ
 			NewsComment comment = commentDao.findOne(obj.getCommentId());
 			if(comment == null){
 				return RongLianResult.build(200, "commentId is a fake data ");
 			}
-			//¼ìÑéÊÇ·ñÒÑ¾­µãÔŞ£¿Èç¹û²»¿ÉÒÔÁ¬ĞøµãÔŞ£¬½«×¢ÊÍ·Å¿ª£¡£¡£¡
-			/*
-				ÈËÃñÈÕ±¨ºÍÎ¢Èí£¬¹µÍ¨¹ı£¬ÆÀÂÛµÄµãÔŞ£¬×ö³É²»¿ÉÒÔÈ¡ÏûµÄ£¬Á¬ĞøµãÔŞ£¡
-			*/
-			//±£´æµãÔŞ
 			String appriseId = UUID.randomUUID().toString();
 			obj.setAppriseId(appriseId);
 			obj.setCreateTime(new Date());
@@ -57,7 +47,6 @@ public class CommentAppriseServiceImpl implements CommentAppriseService {
 			if(result == null){
 				return RongLianResult.build(200, "save Apprise failed");
 			}
-			//µãÔŞÊıÍ³¼Æµ½ÆÀÂÛ±íÖĞ
 			this.commentDao.updateNewsCommentById(obj.getCommentId());
 			return RongLianResult.ok();
 		}else{

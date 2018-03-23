@@ -66,11 +66,11 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 //	@Query("from NewsInfo where contentId in (:list)")
 //	List<NewsInfo> selectNewsInfoNearByIncNo(@Param("list")List<Integer> list);
 
-	@Query(value="select * from news_info where channel_unique_id = 144 and content_id < ?1 and data_status = 2 order by content_id DESC limit 2",nativeQuery= true)
-	List<NewsInfo> selectNewsInfoNearUpByIncNo(int incNo);
+	@Query(value="select * from news_info where channel_unique_id = ?2 and content_id < ?1 and data_status = 2 and data_mode = 5 order by content_id DESC limit 2",nativeQuery= true)
+	List<NewsInfo> selectNewsInfoNearUpByIncNo(int incNo,String chanelUniqueId);
 	
-	@Query(value="select * from news_info where channel_unique_id = 144 and content_id > ?1 and data_status = 2 order by content_id DESC limit 2",nativeQuery= true)
-	List<NewsInfo> selectNewsInfoNearDownByIncNo(int incNo);
+	@Query(value="select * from news_info where channel_unique_id = ?2 and content_id > ?1 and data_status = 2 and data_mode = 5 order by content_id DESC limit 2",nativeQuery= true)
+	List<NewsInfo> selectNewsInfoNearDownByIncNo(int incNo,String chanelUniqueId);
 	
 	@Transactional
     @Modifying

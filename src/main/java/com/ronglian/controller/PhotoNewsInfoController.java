@@ -33,7 +33,7 @@ public class PhotoNewsInfoController {
 	 * Photo栏目相关图集输出接口(图片新闻（组图）输出)
 	 * */
 	@RequestMapping(value="/1.0/getNearbyNews",method=RequestMethod.GET)
-	public Object getNearByNews(String newsID,Integer incNo){
-		return this.newsInfoService.getPhotoNewsByNewsId(newsID, incNo);
+	public Object getNearByNews(String chanelUniqueId,Integer incNo){
+		return this.newsInfoService.getPhotoNewsByNewsId(chanelUniqueId, incNo);
 		}
 }

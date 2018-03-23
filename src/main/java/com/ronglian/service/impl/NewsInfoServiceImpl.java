@@ -75,7 +75,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017骞�12鏈�27鏃�
+	 * @createTime 2017/12/27
 	 * @updateYime 2018/3/9
 	 */
 	@Override
@@ -99,7 +99,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017骞�12鏈�27鏃�
+	 * @createTime 2017/12/27
+	 * @updateYime 2018/3/9
 	 */
 	@Override
 	public RongLianResult findTopnewsList(String channelUniqueId) {
@@ -117,7 +118,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017骞�12鏈�27鏃�
+	 * @createTime 2017/12/27
+	 * @updateYime 2018/3/9
 	 */
 	@Override
 	public RongLianResult findEditorNewsList(String channelUniqueId) {
@@ -135,7 +137,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017骞�12鏈�27鏃�
+	 * @createTime 2017/12/27
+	 * @updateYime 2018/3/9
 	 */
 	@Override
 	public PageCountResult findTopicNewsList(String topicId, int pageNo, int pageSize) {
@@ -157,7 +160,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017骞�12鏈�27鏃�
+	 * @createTime 2017/12/27
+	 * @updateYime 2018/3/9
 	 */
 	@Override
 	public RongLianResult getNewsInfoContent(String newsId) {
@@ -221,7 +225,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	@Override
 	/**
-	 * 鍒樼�氬崥 imedia鍚庡彴鍚屾鏂伴椈鍐呭
+	 * @author hamburg
+	 * @createTime 2017/12/27
+	 * @updateYime 2018/3/9
 	 */
 	public RongLianResult addNewsInfo(String newsStr)
 			throws JsonParseException, JsonMappingException, IOException, NumberFormatException, ParseException {
@@ -240,7 +246,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				/*
 				 * @author liyang
 				 * 
-				 * @createTime 2018骞�2鏈�5鏃� 杩藉姞杩斿洖瀛楁 鑾峰彇涓撻淇℃伅
+				 * @createTime 2018年2月5日追加topicUniqueId
 				 */
 				String topicUniqueId = null;
 				Object obj = map.get("topicUniqueId");
@@ -250,8 +256,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				/*
 				 * @author liyang
 				 * 
-				 * @createTime 2018骞�2鏈�5鏃� 杩藉姞杩斿洖瀛楁
-				 * 鑾峰彇鐩存挱锛歭iveUrl銆乴iveReplayUrl銆乴iveHostChatid銆乴iveUsChatid銆�
+				 * @createTime 2018年2月5日
+				 * liveUrl、iveReplayUrl、liveHostChatid、liveUsChatid
 				 * appointCoverImage
 				 */
 				NewsInfo newsInfo = new NewsInfo(map.get("newsId").toString(),
@@ -293,7 +299,6 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				/*
 				 * @author liyang
 				 * 
-				 * @createTime 2018骞�2鏈�5鏃� 杩藉姞 鐩存挱鐨勫瓧娈碉細String liveUrl String
 				 * liveReplayUrl String liveHostChatid String liveUsChatid
 				 * String appointCoverImage
 				 */
@@ -312,6 +317,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				Byte isToTop = null;
 				Integer isTopic = null;
 
+				String shortTitle = null;
 				obj = map.get("isTopic");
 				if (obj != null) {
 					isTopic = Integer.parseInt(obj.toString());
@@ -364,6 +370,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				if (obj != null) {
 					appointCoverImage = obj.toString();
 				}
+				obj = map.get("shortTitle");
+				if (obj != null) {
+					shortTitle = obj.toString();
+				}
 				newsInfo.setIsTopic(isTopic);
 				newsInfo.setLiveUrl(liveUrl);
 				newsInfo.setLiveReplayUrl(liveReplayUrl);
@@ -377,10 +387,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				newsInfo.setIsLiveReplay(isLiveReplay);
 				newsInfo.setIsToTop(isToTop);
 				newsInfo.setTopnewsSort(topnewsSort);
+				newsInfo.setShortTitle(shortTitle);
 				/*
 				 * @author liyang
 				 * 
-				 * @createTime 2018骞�3鏈�5鏃� 杩藉姞 鐨勫瓧娈碉細String link Byte dataMode
+				 * @createTime 2018年3月5日 String link Byte dataMode
 				 */
 				String link = null;
 				Byte dataMode = null;
@@ -406,7 +417,6 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					videoDuration = Integer.parseInt(obj.toString());
 				}
 				newsInfo.setVideoDuration(videoDuration);
-				// 褰曞叆APP鍚庡彴鏁版嵁搴�
 				newsPictureDao.deleteByNewsID(newsInfo.getNewsId());
 				int i = 0;
 				boolean less = false;
@@ -475,15 +485,15 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 	/**
 	 * @author liyang
-	 * @createTime 2017骞�12鏈�27鏃�
+	 * @createTime 2017年12月27日
 	 */
 	@Override
-	public RongLianResult getPhotoNewsByNewsId(String newsID, Integer incNo) {
+	public RongLianResult getPhotoNewsByNewsId(String chanelUniqueId, Integer incNo) {
 		if (incNo == null) {
 			return RongLianResult.build(200, "the param incNo can not be null");
 		}
-		List<NewsInfo> list = this.newsInfoDao.selectNewsInfoNearUpByIncNo(incNo);
-		List<NewsInfo> list2 = this.newsInfoDao.selectNewsInfoNearDownByIncNo(incNo);
+		List<NewsInfo> list = this.newsInfoDao.selectNewsInfoNearUpByIncNo(incNo,chanelUniqueId);
+		List<NewsInfo> list2 = this.newsInfoDao.selectNewsInfoNearDownByIncNo(incNo,chanelUniqueId);
 		if (list != null) {
 			list.addAll(list2);
 		} else {
@@ -538,13 +548,13 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	}
 
 	/*
-	 * @param List<NewsInfo> list ----鏂伴椈鍒楄〃 鎶奻ind鐨勬暟鎹紝缁勫悎鍙樻崲鎴愬墠绔渶瑕佺殑鏍煎紡锛�
+	 * @param List<NewsInfo> list ----数据转换
 	 */
 	public List<Map> changeDataContent(List<NewsInfo> list) {
 		List<Map> resultList = new ArrayList<Map>();
 		for (NewsInfo news : list) {
 			Map resultMap = new HashMap();
-			resultMap.put("newsTitle", news.getNewsTitle());
+			resultMap.put("newsTitle", news.getShortTitle());
 			resultMap.put("newsId", news.getNewsId());
 			resultMap.put("newsTags", news.getNewsTags());
 			resultMap.put("channelName", news.getChannelName());
@@ -556,18 +566,14 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			resultMap.put("hasVideo", news.getHasVideo());
 			resultMap.put("isLive", news.getIsLive());
 			resultMap.put("isLiveReplay", news.getIsLiveReplay());
-			// 杩藉姞鐩存挱5涓瓧娈�
 			resultMap.put("appointCoverImage ", news.getAppointCoverImage());
 			resultMap.put("liveUrl", news.getLiveUrl());
 			resultMap.put("liveReplayUrl", news.getLiveReplayUrl());
 			resultMap.put("liveHostChatid", news.getLiveHostChatid());
 			resultMap.put("liveUsChatid", news.getLiveUsChatid());
-			// 杩藉姞dataMode銆乴ink涓や釜瀛楁
 			resultMap.put("link", news.getLink());
 			resultMap.put("dataMode", news.getDataMode());
-			//视频总长
 			resultMap.put("videoDuration", news.getVideoDuration());
-			// 鍒ゆ柇鏄惁鏄笓棰�
 			Integer isTopic = news.getIsTopic();
 			resultMap.put("isTopic", news.getIsTopic());
 			String topicUniqueId = null;
@@ -577,7 +583,6 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			}
 			//
 			if (StringUtils.isNotBlank(topicUniqueId)) {
-				// 鏍规嵁涓撻鐨剈niqueId鏌ヨ涓撻
 				NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicUniqueId);
 				if (topic != null) {
 					Map topicDetail = new HashMap();
@@ -591,7 +596,6 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			Integer videoDuration = null;
 			videoDuration = news.getVideoDuration();
 			resultMap.put("videoDuration", videoDuration);
-			// 鏌ョ湅鍥剧墖
 			Integer imageCount = news.getImageList();
 			if (imageCount == null) {
 				imageCount = 0;
@@ -649,18 +653,15 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				topicNews.put("hasVideo", newsInfo.getHasVideo());
 				topicNews.put("isLive", newsInfo.getIsLive());
 				topicNews.put("isLiveReplay", newsInfo.getIsLiveReplay());
-				// 杩藉姞鐩存挱5涓瓧娈�
 				topicNews.put("appointCoverImage ", newsInfo.getAppointCoverImage());
 				topicNews.put("liveUrl", newsInfo.getLiveUrl());
 				topicNews.put("liveReplayUrl", newsInfo.getLiveReplayUrl());
 				topicNews.put("liveHostChatid", newsInfo.getLiveHostChatid());
 				topicNews.put("liveUsChatid", newsInfo.getLiveUsChatid());
-				// 杩藉姞dataMode銆乴ink涓や釜瀛楁
 				topicNews.put("link", newsInfo.getLink());
 				topicNews.put("dataMode", newsInfo.getDataMode());
 				//视频总长
 				topicNews.put("videoDuration", newsInfo.getVideoDuration());
-				// 鍒ゆ柇鏄惁鏄笓棰�
 				topicNews.put("isTopic", newsInfo.getIsTopic());
 				topicNewsList.add(topicNews);
 			}

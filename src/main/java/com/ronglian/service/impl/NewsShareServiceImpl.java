@@ -22,56 +22,54 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ12ÈÕ
+ * @createTime 2018å¹´1æœˆ12æ—¥
  */
 @Service
 public class NewsShareServiceImpl implements NewsShareService {
 
-
 	@Autowired
 	private NewsShareDao shareDao;
-	@Autowired 
+	@Autowired
 	private NewsInfoDao newsInfoDao;
-	
+
 	@Override
 	@Transactional
 	public RongLianResult countNewsShare(NewsShare newsShare) {
 		// TODO Auto-generated method stub
-		if(newsShare != null){
-			NewsShare result = null;
-			String newsId = newsShare.getNewsId();
-			String deviceId = newsShare.getDeviceId();
-			String userId = newsShare.getUserId();
-			//·ÖÏíµÄÆ½Ì¨(-1:±¾µØÈí¼ş·ÖÏí£¬0:Î¢ĞÅ£¬1£ºtwinnter£¬2£ºfacebook)',
-			Integer sharePlatform = newsShare.getSharePlatform();
-			
-			if(StringUtils.isNotBlank(deviceId) 
-					&& StringUtils.isNotBlank(newsId)
-					&& sharePlatform != null){
-				//1¡¢²é¿´ÓĞÎŞ·ÖÏí´ËÊı¾İ
-				result = this.shareDao.getNewsShare(userId, deviceId, newsId, sharePlatform);
-				if(result == null){
-					newsShare.setCreateTime(new Date());
-					newsShare.setShareId(UUID.randomUUID().toString());
-					result = this.shareDao.save(newsShare);
-					//Í¬²½µ½newsInfo±íÀïµÄ·ÖÏíÊı¾İ
-					if(result != null){
-						this.newsInfoDao.updateShareNum(newsId);
-						NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
-						Map resultMap = new HashMap();
-						resultMap.put("count", newsInfo.getShareNum());
-						return RongLianResult.ok(resultMap);
-					}
-					return RongLianResult.build(200,"·ÖÏí³É¹¦£¬µ«Í¬²½newsInfoÊ§°Ü£¡");
-				}else{
-					return RongLianResult.build(200, "¸ÃÎÄÕÂÒÑ¾­·ÖÏí£¡"); 
-				}
-			}else{
-				return RongLianResult.build(200,"È±ÉÙ±ØĞëÇëÇó²ÎÊı");
-			}
-		}else{
-			return RongLianResult.build(500, "ÇëÇó²ÎÊı²»ÄÜÎª¿Õ£¡");
+		if (newsShare == null) {
+			return RongLianResult.build(200, "è¯·æ±‚å‚æ•°ä¸èƒ½ä¸ºç©ºï¼");
 		}
+		NewsShare result = null;
+		String newsId = newsShare.getNewsId();
+		String deviceId = newsShare.getDeviceId();
+		String userId = newsShare.getUserId();
+		// åˆ†äº«çš„å¹³å°(-1:æœ¬åœ°è½¯ä»¶åˆ†äº«ï¼Œ0:å¾®ä¿¡ï¼Œ1ï¼štwinnterï¼Œ2ï¼šfacebook)',
+		Integer sharePlatform = newsShare.getSharePlatform();
+
+		if (StringUtils.isBlank(deviceId) || StringUtils.isBlank(newsId)
+				|| sharePlatform != null) {
+			return RongLianResult.build(200, "ç¼ºå°‘å¿…é¡»è¯·æ±‚å‚æ•°");
+		}
+		// 1ã€æŸ¥çœ‹æœ‰æ— åˆ†äº«æ­¤æ•°æ®
+		result = this.shareDao.getNewsShare(userId, deviceId, newsId,
+				sharePlatform);
+		if (result != null) {
+			return RongLianResult.build(200, "è¯¥æ–‡ç« å·²ç»åˆ†äº«ï¼");
+		}
+		newsShare.setCreateTime(new Date());
+		newsShare.setShareId(UUID.randomUUID().toString());
+		result = null;
+		result = this.shareDao.save(newsShare);
+		// åŒæ­¥åˆ°newsInfoè¡¨é‡Œçš„åˆ†äº«æ•°æ®
+		if (result == null) {
+			return RongLianResult.build(200, "åˆ†äº«æˆåŠŸï¼Œä½†åŒæ­¥newsInfoå¤±è´¥ï¼");
+		}
+		this.newsInfoDao.updateShareNum(newsId);
+		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
+		Map resultMap = new HashMap();
+		resultMap.put("count", newsInfo.getShareNum());
+		return RongLianResult.ok(resultMap);
+
 	}
 
 }
