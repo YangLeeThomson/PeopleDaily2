@@ -20,9 +20,16 @@ public class SlideShowBody implements Serializable{
 		private String slideShowId;
 		private String channelUniqueId;
 		private String channelName;
-		private String createTime;
+//		private String createTime;
+		private Long createTime;
 		private String imageUrl;
 		private String newsId;
+		public Long getCreateTime() {
+			return createTime;
+		}
+		public void setCreateTime(Long createTime) {
+			this.createTime = createTime;
+		}
 		public String getChannelName() {
 			return channelName;
 		}
@@ -51,12 +58,7 @@ public class SlideShowBody implements Serializable{
 		public void setChannelUniqueId(String channelUniqueId) {
 			this.channelUniqueId = channelUniqueId;
 		}
-		public String getCreateTime() {
-			return createTime;
-		}
-		public void setCreateTime(String createTime) {
-			this.createTime = createTime;
-		}
+
 		public String getImageUrl() {
 			return imageUrl;
 		}

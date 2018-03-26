@@ -18,8 +18,8 @@ import com.ronglian.interceptor.SignInterceptor;
 public class InterceptorConfiguration extends WebMvcConfigurerAdapter{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-//	       registry.addInterceptor(new SignInterceptor()).addPathPatterns("/**");
-//	       super.addInterceptors(registry);
+	       registry.addInterceptor(new SignInterceptor()).addPathPatterns("/**");
+	       super.addInterceptors(registry);
 	}
     @Bean
     public SignInterceptor signInterceptor(){

@@ -107,15 +107,13 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 			newsInfoBody.setVideoDuration(newsInfo.getVideoDuration());
 			newsInfoBody.setTopicUniqueId(newsInfo.getTopicUniqueId());
 			newsInfoBody.setIsTopic(newsInfo.getIsTopic());
-			newsInfoBody.setPublishTime(RongLianUtils.changeDateTime(newsInfo
-					.getPublishTime()));
+			newsInfoBody.setPublishTime(RongLianUtils.getUTCtime(newsInfo.getPublishTime()));
 			temp.put(newsInfo.getNewsId(), newsInfoBody);
 		}
 		for (NewsSlideshow slideShow : list) {
 			SlideShowBody slideBody = new SlideShowBody();
 			slideBody.setChannelUniqueId(slideShow.getChannelUniqueId());
-			String createTime = RongLianUtils.changeDateTime(slideShow
-					.getCreateTime());
+			Long createTime = RongLianUtils.getUTCtime(slideShow.getCreateTime());
 			slideBody.setCreateTime(createTime);
 			slideBody.setDataStatus(slideShow.getDataStatus());
 			slideBody.setDesc(slideShow.getDesc());

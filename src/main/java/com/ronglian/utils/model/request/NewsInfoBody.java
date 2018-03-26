@@ -26,11 +26,13 @@ public class NewsInfoBody {
 	private String topicUniqueId;
 	private Integer isTopic ;
 //	"publishTime", RongLianUtils.changeDateTime(news.getPublishTime())
-	private String publishTime;
-	public String getPublishTime() {
+//	private String publishTime;
+	private Long publishTime;
+	
+	public Long getPublishTime() {
 		return publishTime;
 	}
-	public void setPublishTime(String publishTime) {
+	public void setPublishTime(Long publishTime) {
 		this.publishTime = publishTime;
 	}
 	public String getNewsId() {

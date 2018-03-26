@@ -144,7 +144,8 @@ public class CollectionServiceImpl implements CollectionService {
 			resultMap.put("newsTags", news.getNewsTags());
 			resultMap.put("channelName", news.getChannelName());
 			resultMap.put("channelUniqueId", news.getChannelUniqueId());
-			resultMap.put("publishTime", RongLianUtils.changeDateTime(news.getPublishTime()));
+			resultMap.put("publishTime", RongLianUtils.getUTCtime(news.getPublishTime()));
+			
 			resultMap.put("newsSort", news.getNewsSort());
 			resultMap.put("showType", news.getShowType());
 			resultMap.put("fullColumnImgUrl", news.getFullColumnImgUrl());

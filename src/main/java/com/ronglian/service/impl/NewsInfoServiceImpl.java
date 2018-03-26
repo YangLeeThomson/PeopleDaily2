@@ -175,7 +175,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			data.put("newsContent", newsInfo.getNewsContent());
 			data.put("newsOrganization", newsInfo.getNewsOrganization());
 			data.put("newsAuthors", newsInfo.getNewsAuthors());
-			data.put("publishTime", RongLianUtils.changeDateTime(newsInfo.getPublishTime()));
+//			data.put("publishTime", RongLianUtils.changeDateTime(newsInfo.getPublishTime()));
+			data.put("publishTime", RongLianUtils.getUTCtime(newsInfo.getPublishTime()));
 			data.put("newsTitle", newsInfo.getNewsTitle());
 			data.put("appriseUPCount", newsInfo.getAppriseUpNum());
 			data.put("appriseDownCount", newsInfo.getAppriseDownNum());
@@ -316,7 +317,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				Byte isLiveReplay = null;
 				Byte isToTop = null;
 				Integer isTopic = null;
-
+				Byte hasVideo = null;
 				String shortTitle = null;
 				obj = map.get("isTopic");
 				if (obj != null) {
@@ -374,6 +375,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				if (obj != null) {
 					shortTitle = obj.toString();
 				}
+				obj = map.get("hasVideo");
+				if (obj != null) {
+					hasVideo = Byte.parseByte(obj.toString());
+				}
 				newsInfo.setIsTopic(isTopic);
 				newsInfo.setLiveUrl(liveUrl);
 				newsInfo.setLiveReplayUrl(liveReplayUrl);
@@ -388,6 +393,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				newsInfo.setIsToTop(isToTop);
 				newsInfo.setTopnewsSort(topnewsSort);
 				newsInfo.setShortTitle(shortTitle);
+				newsInfo.setHasVideo(hasVideo);
 				/*
 				 * @author liyang
 				 * 
@@ -478,6 +484,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 
 		if (!"".equals(str)) {
 			String cutStr = str.replace(",http:", " ,http:");
+			//liyang 0326 追加代码逻辑
+			cutStr = cutStr.replace(",https:", " ,https:");
+			
 			images = cutStr.split(" ,");
 		}
 		return images;
@@ -507,7 +516,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				result.put("newsTitle", news.getNewsTitle());
 				result.put("newsId", news.getNewsId());
 				result.put("newsTags", news.getNewsTags());
-				result.put("publishTime", RongLianUtils.changeDateTime(news.getPublishTime()));
+//				result.put("publishTime", RongLianUtils.changeDateTime(news.getPublishTime()));
+				result.put("publishTime", RongLianUtils.getUTCtime(news.getPublishTime()));
 				result.put("newsSort", news.getNewsSort());
 
 				List<NewsPicture> photos = this.newsPictureDao.selectNewsPictureByNewsId(news.getNewsId());
@@ -559,7 +569,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			resultMap.put("newsTags", news.getNewsTags());
 			resultMap.put("channelName", news.getChannelName());
 			resultMap.put("channelUniqueId", news.getChannelUniqueId());
-			resultMap.put("publishTime", RongLianUtils.changeDateTime(news.getPublishTime()));
+//			resultMap.put("publishTime", RongLianUtils.changeDateTime(news.getPublishTime()));
+			resultMap.put("publishTime",RongLianUtils.getUTCtime(news.getPublishTime()));
 			resultMap.put("newsSort", news.getNewsSort());
 			resultMap.put("showType", news.getShowType());
 			resultMap.put("fullColumnImgUrl", news.getFullColumnImgUrl());
