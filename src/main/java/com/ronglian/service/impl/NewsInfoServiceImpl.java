@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +27,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ronglian.dao.NewsInfoDao;
+import com.ronglian.entity.NewsAuthor;
 import com.ronglian.entity.NewsInfo;
 import com.ronglian.entity.NewsPicture;
 import com.ronglian.entity.NewsTopic;
@@ -36,6 +38,7 @@ import com.ronglian.utils.RongLianConstant;
 import com.ronglian.utils.RongLianResult;
 import com.ronglian.utils.RongLianUtils;
 import com.ronglian.utils.model.request.ImageInfo;
+import com.ronglian.dao.NewsAuthorDao;
 import com.ronglian.dao.NewsPictureDao;
 import com.ronglian.dao.TopicDao;
 import com.ronglian.dao.TopicNewsDao;
@@ -62,7 +65,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	private TopicDao topicDao;
 	@Autowired
 	private TopicNewsDao topicAndNewsDao;
-
+	@Autowired
+	private NewsAuthorDao newsAuthorDao;
 	@Override
 	public RongLianResult inserNewsInfo(NewsInfo newsInfo) {
 		NewsInfo result = this.newsInfoDao.save(newsInfo);
@@ -170,7 +174,21 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		}
 		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
 		if (newsInfo != null) {
+			List<NewsAuthor> list = this.newsAuthorDao.selectByNewsId(newsId);
+			List<Map> appAuthor = null;
+			if(list !=null && list.size() > 0){
+				appAuthor = new ArrayList<Map>();
+				for(NewsAuthor author:list){
+					Map temp = new HashMap();
+					temp.put("authorName", author.getAuthorName());
+					temp.put("authorUniqueId", author.getAuthorUniqueId());
+					temp.put("photoUrl", author.getPhotoUrl());
+					temp.put("mediaName", author.getMediaName());
+					appAuthor.add(temp);
+				}
+			}
 			Map data = new HashMap();
+			data.put("appAuthor", appAuthor);
 			data.put("incNo", newsInfo.getContentId());
 			data.put("newsContent", newsInfo.getNewsContent());
 			data.put("newsOrganization", newsInfo.getNewsOrganization());
@@ -192,6 +210,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			data.put("liveReplayUrl",newsInfo.getLiveReplayUrl());
 			data.put("liveHostChatid",newsInfo.getLiveHostChatid());
 			data.put("liveUsChatid",newsInfo.getLiveUsChatid());
+			data.put("newsSummary", newsInfo.getNewsSummary());
 			
 			Integer imageCount = newsInfo.getImageList();
 			if (imageCount == null) {
@@ -297,6 +316,29 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 						(map.get("isLiveReplay") != null)
 								? (map.get("isLiveReplay").toString().equals("true") ? (byte) 1 : (byte) 0) : null,
 						topicUniqueId);
+				/*
+				 * @author liyang
+				 * 追加作者
+				 */
+				List<Map> appAuthorList = (List<Map>) map.get("appAuthor");
+				String newsId = map.get("newsId").toString();
+				List list = new ArrayList<NewsAuthor>();
+				for(Map temp:appAuthorList){
+					NewsAuthor author = new NewsAuthor();
+					author.setAuthorName(temp.get("authorName").toString());
+					author.setMediaName(temp.get("mediaName").toString());
+					author.setPhotoUrl(temp.get("photoUrl").toString());
+					author.setAuthorUniqueId(temp.get("authorUniqueId").toString());
+					String id = UUID.randomUUID().toString();
+					author.setId(id);
+					author.setNewsId(newsId);
+					list.add(author);
+				}
+				Iterable<NewsAuthor> newsAuthorList = (Iterable<NewsAuthor>)list;
+				if(newsAuthorList != null && list.size() > 0){
+					this.newsAuthorDao.deleteByNewsId(newsId);
+					this.newsAuthorDao.save(newsAuthorList);
+				}
 				/*
 				 * @author liyang
 				 * 
@@ -647,7 +689,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 */
 	public List<Map> findTopicNews(List<Map> resultList, String topicUniqueId,int n) {
 		List<String> newsIdList = this.topicAndNewsDao.selectNewsInfoIdByTopic(topicUniqueId);
-		if (newsIdList != null && newsIdList.size() <= n) {
+		if (newsIdList != null && newsIdList.size() <= n && newsIdList.size() > 0) {
 			List<NewsInfo> newsInfoList = this.newsInfoDao.selectByNewsID(newsIdList);
 			List<Map> topicNewsList = new ArrayList<Map>();
 			for (NewsInfo newsInfo : newsInfoList) {
@@ -657,7 +699,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				topicNews.put("newsTags", newsInfo.getNewsTags());
 				topicNews.put("channelName", newsInfo.getChannelName());
 				topicNews.put("channelUniqueId", newsInfo.getChannelUniqueId());
-				topicNews.put("publishTime", RongLianUtils.changeDateTime(newsInfo.getPublishTime()));
+				topicNews.put("publishTime", RongLianUtils.getUTCtime(newsInfo.getPublishTime()));
+				
 				topicNews.put("newsSort", newsInfo.getNewsSort());
 				topicNews.put("showType", newsInfo.getShowType());
 				topicNews.put("fullColumnImgUrl", newsInfo.getFullColumnImgUrl());

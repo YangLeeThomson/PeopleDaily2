@@ -84,4 +84,7 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
     @Modifying
     @Query(value="update news_info  set comment_num = comment_num + 1 where news_Id = :newsId",nativeQuery= true)
 	void updateCommentNum(@Param("newsId")String newsId);
+	
+	@Query(value="select * from news_info news where news.news_Id = (:newsId)",nativeQuery= true)
+	NewsInfo selectByNewsId(@Param("newsId")String newsId);
 }
