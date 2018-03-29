@@ -323,18 +323,21 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				List<Map> appAuthorList = (List<Map>) map.get("appAuthor");
 				String newsId = map.get("newsId").toString();
 				List list = new ArrayList<NewsAuthor>();
-				for(Map temp:appAuthorList){
-					NewsAuthor author = new NewsAuthor();
-					author.setAuthorName(temp.get("authorName").toString());
-					author.setMediaName(temp.get("mediaName").toString());
-					author.setPhotoUrl(temp.get("photoUrl").toString());
-					author.setAuthorUniqueId(temp.get("authorUniqueId").toString());
-					String id = UUID.randomUUID().toString();
-					author.setId(id);
-					author.setNewsId(newsId);
-					list.add(author);
+				Iterable<NewsAuthor> newsAuthorList = null;
+				if(appAuthorList != null && appAuthorList.size() > 0){
+					for(Map temp:appAuthorList){
+						NewsAuthor author = new NewsAuthor();
+						author.setAuthorName(temp.get("authorName").toString());
+						author.setMediaName(temp.get("mediaName").toString());
+						author.setPhotoUrl(temp.get("photoUrl").toString());
+						author.setAuthorUniqueId(temp.get("authorUniqueId").toString());
+						String id = UUID.randomUUID().toString();
+						author.setId(id);
+						author.setNewsId(newsId);
+						list.add(author);
+					}
+					newsAuthorList = (Iterable<NewsAuthor>)list;
 				}
-				Iterable<NewsAuthor> newsAuthorList = (Iterable<NewsAuthor>)list;
 				if(newsAuthorList != null && list.size() > 0){
 					this.newsAuthorDao.deleteByNewsId(newsId);
 					this.newsAuthorDao.save(newsAuthorList);

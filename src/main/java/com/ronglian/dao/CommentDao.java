@@ -32,10 +32,10 @@ public interface CommentDao extends CrudRepository<NewsComment, String>{
 	public  List<NewsComment> getUserCommentListByUserIdLimt(String newsId,String userId,int start,int pageSize);
 
 	
-	@Query("from NewsComment comment where ((comment.newsId = :newsId and comment.status = 1) or (comment.newsId = :newsId and comment.deviceId = :deviceId and comment.status = 0)) order by createTime")
+	@Query("from NewsComment comment where ((comment.newsId = :newsId and comment.status = 1) or (comment.newsId = :newsId and comment.deviceId = :deviceId and comment.status = 0)) order by create_time")
 	public  List<NewsComment> getUserCommentListByDeviceId(@Param("newsId") String newsId,@Param("deviceId") String deviceId);
 
-	@Query(value="select * from news_comment comment where ((comment.news_id = ?1 and comment.status = 1) or (comment.news_id = ?1 and comment.device_id = ?2 and comment.status = 0)) order by createTime limit ?3,?4",nativeQuery= true)
+	@Query(value="select * from news_comment comment where ((comment.news_id = ?1 and comment.status = 1) or (comment.news_id = ?1 and comment.device_id = ?2 and comment.status = 0)) order by create_time limit ?3,?4",nativeQuery= true)
 	public  List<NewsComment> getUserCommentListByDeviceIdLimt(String newsId,String deviceId,int start,int pageSize);
 
 	
