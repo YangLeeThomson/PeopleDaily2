@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ronglian.dao.CommentDao;
 import com.ronglian.dao.NewsInfoDao;
 import com.ronglian.entity.NewsComment;
+import com.ronglian.entity.NewsInfo;
 import com.ronglian.service.CommentService;
 import com.ronglian.utils.PageCountResult;
 import com.ronglian.utils.RongLianResult;
+import com.ronglian.utils.model.request.NewsCommentBody;
 
 /**
  * @author liyang
@@ -42,18 +44,45 @@ public class CommentServiceImpl implements CommentService {
 	public RongLianResult getComments(String deviceId, String userId) {
 		// TODO Auto-generated method stub
 		List<NewsComment> list = null;
+		List<String> newsIdList = null;
+		List<NewsInfo> newsInfoList = null;
+		List<NewsCommentBody> commentBodyList = null;
 		if (StringUtils.isBlank(deviceId)) {
 			return RongLianResult.build(200, "request param is incorrect");
 		}
 		if (StringUtils.isNotBlank(userId)) {
 			list = this.commentDao.getCommentsByUserId(userId);
+			newsIdList = this.commentDao.getNewsIdListByUserId(userId);
+			newsInfoList = this.newsInfoDao.selectByNewsID(newsIdList);
 		} else {
 			list = this.commentDao.getCommentsByDeviceId(deviceId);
+			newsIdList = this.commentDao.getNewsIdListByDeviceId(deviceId);
+			newsInfoList = this.newsInfoDao.selectByNewsID(newsIdList);
 		}
 		if (list == null || list.size() <= 0) {
 			return RongLianResult.ok();
 		}
-		return RongLianResult.ok(list);
+		
+		for(int i = 0;i < list.size();i++){
+			NewsCommentBody commBody = new NewsCommentBody();
+			commBody.setAppriseNum(list.get(i).getAppriseNum());
+			commBody.setChanelUniqueId(newsInfoList.get(i).getChannelUniqueId());
+			commBody.setCommentContent(list.get(i).getCommentContent());
+			commBody.setCommentId(list.get(i).getCommentId());
+			commBody.setCreateTime(list.get(i).getCreateTime());
+			commBody.setDataMode(newsInfoList.get(i).getDataMode());
+			commBody.setDeviceId(list.get(i).getDeviceId());
+			commBody.setHasVideo(newsInfoList.get(i).getHasVideo());
+			commBody.setModifyTime(list.get(i).getModifyTime());
+			commBody.setNewsId(list.get(i).getNewsId());
+			commBody.setNewsTitle(newsInfoList.get(i).getNewsTitle());
+			commBody.setNickname(list.get(i).getNickname());
+			commBody.setStatus(list.get(i).getStatus());
+			commBody.setUserId(list.get(i).getUserId());
+			commBody.setUserImage(list.get(i).getUserImage());
+			commentBodyList.add(commBody);
+		}
+		return RongLianResult.ok(commentBodyList);
 
 	}
 
@@ -111,20 +140,61 @@ public class CommentServiceImpl implements CommentService {
 	// }
 	@Override
 	public RongLianResult getCommentList(String userId, String newsId,
-			String deviceId, int start, int pageSize) {
+			String deviceId, int start, int pageSize, Boolean isHotComments,
+			String commentId) {
 		// TODO Auto-generated method stub
 		List<NewsComment> list = null;
 		if (StringUtils.isBlank(newsId) || StringUtils.isBlank(deviceId)) {
 			return RongLianResult.build(200,
 					"The param of newsId and deviceId are not allowed null ");
 		}
-		if (StringUtils.isNotBlank(userId)) {
-			list = this.commentDao.getUserCommentListByUserIdLimt(newsId,
-					userId, start, pageSize);
-		} else {
-			list = this.commentDao.getUserCommentListByDeviceIdLimt(newsId,
-					deviceId, start, pageSize);
+		NewsComment comment = null;
+		Date createTime = null;
+		if(commentId != null){
+			comment = this.commentDao.findOne(commentId);
+			if(comment == null){
+				return RongLianResult.build(200,
+						"this commentId or Comment is not exit ");
+			}
+			createTime = comment.getCreateTime();
 		}
+		if (!isHotComments && StringUtils.isNotBlank(userId)) {
+			if(commentId == null){
+				list = this.commentDao.getUserCommentListByUserIdLimt(newsId,
+						userId, start, pageSize);
+			}else{
+				list = this.commentDao.getUserCommentListByUserIdLimtSecond(newsId,
+						userId, start, pageSize,createTime);
+			}
+		}
+		if (!isHotComments && StringUtils.isBlank(userId) ) {
+			if(commentId == null){
+				list = this.commentDao.getUserCommentListByDeviceIdLimt(newsId,
+						deviceId, start, pageSize);
+			}else{
+				list = this.commentDao.getUserCommentListByDeviceIdLimtSecond(newsId,
+						userId, start, pageSize,createTime);
+			}
+		}
+		if (isHotComments && StringUtils.isNotBlank(userId)) {
+			if(commentId == null){
+				list = this.commentDao.getCommentListByUserIdAndAppriseNum(newsId,
+						userId, start, pageSize);
+			}else{
+				list = this.commentDao.getCommentListByUserIdAndAppriseNumSecond(newsId,
+						userId, start, pageSize,createTime);
+			}
+		}
+		if (isHotComments && StringUtils.isBlank(userId)) {
+			if(commentId == null){
+				list = this.commentDao.getCommentListByDeviceIdAndAppriseNum(
+						newsId, deviceId, start, pageSize);
+			}else{
+				list = this.commentDao.getCommentListByDeviceIdAndAppriseNumSecond(
+						newsId, deviceId, start, pageSize,createTime);
+			}
+		}
+
 		return RongLianResult.ok(list);
 	}
 
@@ -176,22 +246,22 @@ public class CommentServiceImpl implements CommentService {
 				totalCount = this.commentDao.countCommentByOthers(status,
 						newsTitle);
 			}
-		} 
-		
+		}
+
 		if (status == null && StringUtils.isBlank(newsTitle)) {
 			list = this.commentDao.selectCommentListAll(start, pageSize);
 			if (list != null && list.size() > 0) {
 				totalCount = this.commentDao.countCommentAll();
 			}
-		} 
-		
+		}
+
 		if (status == null && StringUtils.isNotBlank(newsTitle)) {
 			list = this.commentDao.selectCommentListByNewsTitle(newsTitle,
 					start, pageSize);
 			if (list != null && list.size() > 0) {
 				totalCount = this.commentDao.countComment(newsTitle);
 			}
-		} 
+		}
 		if (status != null && StringUtils.isBlank(newsTitle)) {
 			list = this.commentDao.selectCommentListByStatus(status, start,
 					pageSize);
@@ -203,7 +273,8 @@ public class CommentServiceImpl implements CommentService {
 			return PageCountResult.build(0, "ok", totalCount, pageNo, pageSize,
 					list);
 		} else {
-			return PageCountResult.error(200, "result is null", pageNo, pageSize);
+			return PageCountResult.error(200, "result is null", pageNo,
+					pageSize);
 		}
 	}
 

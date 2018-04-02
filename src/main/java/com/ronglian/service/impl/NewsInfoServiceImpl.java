@@ -83,7 +83,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * @updateYime 2018/3/9
 	 */
 	@Override
-	public PageCountResult findNewsList(int pageSize, int pageNo, String channelUniqueId) {
+	public PageCountResult findNewsList(int pageSize, int pageNo, String channelUniqueId,String newsId) {
 		int start = 0;
 		int counter = 0;
 		List<Map> resultList = new ArrayList<Map>();
@@ -91,7 +91,18 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			return PageCountResult.error(200, "channelUniqueId can not be null", pageNo, pageSize);
 		}
 		start = (pageNo - 1) * pageSize;
-		List<NewsInfo> list = this.newsInfoDao.selectNewsInfoByChannel(channelUniqueId, start, pageSize);
+		List<NewsInfo> list = null;
+		if(newsId == null){
+			list = this.newsInfoDao.selectNewsInfoByChannel(channelUniqueId, start, pageSize);
+		}else{
+			NewsInfo news = this.newsInfoDao.findOne(newsId);
+			if(news == null){
+				return PageCountResult.error(200, "newsId was not right", pageNo, pageSize);
+			}
+			Integer incNo = news.getContentId();
+			list = this.newsInfoDao.selectNewsInfoByChannelAndNewsId(channelUniqueId, start, pageSize,incNo);
+		}
+		
 		if (list == null || list.size() == 0) {
 			return PageCountResult.error(200, "result is null", pageNo, pageSize);
 		}
@@ -145,13 +156,23 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * @updateYime 2018/3/9
 	 */
 	@Override
-	public PageCountResult findTopicNewsList(String topicId, int pageNo, int pageSize) {
+	public PageCountResult findTopicNewsList(String topicId, int pageNo, int pageSize,String newsId) {
 		if (topicId == null) {
 			return PageCountResult.error(200, "topicId can not be null ", pageNo, pageSize);
 		}
 		pageNo = (pageNo - 1) * pageSize;
 		int count = 0;
-		List<NewsInfo> newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(topicId, pageNo, pageSize);
+		List<NewsInfo> newsInfoList = null;
+		if(newsId == null){
+			newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(topicId, pageNo, pageSize);
+		}else{
+			NewsInfo news = this.newsInfoDao.findOne(newsId);
+			if(news == null){
+				return PageCountResult.error(200, "newsId was not right", pageNo, pageSize);
+			}
+			Integer incNo = news.getContentId();
+			newsInfoList = this.newsInfoDao.selectTopicNewsByNewsId(topicId, pageNo, pageSize,incNo);
+		}
 		int counter = this.newsInfoDao.selectTopicNewsByNewsInfoId(topicId,0,200).size();
 		List<Map> resultList = new ArrayList<Map>();
 		count = newsInfoList.size();
@@ -562,6 +583,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				result.put("newsId", news.getNewsId());
 				result.put("newsTags", news.getNewsTags());
 //				result.put("publishTime", RongLianUtils.changeDateTime(news.getPublishTime()));
+				result.put("dataMode", news.getDataMode());
+				result.put("chanelUniqueId", news.getChannelUniqueId());
+				result.put("hasVideo", news.getHasVideo());
 				result.put("publishTime", RongLianUtils.getUTCtime(news.getPublishTime()));
 				result.put("newsSort", news.getNewsSort());
 

@@ -96,13 +96,14 @@ public class CommentController {
 	 * 新闻对应评论的接口
 	 * */
 	@RequestMapping(value="/1.0/comments",method=RequestMethod.GET)
-	public RongLianResult getCommentList(String userId,String newsId,String deviceId,
+	public RongLianResult getCommentList(String userId,String newsId,String deviceId,String commentId,
 			@RequestParam(value="pageNo",defaultValue="1",required=false)int pageNo,
-			@RequestParam(value="pageSize",defaultValue="10",required=false)int pageSize
+			@RequestParam(value="pageSize",defaultValue="10",required=false)int pageSize,
+			@RequestParam(value="isHotComments",defaultValue="false",required=false)Boolean isHotComments
 			){
 //		return this.commentService.getCommentList(userId,newsId,deviceId);
 		int start = (pageNo - 1)*pageSize;
-		return this.commentService.getCommentList(userId, newsId, deviceId, start, pageSize);
+		return this.commentService.getCommentList(userId, newsId, deviceId, start, pageSize,isHotComments,commentId);
 	}
 	
 	/**

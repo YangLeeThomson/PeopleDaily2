@@ -26,6 +26,9 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	@Query(value="select * from news_info news where news.data_status = 2 and news.channel_unique_id = ?1 order by publish_time desc limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectNewsInfoByChannel(String channelUniqueId,int pageNo,int pageSize);
 	
+	@Query(value="select * from news_info news where news.data_status = 2 and news.channel_unique_id = ?1 and content_id < ?4 order by content_id desc,publish_time desc limit ?2,?3",nativeQuery= true)
+	List<NewsInfo> selectNewsInfoByChannelAndNewsId(String channelUniqueId,int pageNo,int pageSize,int incNo);
+	
 	@Query(value="select * from news_info news where news.data_status = 2 and news.news_id in ?1 order by news_id limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectPageInfo(List<String> newsIdList,int start,int pageSize);
 	
@@ -38,8 +41,11 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	@Query(value="select * from news_info news where news.channel_unique_id = :channelUniqueId and news.is_edit_recom = 1 and news.is_topnews = 1 and news.data_status = 2 and now() < news.edit_expire  order by topnews_sort desc",nativeQuery= true)
 	List<NewsInfo> selectEditorNewsByChannel(@Param("channelUniqueId") String channelUniqueId);
 
-	@Query(value="select news.* from news_info news,topic_and_news topic where news.data_status = 2 and topic.topic_uniqueID = ?1 and topic.news_id = news.news_id  limit ?2,?3",nativeQuery= true)
+	@Query(value="select news.* from news_info news,topic_and_news topic where news.data_status = 2 and topic.topic_uniqueID = ?1 and topic.news_id = news.news_id order by content_id DESC limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectTopicNewsByNewsInfoId( String topicId, int pageNo, int pageSize );
+	
+	@Query(value="select news.* from news_info news,topic_and_news topic where news.data_status = 2 and topic.topic_uniqueID = ?1 and topic.news_id = news.news_id and content_id < ?4 order by content_id DESC limit ?2,?3",nativeQuery= true)
+	List<NewsInfo> selectTopicNewsByNewsId( String topicId, int pageNo, int pageSize ,int incNo);
 	
 	@Query(value="select count(*) from news_info news where news.topic_id = ?1 ",nativeQuery= true)
 	int countTopicNewsByNewsInfoId( String topicId );

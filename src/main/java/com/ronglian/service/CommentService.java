@@ -9,7 +9,7 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ29ÈÕ
+ * @createTime 2017ï¿½ï¿½12ï¿½ï¿½29ï¿½ï¿½
  */
 public interface CommentService {
 
@@ -25,6 +25,6 @@ public interface CommentService {
 	
 	public PageCountResult fingCommentList(Integer status,String newsTitle,int pageNo,int pageSize);
 	
-	public RongLianResult getCommentList(String userId, String newsId,String deviceId,int start,int pageSize); 
+	public RongLianResult getCommentList(String userId, String newsId,String deviceId,int start,int pageSize,Boolean isHotComments,String commentId); 
 
 }

@@ -16,19 +16,19 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ27ÈÕ
+ * @createTime 2017ï¿½ï¿½12ï¿½ï¿½27ï¿½ï¿½
  */
 public interface NewsInfoService {
 
 	public RongLianResult inserNewsInfo(NewsInfo newsInfo);
 	
-	public PageCountResult findNewsList(int pageSize,int pageNo,String channelUniqueId); 
+	public PageCountResult findNewsList(int pageSize,int pageNo,String channelUniqueId,String newsId); 
 	
 	public RongLianResult findTopnewsList(String channelUniqueId);
 	
 	public RongLianResult findEditorNewsList(String channelUniqueId);
 	
-	public PageCountResult findTopicNewsList(String topicId,int pageSize,int pageNo);
+	public PageCountResult findTopicNewsList(String topicId,int pageSize,int pageNo,String newsId);
 	
 	public RongLianResult getNewsInfoContent(String newsId);
 	
