@@ -363,6 +363,12 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					this.newsAuthorDao.deleteByNewsId(newsId);
 					this.newsAuthorDao.save(newsAuthorList);
 				}
+				//踩赞和分享，收藏等数据置为0
+				newsInfo.setAppriseDownNum(0);
+				newsInfo.setAppriseUpNum(0);
+				newsInfo.setCommentNum(0);
+				newsInfo.setShareNum(0);
+				
 				/*
 				 * @author liyang
 				 * 
@@ -588,7 +594,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				result.put("hasVideo", news.getHasVideo());
 				result.put("publishTime", RongLianUtils.getUTCtime(news.getPublishTime()));
 				result.put("newsSort", news.getNewsSort());
-
+				result.put("appriseDown",news.getAppriseDownNum());
+				result.put("appriseUp",news.getAppriseUpNum());
+				
 				List<NewsPicture> photos = this.newsPictureDao.selectNewsPictureByNewsId(news.getNewsId());
 				List pictureList = new ArrayList();
 				for (NewsPicture picture : photos) {

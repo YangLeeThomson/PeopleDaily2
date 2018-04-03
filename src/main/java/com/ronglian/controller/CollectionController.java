@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ronglian.entity.Collection;
+import com.ronglian.entity.NewsInfo;
 import com.ronglian.entity.NewsPicture;
 import com.ronglian.entity.User;
 import com.ronglian.service.CollectionService;
+import com.ronglian.service.NewsInfoService;
 import com.ronglian.service.NewsPictureService;
 import com.ronglian.service.UserService;
 import com.ronglian.utils.RongLianResult;
@@ -39,6 +41,8 @@ public class CollectionController {
 	private UserService userService;
 	@Autowired
 	private NewsPictureService pictureService;
+//	@Autowired
+//	private NewsInfoService  newsInfoService;
 	/**
 	 * 用户收藏接口
 	 */

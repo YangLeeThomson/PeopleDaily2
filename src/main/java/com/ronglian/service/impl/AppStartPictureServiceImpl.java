@@ -37,7 +37,7 @@ public class AppStartPictureServiceImpl implements AppStartPictureService {
 	}
 	@Override
 	public RongLianResult getStartPicture() {
-		List<AppStartPicture> list = (List<AppStartPicture>) this.appStartPictureDao.findAll();
+		List<AppStartPicture> list = (List<AppStartPicture>) this.appStartPictureDao.selectAppStartPicture();
 		if(list != null && list.size() > 0){
 			return RongLianResult.ok(list);
 		}else{

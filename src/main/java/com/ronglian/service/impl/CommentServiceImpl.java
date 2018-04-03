@@ -3,8 +3,11 @@
  */
 package com.ronglian.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
@@ -46,36 +49,50 @@ public class CommentServiceImpl implements CommentService {
 		List<NewsComment> list = null;
 		List<String> newsIdList = null;
 		List<NewsInfo> newsInfoList = null;
-		List<NewsCommentBody> commentBodyList = null;
+		Map<String,NewsInfo> map = new HashMap<String,NewsInfo>();
+		List<NewsCommentBody> commentBodyList = new ArrayList<NewsCommentBody>();
 		if (StringUtils.isBlank(deviceId)) {
 			return RongLianResult.build(200, "request param is incorrect");
 		}
 		if (StringUtils.isNotBlank(userId)) {
 			list = this.commentDao.getCommentsByUserId(userId);
 			newsIdList = this.commentDao.getNewsIdListByUserId(userId);
-			newsInfoList = this.newsInfoDao.selectByNewsID(newsIdList);
+			if(newsIdList != null && newsIdList.size() > 0){
+				newsInfoList = this.newsInfoDao.selectByNewsID(newsIdList);
+			}
 		} else {
 			list = this.commentDao.getCommentsByDeviceId(deviceId);
 			newsIdList = this.commentDao.getNewsIdListByDeviceId(deviceId);
-			newsInfoList = this.newsInfoDao.selectByNewsID(newsIdList);
+			if(newsIdList != null && newsIdList.size() > 0){
+				newsInfoList = this.newsInfoDao.selectByNewsID(newsIdList);
+			}
 		}
 		if (list == null || list.size() <= 0) {
 			return RongLianResult.ok();
 		}
-		
+		if( newsInfoList != null && newsInfoList.size() >0){
+			for(NewsInfo newsInfo:newsInfoList){
+				map.put(newsInfo.getNewsId(), newsInfo);
+			}
+		}
 		for(int i = 0;i < list.size();i++){
 			NewsCommentBody commBody = new NewsCommentBody();
+			NewsInfo newsInfo = new NewsInfo();
+			String newsId = list.get(i).getNewsId();
+			if(map.get(newsId) != null){
+				newsInfo = map.get(newsId);
+			}
 			commBody.setAppriseNum(list.get(i).getAppriseNum());
-			commBody.setChanelUniqueId(newsInfoList.get(i).getChannelUniqueId());
+			commBody.setChanelUniqueId(newsInfo.getChannelUniqueId());
 			commBody.setCommentContent(list.get(i).getCommentContent());
 			commBody.setCommentId(list.get(i).getCommentId());
 			commBody.setCreateTime(list.get(i).getCreateTime());
-			commBody.setDataMode(newsInfoList.get(i).getDataMode());
+			commBody.setDataMode(newsInfo.getDataMode());
 			commBody.setDeviceId(list.get(i).getDeviceId());
-			commBody.setHasVideo(newsInfoList.get(i).getHasVideo());
+			commBody.setHasVideo(newsInfo.getHasVideo());
 			commBody.setModifyTime(list.get(i).getModifyTime());
 			commBody.setNewsId(list.get(i).getNewsId());
-			commBody.setNewsTitle(newsInfoList.get(i).getNewsTitle());
+			commBody.setNewsTitle(newsInfo.getNewsTitle());
 			commBody.setNickname(list.get(i).getNickname());
 			commBody.setStatus(list.get(i).getStatus());
 			commBody.setUserId(list.get(i).getUserId());

@@ -60,26 +60,33 @@ public class CollectionServiceImpl implements CollectionService {
 		String newsId = collection.getNewsId();
 		String deviceId = collection.getDeviceId();
 		Collection result = null;
-		if (StringUtils.isNotBlank(newsId) && StringUtils.isNotBlank(deviceId)) {
-			if (StringUtils.isNotBlank(userId)) {
-				result = this.collectionDao.selectCollectionByUserId(userId,
-						newsId);
-			} else {
-				result = this.collectionDao.selectCollectionByDeviceId(
-						deviceId, newsId);
-			}
-			if (result == null) {
-				collection.setCreateTime(new Date());
-				collection.setCollectionId(UUID.randomUUID().toString());
-				result = this.collectionDao.save(collection);
-				return RongLianResult.ok(result);
-			} else {
-				return RongLianResult.build(200,
-						"save failed as you have saved this news");
-			}
-		} else {
+		if (StringUtils.isBlank(newsId) || StringUtils.isBlank(deviceId)) {
 			return RongLianResult.build(200, "request params must not be null");
 		}
+
+		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
+		if (newsInfo == null) {
+			return RongLianResult
+					.build(200,
+							"NewsInfo,the mapping of newsId is not exit,perhaps the param newsId was wrong");
+		}
+		if (StringUtils.isNotBlank(userId)) {
+			result = this.collectionDao
+					.selectCollectionByUserId(userId, newsId);
+		} else {
+			result = this.collectionDao.selectCollectionByDeviceId(deviceId,
+					newsId);
+		}
+		if (result != null) {
+			return RongLianResult.build(200,
+					"save failed as you have saved this news");
+		}
+		collection.setIsTopic(newsInfo.getIsTopic());
+		collection.setTopicUniqueId(newsInfo.getTopicUniqueId());
+		collection.setCreateTime(new Date());
+		collection.setCollectionId(UUID.randomUUID().toString());
+		result = this.collectionDao.save(collection);
+		return RongLianResult.ok(result);
 	}
 
 	/*
@@ -94,29 +101,32 @@ public class CollectionServiceImpl implements CollectionService {
 			Integer pageNo, Integer pageSize) {
 		// TODO Auto-generated method stub
 		List<Collection> list = null;
-		Integer start = (pageNo-1) * pageSize;
+		Integer start = (pageNo - 1) * pageSize;
 		if (StringUtils.isBlank(deviceId)) {
 			return RongLianResult.build(200, "deviceId can not be null");
 		}
 		if (StringUtils.isBlank(userId)) {
-//			list = this.collectionDao.selectCollectionListByDeviceId(deviceId);
-			list = this.collectionDao.selectCollectionListByDeviceIdSort(deviceId);
-		}else{
+			// list =
+			// this.collectionDao.selectCollectionListByDeviceId(deviceId);
+			list = this.collectionDao
+					.selectCollectionListByDeviceIdSort(deviceId);
+		} else {
 			list = this.collectionDao.selectCollectionListByUserIdSort(userId);
 		}
-		if(list == null || list.size() < 1){
+		if (list == null || list.size() < 1) {
 			return RongLianResult.build(200, "you have never collected News");
 		}
 		List<String> newsIdList = new ArrayList<String>();
-		Map<String,Collection> map = new HashMap<String,Collection>();
+		Map<String, Collection> map = new HashMap<String, Collection>();
 		String newsId = null;
-		for(Collection collect:list){
+		for (Collection collect : list) {
 			newsId = collect.getNewsId();
 			newsIdList.add(newsId);
 			map.put(newsId, collect);
 		}
-		List<NewsInfo> newsList = this.newsInfoDao.selectPageInfo(newsIdList,start,pageSize);
-		List<Map> result  = this.changeDataContent(newsList, map);
+		List<NewsInfo> newsList = this.newsInfoDao.selectPageInfo(newsIdList,
+				start, pageSize);
+		List<Map> result = this.changeDataContent(newsList, map);
 		return RongLianResult.ok(result);
 	}
 
@@ -129,7 +139,8 @@ public class CollectionServiceImpl implements CollectionService {
 	/*
 	 * 输出新闻列表的数据转换
 	 */
-	public List<Map> changeDataContent(List<NewsInfo> list,Map<String,Collection> map) {
+	public List<Map> changeDataContent(List<NewsInfo> list,
+			Map<String, Collection> map) {
 		List<Map> resultList = new ArrayList<Map>();
 		for (NewsInfo news : list) {
 			Map resultMap = new HashMap();
@@ -140,12 +151,13 @@ public class CollectionServiceImpl implements CollectionService {
 			resultMap.put("userId", collect.getUserId());
 			resultMap.put("deviceId", collect.getDeviceId());
 			resultMap.put("newsId", newsId);
-			
+
 			resultMap.put("newsTags", news.getNewsTags());
 			resultMap.put("channelName", news.getChannelName());
 			resultMap.put("channelUniqueId", news.getChannelUniqueId());
-			resultMap.put("publishTime", RongLianUtils.getUTCtime(news.getPublishTime()));
-			
+			resultMap.put("publishTime",
+					RongLianUtils.getUTCtime(news.getPublishTime()));
+
 			resultMap.put("newsSort", news.getNewsSort());
 			resultMap.put("showType", news.getShowType());
 			resultMap.put("fullColumnImgUrl", news.getFullColumnImgUrl());
@@ -158,10 +170,30 @@ public class CollectionServiceImpl implements CollectionService {
 			resultMap.put("liveReplayUrl", news.getLiveReplayUrl());
 			resultMap.put("liveHostChatid", news.getLiveHostChatid());
 			resultMap.put("liveUsChatid", news.getLiveUsChatid());
+			
+			//增加专题部分信息
+			Integer isTopic = news.getIsTopic();
+			resultMap.put("isTopic",isTopic);
+			String topicUniqueId = null;
+			if(isTopic == 1){
+				topicUniqueId = news.getTopicUniqueId();
+				resultMap.put("topicUniqueId", topicUniqueId);
+			}
+			if(topicUniqueId != null){
+				NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicUniqueId);
+				if (topic != null) {
+					Map topicDetail = new HashMap();
+					topicDetail.put("topicDesc", topic.getTopicDesc());
+					topicDetail.put("bannerPhoto", topic.getBannerImage());
+					topicDetail.put("coverPhoto", topic.getListImage());
+					resultMap.put("topicDetail", topicDetail);
+				}
+			}
+			
 			// 追加2个字段
 			resultMap.put("link", news.getLink());
 			resultMap.put("dataMode", news.getDataMode());
-			//视频相关字段
+			// 视频相关字段
 			Integer videoDuration = null;
 			videoDuration = news.getVideoDuration();
 			resultMap.put("videoDuration", videoDuration);
@@ -173,7 +205,8 @@ public class CollectionServiceImpl implements CollectionService {
 			resultMap.put("imageCount", imageCount);
 			resultMap.put("photoList", null);
 			if (imageCount > 0) {
-				List<NewsPicture> pictures = this.newsPictureDao.selectNewsPictureByNewsId(news.getNewsId());
+				List<NewsPicture> pictures = this.newsPictureDao
+						.selectNewsPictureByNewsId(news.getNewsId());
 				if (pictures != null && pictures.size() > 0) {
 					List<Map> photoList = new ArrayList<Map>();
 					for (NewsPicture picture : pictures) {

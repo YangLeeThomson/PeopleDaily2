@@ -112,4 +112,38 @@ public class Collection implements Serializable {
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
+	/**
+	 * @author 李楊
+	 * @comment 新闻图片链接url
+	 * @createTime 2018/4/2新增字段
+	 * */
+	@Column(name="is_topic")
+	private Integer isTopic;
+	
+
+
+	public Integer getIsTopic() {
+		return isTopic;
+	}
+
+
+
+	public void setIsTopic(Integer isTopic) {
+		this.isTopic = isTopic;
+	}
+
+
+
+	public String getTopicUniqueId() {
+		return topicUniqueId;
+	}
+
+
+
+	public void setTopicUniqueId(String topicUniqueId) {
+		this.topicUniqueId = topicUniqueId;
+	}
+
+	@Column(name="topic_unique_id")
+	private String topicUniqueId;
 }

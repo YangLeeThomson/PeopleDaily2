@@ -40,7 +40,7 @@ public class NewsPushController {
 	 */
 	@RequestMapping(value="/1.0/pushlist",method=RequestMethod.GET)
 	public RongLianResult getNewsPushList(String deviceId,String userId,
-			@RequestParam(value="pageSize",defaultValue="10",required=false)Integer pagesize,
+			@RequestParam(value="pageSize",defaultValue="20",required=false)Integer pagesize,
 			@RequestParam(value="pageNo",defaultValue="1",required=false)Integer pageNo){
 		return this.newsPushService.getNewsPush(deviceId, userId, pagesize, pageNo);
 	}
