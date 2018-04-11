@@ -37,4 +37,6 @@ public interface NewsInfoService {
 	public RongLianResult getPhotoNewsByNewsId(String newsID,Integer incNo);
 	
 	public RongLianResult getTopnewsAhead();
+	
+	public RongLianResult getNewsInfoList(String[] newsIds);
 }

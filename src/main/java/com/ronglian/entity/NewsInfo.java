@@ -753,5 +753,26 @@ public class NewsInfo implements Serializable {
 	public void setShortTitle(String shortTitle) {
 		this.shortTitle = shortTitle;
 	}
-	
+	//4月11日加字段，访问数
+	@Column(name="access_num")
+	private Integer accessNum;
+
+	public Integer getAccessNum() {
+		return accessNum;
+	}
+
+	public void setAccessNum(Integer accessNum) {
+		this.accessNum = accessNum;
+	}
+
+	@Column(name="collect_num")
+	private Integer collectNum;
+
+	public Integer getCollectNum() {
+		return collectNum;
+	}
+
+	public void setCollectNum(Integer collectNum) {
+		this.collectNum = collectNum;
+	}
 }

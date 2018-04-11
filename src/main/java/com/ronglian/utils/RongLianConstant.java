@@ -23,5 +23,7 @@ public class RongLianConstant {
 		
 		//专题列表显示条目数(不超过4条)
 		public static final int TOPIC_NEWS_NUMBER = 4;
-
+		
+		//通知Imedia系统的消息
+		public static final String ACCKNOWLEDAGE_IMEDIA_URL = "http://59.110.230.226/app_content_view.jspx";
 }
