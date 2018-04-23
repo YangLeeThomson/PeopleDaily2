@@ -52,21 +52,31 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	
 	@Query(value="select count(*) from news_info news where news.topic_id = ?1 ",nativeQuery= true)
 	int countTopicNewsByNewsInfoId( String topicId );
-	
+	@Transactional
 	@Modifying
 	@Query(value="update news_info  set apprise_up_num = apprise_up_num + 1 where news_Id = :newsId",nativeQuery= true)
 	void updateAppriseUpNum(@Param("newsId")String newsId);
+	@Transactional
 	@Modifying
 	@Query(value="update news_info  set apprise_down_num = apprise_down_num + 1 where news_Id = :newsId",nativeQuery= true)
 	void updateAppriseDownNum(@Param("newsId")String newsId);
 	
-	@Modifying
-	@Query(value="update news_info  set access_num = access_num + 1 where news_Id = :newsId",nativeQuery= true)
-	void updateReadNum(@Param("newsId")String newsId);
+	@Transactional
+	@Modifying                          
+	@Query(value="update news_info  set collect_num = collect_num + 1 where news_Id = ?1",nativeQuery= true)
+	void updateCollectNum(String newsId);
 	
+	@Transactional
+	@Modifying
+	@Query(value="update news_info  set access_num = access_num + 1 where news_Id = ?1",nativeQuery= true)
+	void updateReadNum(String newsId);
+	
+	@Transactional
 	@Modifying
 	@Query(value="update news_info  set apprise_up_num = apprise_up_num - 1 where news_Id = :newsId",nativeQuery= true)
 	void deleteAppriseUpNum(@Param("newsId")String newsId);
+	
+	@Transactional
 	@Modifying
 	@Query(value="update news_info  set apprise_down_num = apprise_down_num - 1 where news_Id = :newsId",nativeQuery= true)
 	void deleteAppriseDownNum(@Param("newsId")String newsId);

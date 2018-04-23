@@ -72,10 +72,11 @@ public class NewsInfoController {
 			while ((line = reader.readLine()) != null) {
 				str.append(line);
 			}
+			return newsInfoService.addNewsInfo(str.toString());
 		} catch (Exception ex) {
 			return RongLianResult.build(500, ex.getMessage());
 		}
-		return newsInfoService.addNewsInfo(str.toString());
+		
 	}
 	/**
 	 * 获取channel新闻列表接口

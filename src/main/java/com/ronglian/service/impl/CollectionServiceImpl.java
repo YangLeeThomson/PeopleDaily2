@@ -86,6 +86,8 @@ public class CollectionServiceImpl implements CollectionService {
 		collection.setCreateTime(new Date());
 		collection.setCollectionId(UUID.randomUUID().toString());
 		result = this.collectionDao.save(collection);
+		//同步更新newsInfo表collect_num;
+		this.newsInfoDao.updateCollectNum(collection.getNewsId());
 		return RongLianResult.ok(result);
 	}
 

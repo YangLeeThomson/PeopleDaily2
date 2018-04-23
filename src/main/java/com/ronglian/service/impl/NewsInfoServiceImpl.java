@@ -34,6 +34,7 @@ import com.ronglian.entity.NewsInfo;
 import com.ronglian.entity.NewsPicture;
 import com.ronglian.entity.NewsTopic;
 import com.ronglian.service.NewsInfoService;
+import com.ronglian.utils.GetRequestJsonUtils;
 import com.ronglian.utils.HttpClientUtil;
 import com.ronglian.utils.PageCountResult;
 import com.ronglian.utils.PageResult;
@@ -263,6 +264,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		data.put("liveHostChatid", newsInfo.getLiveHostChatid());
 		data.put("liveUsChatid", newsInfo.getLiveUsChatid());
 		data.put("newsSummary", newsInfo.getNewsSummary());
+		data.put("newsSource", newsInfo.getNewsSource());
 		//加入文章访问Num字段返回
 		data.put("accessNum", newsInfo.getAccessNum());
 		Integer imageCount = newsInfo.getImageList();
@@ -282,6 +284,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					photo.put("picPath", picture.getImagePath());
 					photo.put("picTitle", picture.getPictureTitle());
 					photo.put("picDesc", picture.getPictureDesc());
+					photo.put("height", picture.getHeight());
+					photo.put("width", picture.getWidth());
 					photoList.add(photo);
 				}
 				data.put("imageList", photoList);
@@ -578,6 +582,19 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 							NewsPicture newsPicture = new NewsPicture(
 									newsInfo.getNewsId(), newsInfo.getNewsId()
 											+ "_" + i, imgs[i], i);
+							String picPath = newsPicture.getImagePath();
+							String url = picPath+RongLianConstant.PICTURE_URL_END;
+							String result = HttpClientUtil.doGet(url);
+							Map<String, Object> picMap = GetRequestJsonUtils.parseObject(result);
+							Object withObj = picMap.get("ImageWidth");
+							Object heightObj = picMap.get("ImageHeight");
+							
+							Map<String, Object> withMap = GetRequestJsonUtils.parseObject(withObj.toString());
+							Map<String, Object> heightMap = GetRequestJsonUtils.parseObject(heightObj.toString());
+							int width = Integer.parseInt(withMap.get("value").toString());
+							int height = Integer.parseInt(heightMap.get("value").toString());
+							newsPicture.setHeight(height);
+							newsPicture.setWidth(width);
 							newsPictureDao.save(newsPicture);
 						}
 						less = true;
@@ -595,6 +612,21 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 										.get("picDesc").toString() : null,
 								imageInfoMap.get("picTitle") != null ? imageInfoMap
 										.get("picTitle").toString() : null, i);
+						//2018年4月20日，追加图片的宽、高
+						String picPath = newsPicture.getImagePath();
+						String url = picPath+RongLianConstant.PICTURE_URL_END;
+						String result = HttpClientUtil.doGet(url);
+						Map<String, Object> picMap = GetRequestJsonUtils.parseObject(result);
+						Object withObj = picMap.get("ImageWidth");
+						Object heightObj = picMap.get("ImageHeight");
+						
+						Map<String, Object> withMap = GetRequestJsonUtils.parseObject(withObj.toString());
+						Map<String, Object> heightMap = GetRequestJsonUtils.parseObject(heightObj.toString());
+						int width = Integer.parseInt(withMap.get("value").toString());
+						int height = Integer.parseInt(heightMap.get("value").toString());
+//						withMap.get("value").toString();
+						newsPicture.setHeight(height);
+						newsPicture.setWidth(width);
 						i++;
 						newsPictureDao.save(newsPicture);
 					}

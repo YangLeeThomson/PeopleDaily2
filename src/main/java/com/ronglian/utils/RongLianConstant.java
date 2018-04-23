@@ -25,5 +25,13 @@ public class RongLianConstant {
 		public static final int TOPIC_NEWS_NUMBER = 4;
 		
 		//通知Imedia系统的消息
-		public static final String ACCKNOWLEDAGE_IMEDIA_URL = "http://59.110.230.226/app_content_view.jspx";
+//		public static final String ACCKNOWLEDAGE_IMEDIA_URL = "http://59.110.230.226/app_content_view.jspx";
+		public static final String ACCKNOWLEDAGE_IMEDIA_URL = "http://172.16.1.33/app_content_view.jspx";
+		
+		//阿里巴巴图片适配服务器
+		public static final String PICTURE_URL_START = "https://imedia-peoplesdaily.oss-cn-beijing.aliyuncs.com/";
+		
+		//阿里巴巴图片适配服务器
+		public static final String PICTURE_URL_END = "?x-oss-process=image/info";
+		
 }

@@ -118,6 +118,28 @@ public class NewsPicture implements Serializable {
 		this.imagePath = imagePath;
 		this.pictureSort = pictureSort;
 	}
+	//2018年4月20日追加图片宽、高字段
+	@Column(name="image_width")
+	private Integer width;
 	
+	@Column(name="image_height")
+	private Integer height;
+
+	public Integer getWidth() {
+		return width;
+	}
+
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
+
 	
 }
