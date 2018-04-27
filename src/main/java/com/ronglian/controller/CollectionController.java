@@ -104,7 +104,7 @@ public class CollectionController {
 			}
 		}
 		if (StringUtils.isBlank(accessToken) && StringUtils.isNotBlank(userId)) {
-			return RongLianResult.build(200, "you have not logined ,so userId should be null ");
+			return RongLianResult.build(200, "you have not loginned ,so userId should be null ");
 		}
 		try {
 //			return this.collectionService.getUserCollection(userId, deviceId);

@@ -29,9 +29,9 @@ public interface CollectionDao extends CrudRepository<Collection, String> {
 //	@Query("select  c from Collection c where c.deviceId = :deviceId and c.userId is null")
 //	public List<Collection> selectCollectionListByDeviceId(@Param("deviceId")String deviceId);
 
-	@Query("select  c from Collection c where c.userId = :userId order by newsId")
+	@Query("select  c from Collection c where c.userId = :userId order by createTime")
 	public List<Collection> selectCollectionListByUserIdSort(@Param("userId")String userId);
 	
-	@Query("select  c from Collection c where c.deviceId = :deviceId and c.userId is null order by newsId")
+	@Query("select  c from Collection c where c.deviceId = :deviceId and c.userId is null order by createTime")
 	public List<Collection> selectCollectionListByDeviceIdSort(@Param("deviceId")String deviceId);
 }

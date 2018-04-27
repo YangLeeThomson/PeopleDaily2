@@ -23,7 +23,7 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	@Query(value="select * from news_info news where news.data_status = 2 and is_topnews = 1 and is_topnews_totop = 1 and now() < edit_expire order by topnews_sort desc",nativeQuery=true)
 	List<NewsInfo> selectTopnewsAhead();
 	
-	@Query(value="select * from news_info news where news.data_status = 2 and news.channel_unique_id = ?1 order by publish_time desc limit ?2,?3",nativeQuery= true)
+	@Query(value="select * from news_info news where news.data_status = 2 and news.channel_unique_id = ?1 and is_to_top = 0 order by publish_time desc limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectNewsInfoByChannel(String channelUniqueId,int pageNo,int pageSize);
 	
 	@Query(value="select * from news_info news where news.data_status = 2 and news.channel_unique_id = ?1 and content_id < ?4 order by content_id desc,publish_time desc limit ?2,?3",nativeQuery= true)
@@ -35,7 +35,7 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	@Query(value="select * from news_info news where news.data_status = 2 and news.news_id in ?1 ",nativeQuery= true)
 	List<NewsInfo> selectNewsIdList(List<String> newsIdList);
 	
-	@Query(value="select count(*) from news_info news where news.channel_unique_id = ?1 ",nativeQuery= true)
+	@Query(value="select count(*) from news_info news where news.channel_unique_id = ?1  and news.is_to_top = 0 ",nativeQuery= true)
 	int countNewsInfoByChannel(String channelUniqueId);
 	
 	@Query(value="select * from news_info news where news.channel_unique_id = :channelUniqueId and news.is_to_top = 1 and news.data_status = 2 order by news_sort desc",nativeQuery= true)

@@ -267,6 +267,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		data.put("newsSource", newsInfo.getNewsSource());
 		//加入文章访问Num字段返回
 		data.put("accessNum", newsInfo.getAccessNum());
+		data.put("fullColumnImgUrl",newsInfo.getFullColumnImgUrl());
+		data.put("showType", newsInfo.getShowType());
 		Integer imageCount = newsInfo.getImageList();
 		if (imageCount == null) {
 			imageCount = 0;
