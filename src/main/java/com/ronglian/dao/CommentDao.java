@@ -22,7 +22,7 @@ public interface CommentDao extends CrudRepository<NewsComment, String>{
 
 //	@Query("from NewsComment comment where comment.deviceId = :deviceId order by newsId")
 //	public List<NewsComment> getCommentsByDeviceId(@Param("deviceId") String deviceId);
-	@Query("from NewsComment comment where comment.deviceId = :deviceId order by createTime")
+	@Query("from NewsComment comment where comment.deviceId = :deviceId order by createTime desc")
 	public List<NewsComment> getCommentsByDeviceId(@Param("deviceId") String deviceId);
 	
 	@Query("select newsId from NewsComment comment where comment.deviceId = :deviceId order by newsId")
@@ -33,7 +33,7 @@ public interface CommentDao extends CrudRepository<NewsComment, String>{
 
 //	@Query("from NewsComment comment where comment.userId = :userId order by newsId")
 //	public  List<NewsComment> getCommentsByUserId(@Param("userId") String userId);
-	@Query("from NewsComment comment where comment.userId = :userId order by createTime")
+	@Query("from NewsComment comment where comment.userId = :userId order by createTime desc")
 	public  List<NewsComment> getCommentsByUserId(@Param("userId") String userId);
 	
 	@Query(value="select * from news_comment comment where ((comment.news_id = :newsId and comment.status = 1) or (comment.news_id = :newsId and comment.user_id = :userId and comment.status = 0))order by create_time desc",nativeQuery= true)

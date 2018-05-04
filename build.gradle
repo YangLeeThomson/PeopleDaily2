@@ -43,4 +43,5 @@ dependencies {
 	compile 'redis.clients:jedis:2.7.2'
 	compile 'org.apache.httpcomponents:httpclient:4.3.5'
 	compile 'com.alibaba:fastjson:1.2.35'
+	compile 'net.sf.json-lib:json-lib:2.4:jdk15'
 }

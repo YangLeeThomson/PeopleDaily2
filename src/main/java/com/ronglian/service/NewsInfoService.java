@@ -22,7 +22,7 @@ public interface NewsInfoService {
 
 	public RongLianResult inserNewsInfo(NewsInfo newsInfo);
 	
-	public PageCountResult findNewsList(int pageSize,int pageNo,String channelUniqueId,String newsId); 
+	public PageResult findNewsList(int pageSize,int pageNo,String channelUniqueId,String newsId); 
 	
 	public RongLianResult findTopnewsList(String channelUniqueId);
 	
@@ -30,7 +30,7 @@ public interface NewsInfoService {
 	
 	public PageCountResult findTopicNewsList(String topicId,int pageSize,int pageNo,String newsId);
 	
-	public RongLianResult getNewsInfoContent(String newsId);
+	public RongLianResult getNewsInfoContent(String newsId) throws JsonParseException, JsonMappingException, IOException;
 	
 	public RongLianResult addNewsInfo(String newsStr) throws JsonParseException, JsonMappingException, IOException, NumberFormatException, ParseException;
 

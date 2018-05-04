@@ -8,9 +8,9 @@ import com.ronglian.jedis.JedisDao;
 import redis.clients.jedis.JedisCluster;
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ22ÈÕ
+ * @createTime 2017ï¿½ï¿½12ï¿½ï¿½22ï¿½ï¿½
  */
-//@RepositoryÔÝÊ±²»±»spring¹ÜÀí£¬µ±ÆôÓÃredis¼¯ÈºÊ±·Å¿ª×¢ÊÍ£¬¹Ø±ÕJedisDaoSingleImpl
+//@Repositoryï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½springï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½redisï¿½ï¿½ÈºÊ±ï¿½Å¿ï¿½×¢ï¿½Í£ï¿½ï¿½Ø±ï¿½JedisDaoSingleImpl
 public class JedisDaoClusterImpl implements JedisDao {
 //	@Autowired
 	private JedisCluster jedisCluster;
@@ -61,6 +61,12 @@ public class JedisDaoClusterImpl implements JedisDao {
 	public Long hdel(String hkey, String key) {
 		long str = jedisCluster.hdel(hkey, key);
 		return str;
+	}
+
+	@Override
+	public void remove(String pattern) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

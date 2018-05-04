@@ -1,7 +1,7 @@
 package com.ronglian.jedis;
 /**
  * @author liyang
- * @createTime 2017Äê12ÔÂ22ÈÕ
+ * @createTime 2017ï¿½ï¿½12ï¿½ï¿½22ï¿½ï¿½
  */
 public interface JedisDao {
 	public String set(String key,String value);
@@ -12,4 +12,5 @@ public interface JedisDao {
 	public Long ttl(String key);
 	public Long del(String key);
 	public Long hdel(String hkey,String key);
+	public void remove(String pattern);
 }

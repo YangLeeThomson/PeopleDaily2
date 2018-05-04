@@ -1,5 +1,8 @@
 package com.ronglian.jedis.impl;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +12,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 /**
  * @author liyang
- * @createTime 2017��12��22��
+ * @createTime 2017��12��22��
  */
 @Repository
 public class JedisDaoSingleImpl implements JedisDao {
@@ -79,5 +82,21 @@ public class JedisDaoSingleImpl implements JedisDao {
 		jedis.close();
 		return str;
 	}
+	/**
+	 * remove(pattern),移除统配的key
+	 * pattern必须含有“*”符号
+	 */
+	@Override
+	public void remove(String pattern) {
+		// TODO Auto-generated method stub
+		Jedis jedis = jedisPool.getResource();
+		Set<String> set = jedis.keys(pattern);
+		Iterator<String> it = set.iterator();
+        while(it.hasNext()){  
+            String keyStr = it.next();  
+            jedis.del(keyStr);  
+        }  
+	}
 
+	
 }

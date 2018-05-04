@@ -20,8 +20,11 @@ import com.ronglian.dao.CommentDao;
 import com.ronglian.dao.NewsInfoDao;
 import com.ronglian.entity.NewsComment;
 import com.ronglian.entity.NewsInfo;
+import com.ronglian.jedis.JedisDao;
 import com.ronglian.service.CommentService;
+import com.ronglian.utils.JsonUtils;
 import com.ronglian.utils.PageCountResult;
+import com.ronglian.utils.RongLianConstant;
 import com.ronglian.utils.RongLianResult;
 import com.ronglian.utils.model.request.NewsCommentBody;
 
@@ -42,7 +45,8 @@ public class CommentServiceImpl implements CommentService {
 	private CommentDao commentDao;
 	@Autowired
 	private NewsInfoDao newsInfoDao;
-
+	@Autowired
+	private JedisDao jedisDao;
 	@Override
 	public RongLianResult getComments(String deviceId, String userId) {
 		// TODO Auto-generated method stub
@@ -112,10 +116,10 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public RongLianResult addComment(NewsComment comment) {
 		// TODO Auto-generated method stub
-		if (comment != null
-				&& StringUtils.isNotBlank(comment.getCommentContent())
-				&& StringUtils.isNotBlank(comment.getDeviceId())
-				&& StringUtils.isNotBlank(comment.getNewsId())) {
+		if (comment != null &&
+				 StringUtils.isNotBlank(comment.getCommentContent()) &&
+				 StringUtils.isNotBlank(comment.getDeviceId()) &&
+				 StringUtils.isNotBlank(comment.getNewsId())) {
 			String commentId = UUID.randomUUID().toString();
 			Date date = new Date();
 			comment.setCommentId(commentId);
@@ -124,8 +128,9 @@ public class CommentServiceImpl implements CommentService {
 			comment.setModifyTime(date);
 			comment.setStatus(0);
 			NewsComment result = this.commentDao.save(comment);
-
 			this.newsInfoDao.updateCommentNum(comment.getNewsId());
+			//移除统配的key
+			this.jedisDao.remove("comment"+comment.getNewsId()+"*");
 			return RongLianResult.ok(result);
 		} else {
 			return RongLianResult.build(200, "request param is error");
@@ -160,59 +165,77 @@ public class CommentServiceImpl implements CommentService {
 			String deviceId, int start, int pageSize, Boolean isHotComments,
 			String commentId) {
 		// TODO Auto-generated method stub
-		List<NewsComment> list = null;
 		if (StringUtils.isBlank(newsId) || StringUtils.isBlank(deviceId)) {
-			return RongLianResult.build(200,
-					"The param of newsId and deviceId are not allowed null ");
+			return RongLianResult.build(200,"The param of newsId and deviceId are not allowed null ");
 		}
+		
+		List<NewsComment> list = null;
+		String resultStr = null;
+		if(StringUtils.isBlank(userId)){
+			resultStr = jedisDao.get("comment"+newsId+pageSize+start+isHotComments);
+			if(StringUtils.isNotBlank(resultStr)){
+				jedisDao.expire("comment"+newsId+pageSize+start+isHotComments,RongLianConstant.REDIS_NEWS_EXPIRE);
+				list = JsonUtils.jsonToList(resultStr, NewsComment.class);
+				return RongLianResult.ok(list);
+			}
+		}
+		if(StringUtils.isNotBlank(userId)){
+			resultStr = jedisDao.get("comment"+newsId+userId+pageSize+start+isHotComments);
+			if(StringUtils.isNotBlank(resultStr)){
+				jedisDao.expire("comment"+newsId+userId+pageSize+start+isHotComments,RongLianConstant.REDIS_NEWS_EXPIRE);
+				list = JsonUtils.jsonToList(resultStr, NewsComment.class);
+				return RongLianResult.ok(list);
+			}
+		}
+		
 		NewsComment comment = null;
 		Date createTime = null;
 		if(commentId != null){
 			comment = this.commentDao.findOne(commentId);
 			if(comment == null){
-				return RongLianResult.build(200,
-						"this commentId or Comment is not exit ");
+				return RongLianResult.build(200,"this commentId or Comment is not exit ");
 			}
 			createTime = comment.getCreateTime();
 		}
+		
 		if (!isHotComments && StringUtils.isNotBlank(userId)) {
 			if(commentId == null){
-				list = this.commentDao.getUserCommentListByUserIdLimt(newsId,
-						userId, start, pageSize);
+				list = this.commentDao.getUserCommentListByUserIdLimt(newsId,userId, start, pageSize);
 			}else{
-				list = this.commentDao.getUserCommentListByUserIdLimtSecond(newsId,
-						userId, start, pageSize,createTime);
+				list = this.commentDao.getUserCommentListByUserIdLimtSecond(newsId,userId, start, pageSize,createTime);
 			}
+			jedisDao.set("comment"+newsId+userId+pageSize+start+isHotComments, JsonUtils.objectToJson(list));
+			jedisDao.expire("comment"+newsId+userId+pageSize+start+isHotComments, RongLianConstant.REDIS_NEWS_EXPIRE);
 		}
 		if (!isHotComments && StringUtils.isBlank(userId) ) {
 			if(commentId == null){
-				list = this.commentDao.getUserCommentListByDeviceIdLimt(newsId,
-						deviceId, start, pageSize);
+				list = this.commentDao.getUserCommentListByDeviceIdLimt(newsId,deviceId, start, pageSize);
 			}else{
-				list = this.commentDao.getUserCommentListByDeviceIdLimtSecond(newsId,
-						userId, start, pageSize,createTime);
+				list = this.commentDao.getUserCommentListByDeviceIdLimtSecond(newsId,userId, start, pageSize,createTime);
 			}
+			jedisDao.set("comment"+newsId+pageSize+start+isHotComments, JsonUtils.objectToJson(list));
+			
+			jedisDao.expire("comment"+newsId+pageSize+start+isHotComments, RongLianConstant.REDIS_NEWS_EXPIRE);
 		}
 		if (isHotComments && StringUtils.isNotBlank(userId)) {
 			if(commentId == null){
-				list = this.commentDao.getCommentListByUserIdAndAppriseNum(newsId,
-						userId, start, pageSize);
+				list = this.commentDao.getCommentListByUserIdAndAppriseNum(newsId,userId, start, pageSize);
 			}else{
-				list = this.commentDao.getCommentListByUserIdAndAppriseNumSecond(newsId,
-						userId, start, pageSize,createTime);
+				list = this.commentDao.getCommentListByUserIdAndAppriseNumSecond(newsId,userId, start, pageSize,createTime);
 			}
+			jedisDao.set("comment"+newsId+userId+pageSize+start+isHotComments,JsonUtils.objectToJson(list));
+			jedisDao.expire("comment"+newsId+userId+pageSize+start+isHotComments, RongLianConstant.REDIS_NEWS_EXPIRE);
 		}
 		if (isHotComments && StringUtils.isBlank(userId)) {
 			if(commentId == null){
-				list = this.commentDao.getCommentListByDeviceIdAndAppriseNum(
-						newsId, deviceId, start, pageSize);
+				list = this.commentDao.getCommentListByDeviceIdAndAppriseNum(newsId, deviceId, start, pageSize);
 			}else{
-				list = this.commentDao.getCommentListByDeviceIdAndAppriseNumSecond(
-						newsId, deviceId, start, pageSize,createTime);
+				list = this.commentDao.getCommentListByDeviceIdAndAppriseNumSecond(newsId, deviceId, start, pageSize,createTime);
 			}
+			jedisDao.set("comment"+newsId+pageSize+start+isHotComments,JsonUtils.objectToJson(list));
+			jedisDao.expire("comment"+newsId+pageSize+start+isHotComments, RongLianConstant.REDIS_NEWS_EXPIRE);
 		}
-
-		return RongLianResult.ok(list);
+       		return RongLianResult.ok(list);
 	}
 
 	/*
@@ -227,7 +250,13 @@ public class CommentServiceImpl implements CommentService {
 			return RongLianResult.build(200,
 					"The param commentId must not be null");
 		}
+		NewsComment comm = this.commentDao.findOne(commentId);
+		if(comm == null){
+			return RongLianResult.build(200,
+					"The param commentId may not be exist");
+		}
 		this.commentDao.delete(commentId);
+		this.jedisDao.remove("comment"+comm.getNewsId()+"*");
 		return RongLianResult.ok();
 	}
 

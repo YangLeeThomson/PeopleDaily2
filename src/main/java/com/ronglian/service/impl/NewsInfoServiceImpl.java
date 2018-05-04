@@ -18,13 +18,13 @@ import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,9 +33,11 @@ import com.ronglian.entity.NewsAuthor;
 import com.ronglian.entity.NewsInfo;
 import com.ronglian.entity.NewsPicture;
 import com.ronglian.entity.NewsTopic;
+import com.ronglian.jedis.JedisDao;
 import com.ronglian.service.NewsInfoService;
 import com.ronglian.utils.GetRequestJsonUtils;
 import com.ronglian.utils.HttpClientUtil;
+import com.ronglian.utils.JsonUtils;
 import com.ronglian.utils.PageCountResult;
 import com.ronglian.utils.PageResult;
 import com.ronglian.utils.RongLianConstant;
@@ -71,6 +73,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	private TopicNewsDao topicAndNewsDao;
 	@Autowired
 	private NewsAuthorDao newsAuthorDao;
+	@Autowired
+	private JedisDao jedisDao;
 
 	@Override
 	public RongLianResult inserNewsInfo(NewsInfo newsInfo) {
@@ -88,40 +92,41 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * @updateYime 2018/3/9
 	 */
 	@Override
-	public PageCountResult findNewsList(int pageSize, int pageNo,
+	public PageResult findNewsList(int pageSize, int pageNo,
 			String channelUniqueId, String newsId) {
 		int start = 0;
-		int counter = 0;
 		List<Map> resultList = new ArrayList<Map>();
 		if (StringUtils.isBlank(channelUniqueId)) {
-			return PageCountResult.error(200,
-					"channelUniqueId can not be null", pageNo, pageSize);
+			return PageResult.error(200,"channelUniqueId can not be null", pageNo, pageSize);
 		}
 		start = (pageNo - 1) * pageSize;
 		List<NewsInfo> list = null;
+		String resultStr = jedisDao.get("channelNews"+channelUniqueId+pageSize+pageNo);
+		if(StringUtils.isNotBlank(resultStr)){
+			jedisDao.expire("channelNews"+channelUniqueId+pageSize+pageNo,RongLianConstant.REDIS_NEWS_EXPIRE);
+			resultList = JsonUtils.jsonToList(resultStr, Map.class);
+			return PageResult.build(0,"ok",pageNo,pageSize,resultList);
+		}
 		if (newsId == null) {
-			list = this.newsInfoDao.selectNewsInfoByChannel(channelUniqueId,
-					start, pageSize);
+			list = this.newsInfoDao.selectNewsInfoByChannel(channelUniqueId,start, pageSize);
 		} else {
 			NewsInfo news = this.newsInfoDao.findOne(newsId);
 			if (news == null) {
-				return PageCountResult.error(200, "newsId was not right",
-						pageNo, pageSize);
+				return PageResult.error(200,"newsId was not right",pageNo, pageSize);
 			}
 			Integer incNo = news.getContentId();
-			list = this.newsInfoDao.selectNewsInfoByChannelAndNewsId(
-					channelUniqueId, start, pageSize, incNo);
+			list = this.newsInfoDao.selectNewsInfoByChannelAndNewsId(channelUniqueId, start, pageSize, incNo);
 		}
 
 		if (list == null || list.size() == 0) {
-			return PageCountResult.error(200, "result is null", pageNo,
-					pageSize);
+			return PageResult.error(200, "result is null", pageNo,pageSize);
 		}
-		// counter = list.size();
-		counter = this.newsInfoDao.countNewsInfoByChannel(channelUniqueId);
+		/*counter = list.size();
+		counter = this.newsInfoDao.countNewsInfoByChannel(channelUniqueId);*/
 		resultList = this.changeDataContent(list);
-		return PageCountResult.build(0, "ok", counter, pageNo, pageSize,
-				resultList);
+		jedisDao.set("channelNews"+channelUniqueId+pageSize+pageNo, JsonUtils.objectToJson(resultList));
+		jedisDao.expire("channelNews"+channelUniqueId+pageSize+pageNo, RongLianConstant.REDIS_NEWS_EXPIRE);
+		return PageResult.build(0,"ok",pageNo,pageSize,resultList);
 	}
 
 	/**
@@ -135,12 +140,19 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			return RongLianResult.build(200, "channelUniqueId can not be null");
 		}
 		List<Map> resultList = new ArrayList<Map>();
-		List<NewsInfo> list = this.newsInfoDao
-				.selectTopnewsByChannel(channelUniqueId);
+		String resultStr = jedisDao.get("channelTop"+channelUniqueId);
+		if(StringUtils.isNotBlank(resultStr)){
+			jedisDao.expire("channelTop"+channelUniqueId,RongLianConstant.REDIS_NEWS_EXPIRE);
+			resultList = JsonUtils.jsonToList(resultStr, Map.class);
+			return RongLianResult.ok(resultList);
+		}
+		List<NewsInfo> list = this.newsInfoDao.selectTopnewsByChannel(channelUniqueId);
 		if (list == null || list.size() == 0) {
 			return RongLianResult.build(200, "result is null");
 		}
 		resultList = this.changeDataContent(list);
+		jedisDao.set("channelTop"+channelUniqueId,JsonUtils.objectToJson(resultList));
+		jedisDao.expire("channelTop"+channelUniqueId,RongLianConstant.REDIS_NEWS_EXPIRE);
 		return RongLianResult.ok(resultList);
 	}
 
@@ -155,12 +167,20 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			return RongLianResult.build(200, "channelUniqueId can not be null");
 		}
 		List<Map> resultList = new ArrayList<Map>();
+		String resultStr = jedisDao.get("editrecommen"+channelUniqueId);
+		if(StringUtils.isNotBlank(resultStr)){
+			jedisDao.expire("editrecommen"+channelUniqueId,RongLianConstant.REDIS_NEWS_EXPIRE);
+			resultList = JsonUtils.jsonToList(resultStr, Map.class);
+			return RongLianResult.ok(resultList);
+		}
 		List<NewsInfo> list = this.newsInfoDao
 				.selectEditorNewsByChannel(channelUniqueId);
 		if (list == null || list.size() == 0) {
 			return RongLianResult.build(200, "result is null");
 		}
 		resultList = this.changeDataContent(list);
+		jedisDao.set("editrecommen"+channelUniqueId,JsonUtils.objectToJson(resultList));
+		jedisDao.expire("editrecommen"+channelUniqueId,RongLianConstant.REDIS_NEWS_EXPIRE);
 		return RongLianResult.ok(resultList);
 	}
 
@@ -176,44 +196,65 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			return PageCountResult.error(200, "topicId can not be null ",
 					pageNo, pageSize);
 		}
+		int counter;
+		List<Map> resultList = new ArrayList<Map>();
+		String resultStr = jedisDao.get("topicNews"+topicId);
+		String counterStr = jedisDao.get("topicNews"+topicId+"counter");
+		
+		if(StringUtils.isNotBlank(resultStr) && StringUtils.isNotBlank(counterStr)){
+			counter = Integer.valueOf(counterStr);
+			jedisDao.expire("topicNews"+topicId, RongLianConstant.REDIS_NEWS_EXPIRE);
+			jedisDao.expire("topicNews"+topicId+"counter", RongLianConstant.REDIS_NEWS_EXPIRE);
+			resultList = JsonUtils.jsonToList(resultStr, Map.class);
+			return PageCountResult.build(0, "ok", counter, pageNo, pageSize,resultList);
+		}
 		pageNo = (pageNo - 1) * pageSize;
 		int count = 0;
 		List<NewsInfo> newsInfoList = null;
 		if (newsId == null) {
-			newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(
-					topicId, pageNo, pageSize);
+			newsInfoList = this.newsInfoDao.selectTopicNewsByNewsInfoId(topicId, pageNo, pageSize);
 		} else {
 			NewsInfo news = this.newsInfoDao.findOne(newsId);
 			if (news == null) {
-				return PageCountResult.error(200, "newsId was not right",
-						pageNo, pageSize);
+				return PageCountResult.error(200, "newsId was not right",pageNo, pageSize);
 			}
 			Integer incNo = news.getContentId();
-			newsInfoList = this.newsInfoDao.selectTopicNewsByNewsId(topicId,
-					pageNo, pageSize, incNo);
+			newsInfoList = this.newsInfoDao.selectTopicNewsByNewsId(topicId,pageNo, pageSize, incNo);
 		}
-		int counter = this.newsInfoDao.selectTopicNewsByNewsInfoId(topicId, 0,
-				200).size();
-		List<Map> resultList = new ArrayList<Map>();
+		counter = this.newsInfoDao.selectTopicNewsByNewsInfoId(topicId, 0,200).size();
+		jedisDao.set("topicNews"+topicId+"counter", counter+"");
+		jedisDao.expire("topicNews"+topicId+"counter", RongLianConstant.REDIS_NEWS_EXPIRE);
+		
 		count = newsInfoList.size();
 		if (newsInfoList == null || count == 0) {
-			return PageCountResult.error(200, "result is null", pageNo,
-					pageSize);
+			return PageCountResult.error(200, "result is null", pageNo,pageSize);
 		}
 		resultList = this.changeDataContent(newsInfoList);
-		return PageCountResult.build(0, "ok", counter, pageNo, pageSize,
-				resultList);
+		jedisDao.set("topicNews"+topicId, JsonUtils.objectToJson(resultList));
+		jedisDao.expire("topicNews"+topicId, RongLianConstant.REDIS_NEWS_EXPIRE);
+		return PageCountResult.build(0, "ok", counter, pageNo, pageSize,resultList);
 	}
 
 	/**
 	 * @author liyang
+	 * @throws IOException 
+	 * @throws JsonMappingException 
+	 * @throws JsonParseException 
 	 * @createTime 2017/12/27
 	 * @updateYime 2018/3/9
 	 */
 	@Override
-	public RongLianResult getNewsInfoContent(String newsId) {
+	public RongLianResult getNewsInfoContent(String newsId) throws JsonParseException, JsonMappingException, IOException {
 		if (newsId == null) {
 			return RongLianResult.build(200, "newsId can not be null");
+		}
+		Map data = new HashMap();
+		String resultStr = jedisDao.get("newsContent"+newsId);
+		if(StringUtils.isNotBlank(resultStr)){
+			jedisDao.expire("newsContent"+newsId, RongLianConstant.REDIS_NEWS_CONTENT_EXPIRE);
+			ObjectMapper mapper = new ObjectMapper();
+			data = mapper.readValue(resultStr, Map.class);
+			return RongLianResult.ok(data);
 		}
 		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
 		if (newsInfo == null) {
@@ -223,7 +264,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		this.newsInfoDao.updateReadNum(newsId);
 		Map param = new HashMap<String,String>();
 		param.put("newsId", newsId);
-		HttpClientUtil.doGet(RongLianConstant.ACCKNOWLEDAGE_IMEDIA_URL, param);
+//		HttpClientUtil.doGet(RongLianConstant.ACCKNOWLEDAGE_IMEDIA_URL, param);
 		//查询作者
 		List<NewsAuthor> list = this.newsAuthorDao.selectByNewsId(newsId);
 		List<Map> appAuthor = null;
@@ -238,7 +279,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				appAuthor.add(temp);
 			}
 		}
-		Map data = new HashMap();
+		
 		data.put("appAuthor", appAuthor);
 		data.put("incNo", newsInfo.getContentId());
 		data.put("newsContent", newsInfo.getNewsContent());
@@ -275,9 +316,11 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		}
 		data.put("imageCount", imageCount);
 
+		if (!(imageCount > 0)){
+			data.put("imageList", null);
+		}
 		if (imageCount > 0) {
 			List<NewsPicture> pictures = this.newsPictureDao.selectNewsPictureByNewsId(newsInfo.getNewsId());
-			
 			if (pictures != null && pictures.size() > 0) {
 				List<Map> photoList = new ArrayList<Map>();
 				for (NewsPicture picture : pictures) {
@@ -294,9 +337,10 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			} else {
 				data.put("imageList", null);
 			}
-		} else {
-			data.put("imageList", null);
 		}
+		JSONObject jsonObject = JSONObject.fromObject(data);
+		jedisDao.set("newsContent"+newsId, jsonObject.toString());
+		jedisDao.expire("newsContent"+newsId, RongLianConstant.REDIS_NEWS_EXPIRE);
 		return RongLianResult.ok(data);
 
 	}
@@ -635,6 +679,19 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				}
 				newsInfo.setImageList(i);
 				this.newsInfoDao.save(newsInfo);
+				this.jedisDao.del("newsContent"+newsId);
+				this.jedisDao.remove("channelNews"+newsInfo.getChannelUniqueId()+"*");
+//				"channelTop"+channelUniqueId
+				if(newsInfo.getIsToTop() == 1){
+					this.jedisDao.del("channelTop"+newsInfo.getChannelUniqueId());
+				}
+				if(newsInfo.getIsTopnewsTotop() == 1){
+					this.jedisDao.del("topnewshead");
+				}
+				if(newsInfo.getIsTopic() == 1){
+					this.jedisDao.del("topicNews"+newsInfo.getTopicUniqueId()+"counter");
+					this.jedisDao.del("topicNews"+newsInfo.getTopicUniqueId());
+				}
 				return RongLianResult.ok();
 			}
 		} else {
@@ -746,11 +803,20 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	@Override
 	public RongLianResult getTopnewsAhead() {
 		// TODO Auto-generated method stub
+		String resultStr = jedisDao.get("topnewshead");
+		List<Map> resultList = new ArrayList<Map>();
+		if(StringUtils.isNotBlank(resultStr)){
+			jedisDao.expire("topnewshead", RongLianConstant.REDIS_NEWS_EXPIRE);
+			resultList = JsonUtils.jsonToList(resultStr, Map.class);
+			return RongLianResult.ok(resultList);
+		}
 		List<NewsInfo> list = this.newsInfoDao.selectTopnewsAhead();
 		if (list == null || !(list.size() > 0)) {
 			return RongLianResult.build(200, "result is null", null);
 		}
-		List resultList = this.changeDataContent(list);
+		resultList = this.changeDataContent(list);
+		jedisDao.set("topnewshead", JsonUtils.objectToJson(resultList));
+		jedisDao.expire("topnewshead", RongLianConstant.REDIS_NEWS_EXPIRE);
 		return RongLianResult.ok(resultList);
 	}
 
@@ -766,10 +832,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			resultMap.put("newsTags", news.getNewsTags());
 			resultMap.put("channelName", news.getChannelName());
 			resultMap.put("channelUniqueId", news.getChannelUniqueId());
-			// resultMap.put("publishTime",
-			// RongLianUtils.changeDateTime(news.getPublishTime()));
-			resultMap.put("publishTime",
-					RongLianUtils.getUTCtime(news.getPublishTime()));
+			resultMap.put("publishTime",RongLianUtils.getUTCtime(news.getPublishTime()));
 			resultMap.put("newsSort", news.getNewsSort());
 			resultMap.put("showType", news.getShowType());
 			resultMap.put("fullColumnImgUrl", news.getFullColumnImgUrl());
@@ -791,10 +854,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 				topicUniqueId = news.getTopicUniqueId();
 				resultMap.put("topicUniqueId", topicUniqueId);
 			}
-			//
+			//problem
 			if (StringUtils.isNotBlank(topicUniqueId)) {
-				NewsTopic topic = this.topicDao
-						.getNewsTopicByTopicId(topicUniqueId);
+				NewsTopic topic = this.topicDao.getNewsTopicByTopicId(topicUniqueId);
 				if (topic != null) {
 					Map topicDetail = new HashMap();
 					topicDetail.put("topicDesc", topic.getTopicDesc());
@@ -814,8 +876,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			resultMap.put("imageCount", imageCount);
 			resultMap.put("photoList", null);
 			if (imageCount > 0) {
-				List<NewsPicture> pictures = this.newsPictureDao
-						.selectNewsPictureByNewsId(news.getNewsId());
+				List<NewsPicture> pictures = this.newsPictureDao.selectNewsPictureByNewsId(news.getNewsId());
 				if (pictures != null && pictures.size() > 0) {
 					List<Map> photoList = new ArrayList<Map>();
 					for (NewsPicture picture : pictures) {
@@ -898,13 +959,13 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	public RongLianResult getNewsInfoList(String[] newsIds) {
 		// TODO Auto-generated method stub
 		if(newsIds == null || newsIds.length < 1){
-			return RongLianResult.build(200, "newsIds can no be null");
+			return RongLianResult.build(200,"newsIds can no be null");
 		}
 		List<String> newsIdList = Arrays.asList(newsIds);
 		List<NewsInfo> newsInfoList = null;
 		newsInfoList = this.newsInfoDao.selectNewsIdList(newsIdList);
 		if(newsInfoList == null){
-			return RongLianResult.build(200, "the results  which  about the newsIds were null");
+			return RongLianResult.build(200,"the results  which  about the newsIds were null");
 		}
 		List feedList = new ArrayList<Map>();
 		for(NewsInfo newsInfo:newsInfoList){

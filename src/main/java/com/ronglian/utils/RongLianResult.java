@@ -1,9 +1,12 @@
 package com.ronglian.utils;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
  /**
  * @author liyang
@@ -12,11 +15,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 
  *  人民日报自定义响应结构
  */
-public class RongLianResult {
-
+public class RongLianResult{
+	
+	private static final long serialVersionUID = 1L;
     // 定义jackson对象
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-
+	private static final ObjectMapper MAPPER = new ObjectMapper();
     // 响应业务状态，200表示成功响应
     private Integer code;
 

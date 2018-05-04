@@ -82,7 +82,7 @@ public class NewsInfoController {
 	 * 获取channel新闻列表接口
 	 * */
 	@RequestMapping(value="/1.0/getChannelNews",method=RequestMethod.GET)
-	public PageCountResult getNewsList(@RequestParam(value="pageSize",defaultValue="5",required=false)Integer pageSize,
+	public PageResult getNewsList(@RequestParam(value="pageSize",defaultValue="5",required=false)Integer pageSize,
 			@RequestParam(value="pageNo",defaultValue="1",required=false)Integer pageNo,
 			String newsId,String channelUniqueId){
 		return this.newsInfoService.findNewsList(pageSize, pageNo, channelUniqueId,newsId);

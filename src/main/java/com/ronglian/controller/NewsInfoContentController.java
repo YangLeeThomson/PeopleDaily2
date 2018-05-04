@@ -3,6 +3,7 @@
  */
 package com.ronglian.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.ronglian.entity.NewsInfo;
 import com.ronglian.service.NewsInfoService;
 import com.ronglian.utils.RongLianResult;
@@ -31,8 +35,23 @@ public class NewsInfoContentController {
 	private NewsInfoService newsInfoService;
 	
 	@RequestMapping(value="/1.0/content",method=RequestMethod.GET)
+	@ResponseBody
 	public RongLianResult getNewsInfoContent(String newsId){
-		return this.newsInfoService.getNewsInfoContent(newsId);
+		try {
+			return this.newsInfoService.getNewsInfoContent(newsId);
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return RongLianResult.build(200, e.getMessage());
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return RongLianResult.build(200, e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return RongLianResult.build(200, e.getMessage());
+		}
 	}
 	
 	/**
