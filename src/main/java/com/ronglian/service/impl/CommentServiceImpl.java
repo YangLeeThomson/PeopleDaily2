@@ -174,7 +174,7 @@ public class CommentServiceImpl implements CommentService {
 		if(StringUtils.isBlank(userId)){
 			resultStr = jedisDao.get("comment"+newsId+pageSize+start+isHotComments);
 			if(StringUtils.isNotBlank(resultStr)){
-				jedisDao.expire("comment"+newsId+pageSize+start+isHotComments,RongLianConstant.REDIS_NEWS_EXPIRE);
+				jedisDao.expire("comment"+newsId+pageSize+start+isHotComments+commentId,RongLianConstant.REDIS_NEWS_EXPIRE);
 				list = JsonUtils.jsonToList(resultStr, NewsComment.class);
 				return RongLianResult.ok(list);
 			}
@@ -182,7 +182,7 @@ public class CommentServiceImpl implements CommentService {
 		if(StringUtils.isNotBlank(userId)){
 			resultStr = jedisDao.get("comment"+newsId+userId+pageSize+start+isHotComments);
 			if(StringUtils.isNotBlank(resultStr)){
-				jedisDao.expire("comment"+newsId+userId+pageSize+start+isHotComments,RongLianConstant.REDIS_NEWS_EXPIRE);
+				jedisDao.expire("comment"+newsId+userId+pageSize+start+isHotComments+commentId,RongLianConstant.REDIS_NEWS_EXPIRE);
 				list = JsonUtils.jsonToList(resultStr, NewsComment.class);
 				return RongLianResult.ok(list);
 			}
@@ -204,8 +204,8 @@ public class CommentServiceImpl implements CommentService {
 			}else{
 				list = this.commentDao.getUserCommentListByUserIdLimtSecond(newsId,userId, start, pageSize,createTime);
 			}
-			jedisDao.set("comment"+newsId+userId+pageSize+start+isHotComments, JsonUtils.objectToJson(list));
-			jedisDao.expire("comment"+newsId+userId+pageSize+start+isHotComments, RongLianConstant.REDIS_NEWS_EXPIRE);
+			jedisDao.set("comment"+newsId+userId+pageSize+start+isHotComments+commentId, JsonUtils.objectToJson(list));
+			jedisDao.expire("comment"+newsId+userId+pageSize+start+isHotComments+commentId, RongLianConstant.REDIS_NEWS_EXPIRE);
 		}
 		if (!isHotComments && StringUtils.isBlank(userId) ) {
 			if(commentId == null){
@@ -213,9 +213,9 @@ public class CommentServiceImpl implements CommentService {
 			}else{
 				list = this.commentDao.getUserCommentListByDeviceIdLimtSecond(newsId,userId, start, pageSize,createTime);
 			}
-			jedisDao.set("comment"+newsId+pageSize+start+isHotComments, JsonUtils.objectToJson(list));
+			jedisDao.set("comment"+newsId+pageSize+start+isHotComments+commentId, JsonUtils.objectToJson(list));
 			
-			jedisDao.expire("comment"+newsId+pageSize+start+isHotComments, RongLianConstant.REDIS_NEWS_EXPIRE);
+			jedisDao.expire("comment"+newsId+pageSize+start+isHotComments+commentId, RongLianConstant.REDIS_NEWS_EXPIRE);
 		}
 		if (isHotComments && StringUtils.isNotBlank(userId)) {
 			if(commentId == null){
@@ -223,8 +223,8 @@ public class CommentServiceImpl implements CommentService {
 			}else{
 				list = this.commentDao.getCommentListByUserIdAndAppriseNumSecond(newsId,userId, start, pageSize,createTime);
 			}
-			jedisDao.set("comment"+newsId+userId+pageSize+start+isHotComments,JsonUtils.objectToJson(list));
-			jedisDao.expire("comment"+newsId+userId+pageSize+start+isHotComments, RongLianConstant.REDIS_NEWS_EXPIRE);
+			jedisDao.set("comment"+newsId+userId+pageSize+start+isHotComments+commentId,JsonUtils.objectToJson(list));
+			jedisDao.expire("comment"+newsId+userId+pageSize+start+isHotComments+commentId, RongLianConstant.REDIS_NEWS_EXPIRE);
 		}
 		if (isHotComments && StringUtils.isBlank(userId)) {
 			if(commentId == null){
@@ -232,8 +232,8 @@ public class CommentServiceImpl implements CommentService {
 			}else{
 				list = this.commentDao.getCommentListByDeviceIdAndAppriseNumSecond(newsId, deviceId, start, pageSize,createTime);
 			}
-			jedisDao.set("comment"+newsId+pageSize+start+isHotComments,JsonUtils.objectToJson(list));
-			jedisDao.expire("comment"+newsId+pageSize+start+isHotComments, RongLianConstant.REDIS_NEWS_EXPIRE);
+			jedisDao.set("comment"+newsId+pageSize+start+isHotComments+commentId,JsonUtils.objectToJson(list));
+			jedisDao.expire("comment"+newsId+pageSize+start+isHotComments+commentId, RongLianConstant.REDIS_NEWS_EXPIRE);
 		}
        		return RongLianResult.ok(list);
 	}

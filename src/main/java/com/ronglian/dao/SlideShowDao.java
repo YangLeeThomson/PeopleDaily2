@@ -17,6 +17,6 @@ import com.ronglian.entity.NewsSlideshow;
  */
 public interface SlideShowDao extends CrudRepository<NewsSlideshow, String> {
 
-	@Query("select slide from NewsSlideshow slide where slide.channelUniqueId = :channelUniqueId order by sort")
+	@Query("select slide from NewsSlideshow slide where slide.channelUniqueId = :channelUniqueId and slide.dataStatus = 2 order by sort desc")
 	public List<NewsSlideshow> selectSlideShowByChannel(@Param("channelUniqueId") String channelUniqueId);
 }

@@ -96,6 +96,7 @@ public class JedisDaoSingleImpl implements JedisDao {
             String keyStr = it.next();  
             jedis.del(keyStr);  
         }  
+        jedis.close();
 	}
 
 	

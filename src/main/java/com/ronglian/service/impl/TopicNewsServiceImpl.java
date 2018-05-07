@@ -15,7 +15,9 @@ import com.ronglian.dao.TopicDao;
 import com.ronglian.dao.TopicNewsDao;
 import com.ronglian.entity.TopicAndNews;
 import com.ronglian.entity.TopicNewsKey;
+import com.ronglian.jedis.JedisDao;
 import com.ronglian.service.TopicNewsService;
+import com.ronglian.utils.RongLianConstant;
 import com.ronglian.utils.RongLianResult;
 import com.ronglian.utils.model.request.TopicNewsRelation;
 
@@ -27,6 +29,8 @@ public class TopicNewsServiceImpl implements TopicNewsService {
 	private TopicDao topicDao;
 	@Autowired
 	private NewsInfoDao newsInfoDao;
+	@Autowired
+	private JedisDao jedisDao;
 	@Override
 	public RongLianResult addTopicNews(List<TopicNewsRelation> topicNewses) {
 		List<TopicAndNews> topicAndNewses=new LinkedList<TopicAndNews>();
@@ -35,11 +39,11 @@ public class TopicNewsServiceImpl implements TopicNewsService {
 		}
 		Iterable<TopicAndNews> entities = null; 
 		entities = topicNewsDao.save(topicAndNewses);
-		if(entities != null){
-			return RongLianResult.ok();
-		}else{
+		if(entities == null){
 			return RongLianResult.build(200, "saved error");
 		}
+			this.jedisDao.remove("topicNews"+topicNewses.get(0).getTopicUniqueID()+"*");
+			return RongLianResult.ok();
 	}
 
 	@Override
