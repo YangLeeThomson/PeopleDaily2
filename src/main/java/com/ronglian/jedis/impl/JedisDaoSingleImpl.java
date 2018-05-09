@@ -99,5 +99,17 @@ public class JedisDaoSingleImpl implements JedisDao {
         jedis.close();
 	}
 
+	/**
+	 * 获取相关key
+	 * */
+	@Override
+	public Set<String> getKeys(String pattern) {
+		// TODO Auto-generated method stub
+		Jedis jedis = jedisPool.getResource();
+		Set<String> set = jedis.keys(pattern);
+		jedis.close();
+		return set;
+	}
+
 	
 }

@@ -167,7 +167,7 @@ public class CollectionServiceImpl implements CollectionService {
 			resultMap.put("isLive", news.getIsLive());
 			resultMap.put("isLiveReplay", news.getIsLiveReplay());
 			// 追加5个字段
-			resultMap.put("appointCoverImage ", news.getAppointCoverImage());
+			resultMap.put("appointCoverImage", news.getAppointCoverImage());
 			resultMap.put("liveUrl", news.getLiveUrl());
 			resultMap.put("liveReplayUrl", news.getLiveReplayUrl());
 			resultMap.put("liveHostChatid", news.getLiveHostChatid());

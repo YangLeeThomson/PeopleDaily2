@@ -1,5 +1,7 @@
 package com.ronglian.jedis.impl;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -67,6 +69,12 @@ public class JedisDaoClusterImpl implements JedisDao {
 	public void remove(String pattern) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Set<String> getKeys(String pattern) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

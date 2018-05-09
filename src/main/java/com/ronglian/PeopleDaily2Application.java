@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
@@ -28,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootApplication
 @ServletComponentScan
 @EnableTransactionManagement
+@EnableScheduling
 public class PeopleDaily2Application {
 	
 	public static void main(String[] args) {

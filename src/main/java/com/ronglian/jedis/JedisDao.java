@@ -1,7 +1,10 @@
 package com.ronglian.jedis;
+
+import java.util.Set;
+
 /**
  * @author liyang
- * @createTime 2017��12��22��
+ * @createTime 2017-12-22
  */
 public interface JedisDao {
 	public String set(String key,String value);
@@ -13,4 +16,6 @@ public interface JedisDao {
 	public Long del(String key);
 	public Long hdel(String hkey,String key);
 	public void remove(String pattern);
+	public Set<String> getKeys(String pattern);
+	
 }

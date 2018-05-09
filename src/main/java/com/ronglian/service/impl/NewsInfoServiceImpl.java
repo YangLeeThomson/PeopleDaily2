@@ -114,8 +114,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			if (news == null) {
 				return PageResult.error(200,"newsId was not right",pageNo, pageSize);
 			}
-			Integer incNo = news.getContentId();
-			list = this.newsInfoDao.selectNewsInfoByChannelAndNewsId(channelUniqueId, start, pageSize, incNo);
+			Date dt = news.getPublishTime();
+			list = this.newsInfoDao.selectNewsInfoByChannelAndNewsId(channelUniqueId, start, pageSize, dt);
 		}
 
 		if (list == null || list.size() == 0) {
@@ -249,11 +249,23 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			return RongLianResult.build(200, "newsId can not be null");
 		}
 		Map data = new HashMap();
+		Map param = new HashMap<String,String>();
+		param.put("newsid", newsId);
 		String resultStr = jedisDao.get("newsContent"+newsId);
 		if(StringUtils.isNotBlank(resultStr)){
-			jedisDao.expire("newsContent"+newsId, RongLianConstant.REDIS_NEWS_CONTENT_EXPIRE);
+			
 			ObjectMapper mapper = new ObjectMapper();
 			data = mapper.readValue(resultStr, Map.class);
+			String accessStr = jedisDao.get("newsContent"+newsId);
+			if(StringUtils.isBlank(accessStr)){
+				accessStr = "0";
+				}
+			int accessNum = Integer.parseInt(accessStr);
+			data.put("accessNum", accessNum);
+			jedisDao.set("accessNum"+newsId, String.valueOf(accessNum+1));
+			jedisDao.expire("newsContent"+newsId, RongLianConstant.REDIS_NEWS_CONTENT_EXPIRE);
+			jedisDao.expire("accessNum"+newsId, RongLianConstant.REDIS_NEWS_CONTENT_EXPIRE);
+			HttpClientUtil.doGet(RongLianConstant.ACCKNOWLEDAGE_IMEDIA_URL, param);
 			return RongLianResult.ok(data);
 		}
 		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
@@ -262,8 +274,6 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		}
 		//通知Imedia系统消息
 		this.newsInfoDao.updateReadNum(newsId);
-		Map param = new HashMap<String,String>();
-		param.put("newsid", newsId);
 		HttpClientUtil.doGet(RongLianConstant.ACCKNOWLEDAGE_IMEDIA_URL, param);
 		//查询作者
 		List<NewsAuthor> list = this.newsAuthorDao.selectByNewsId(newsId);
@@ -340,7 +350,9 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 		}
 //		JSONObject jsonObject = JSONObject.fromObject(data);
 		jedisDao.set("newsContent"+newsId, JsonUtils.objectToJson(data));
-		jedisDao.expire("newsContent"+newsId, RongLianConstant.REDIS_NEWS_EXPIRE);
+		jedisDao.set("accessNum"+newsId, newsInfo.getAccessNum().toString());
+		jedisDao.expire("newsContent"+newsId, RongLianConstant.REDIS_NEWS_CONTENT_EXPIRE);
+		jedisDao.expire("accessNum"+newsId, RongLianConstant.REDIS_NEWS_CONTENT_EXPIRE);
 		return RongLianResult.ok(data);
 
 	}
@@ -678,10 +690,18 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					}
 				}
 				newsInfo.setImageList(i);
-				this.newsInfoDao.save(newsInfo);
+				
 				this.jedisDao.del("newsContent"+newsId);
+				//发消息通知job，持久化accessNum
+				String num = this.jedisDao.get("accessNum"+newsId);
+				//通知update访问统计数据
+				if(StringUtils.isNotBlank(num)){
+//					this.newsInfoDao.updateReadNumByAccessNum(newsId,Integer.parseInt(num));
+					newsInfo.setAccessNum(Integer.parseInt(num));
+				}
+				this.newsInfoDao.save(newsInfo);
+				this.jedisDao.del("accessNum"+newsId);
 				this.jedisDao.remove("channelNews"+newsInfo.getChannelUniqueId()+"*");
-//				"channelTop"+channelUniqueId
 				Byte isEdit = newsInfo.getIsEditRecom();
 				Byte istop = newsInfo.getIsToTop();
 				Byte isTopNews = newsInfo.getIsTopnewsTotop();
