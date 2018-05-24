@@ -77,7 +77,7 @@ public interface CommentDao extends CrudRepository<NewsComment, String>{
 	@Query(value="select * from news_comment where status = ?1 and news_title like %?2% order by create_time desc limit ?3,?4 ",nativeQuery= true)
 	public List<NewsComment> selectCommentList(int status,String newsTitle,int start,int pageSize);
 
-	@Query(value="select * from news_comment where 1 = 1 limit ?1,?2 ",nativeQuery= true)
+	@Query(value="select * from news_comment where 1 = 1 order by create_time desc limit ?1,?2 ",nativeQuery= true)
 	public List<NewsComment> selectCommentListAll(int start,int pageSize);
 	
 	@Query(value="select * from news_comment where 1 = 1 and news_title like %?1% order by create_time desc limit ?2,?3",nativeQuery= true)

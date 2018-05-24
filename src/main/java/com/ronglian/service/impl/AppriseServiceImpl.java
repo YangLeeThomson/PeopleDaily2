@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ronglian.dao.AppriseDao;
 import com.ronglian.dao.NewsInfoDao;
 import com.ronglian.entity.NewsInfoApprise;
+import com.ronglian.jedis.JedisDao;
 import com.ronglian.service.AppriseService;
 import com.ronglian.utils.RongLianResult;
 
@@ -33,7 +34,8 @@ public class AppriseServiceImpl implements AppriseService {
 	private AppriseDao appriseDao;
 	@Autowired
 	private NewsInfoDao newsInfoDao;
-	
+	@Autowired
+	private JedisDao jedisDao;
 	@Override
 	@Transactional
 	public RongLianResult addNewsInfoApprise(NewsInfoApprise apprise) {
@@ -60,9 +62,11 @@ public class AppriseServiceImpl implements AppriseService {
 					result = this.appriseDao.save(apprise);
 					if(good == 1){
 						this.newsInfoDao.updateAppriseUpNum(newsId);
+						this.jedisDao.del("newsContent"+newsId);
 						return RongLianResult.ok(result);
 					}else if(good == -1){
 						this.newsInfoDao.updateAppriseDownNum(newsId);
+						this.jedisDao.del("newsContent"+newsId);
 						return RongLianResult.ok(result);
 					}else{
 						return RongLianResult.build(200, "param good has problem��the value of good should be 1 or -1");

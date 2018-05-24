@@ -24,14 +24,14 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	@Query(value="select * from news_info news where news.data_status = 2 and is_topnews = 1 and is_topnews_totop = 1 and now() < edit_expire order by topnews_sort desc,publish_time desc",nativeQuery=true)
 	List<NewsInfo> selectTopnewsAhead();
 	
-	@Query(value="select * from news_info news where news.data_status = 2 and news.channel_unique_id = ?1 and is_to_top = 0 order by publish_time desc limit ?2,?3",nativeQuery= true)
+	@Query(value="select * from news_info news where news.data_status = 2 and news.channel_unique_id = ?1 and is_to_top = 0 and news.news_id not in (select topic.news_id from topic_and_news topic)order by publish_time desc limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectNewsInfoByChannel(String channelUniqueId,int pageNo,int pageSize);
 	
-	@Query(value="select * from news_info news where news.data_status = 2 and news.channel_unique_id = ?1 and publish_time < ?4 order by content_id desc,publish_time desc limit ?2,?3",nativeQuery= true)
+	@Query(value="select * from news_info news where news.data_status = 2 and news.channel_unique_id = ?1 and publish_time < ?4 and is_to_top = 0 and news.news_id not in (select topic.news_id from topic_and_news topic) order by publish_time desc limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectNewsInfoByChannelAndNewsId(String channelUniqueId,int pageNo,int pageSize,Date incNo);
 	
-	@Query(value="select * from news_info news where news.data_status = 2 and news.news_id in ?1 order by news_id limit ?2,?3",nativeQuery= true)
-	List<NewsInfo> selectPageInfo(List<String> newsIdList,int start,int pageSize);
+	@Query(value="select * from news_info news where news.data_status = 2 and news.news_id in ?1 ",nativeQuery= true)
+	List<NewsInfo> selectPageInfo(List<String> newsIdList);
 	
 	@Query(value="select * from news_info news where news.data_status = 2 and news.news_id in ?1 ",nativeQuery= true)
 	List<NewsInfo> selectNewsIdList(List<String> newsIdList);
@@ -39,7 +39,7 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	@Query(value="select count(*) from news_info news where news.channel_unique_id = ?1  and news.is_to_top = 0 ",nativeQuery= true)
 	int countNewsInfoByChannel(String channelUniqueId);
 	
-	@Query(value="select * from news_info news where news.channel_unique_id = :channelUniqueId and news.is_to_top = 1 and news.data_status = 2 order by news_sort desc,publish_time desc",nativeQuery= true)
+	@Query(value="select * from news_info news where news.channel_unique_id = :channelUniqueId and news.is_to_top = 1 and news.data_status = 2 and news.news_id not in (select topic.news_id from topic_and_news topic) order by news_sort desc,publish_time desc",nativeQuery= true)
 	List<NewsInfo> selectTopnewsByChannel(@Param("channelUniqueId") String channelUniqueId);
 	
 	@Query(value="select * from news_info news where news.is_edit_recom = 1 and news.is_topnews = 1 and news.data_status = 2 and now() < news.edit_expire  order by topnews_sort desc",nativeQuery= true)
@@ -47,9 +47,38 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 
 	@Query(value="select news.* from news_info news,topic_and_news topic where news.data_status = 2 and topic.topic_uniqueID = ?1 and topic.news_id = news.news_id order by publish_time DESC limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectTopicNewsByNewsInfoId( String topicId, int pageNo, int pageSize );
+	/**
+	 * 新增   api/1.1/getTopicNews
+	 * @createTime 2018年5月24
+	 * @param topicId
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	@Query(value="select news.* from news_info news,topic_and_news topic where news.data_status = 2 and  news.is_to_top=0 and topic.topic_uniqueID = ?1 and topic.news_id = news.news_id order by publish_time DESC limit ?2,?3",nativeQuery= true)
+	List<NewsInfo> selectTopicNewsByNewsInfoId2( String topicId, int pageNo, int pageSize );
+	/**
+	 * 新增专题置顶新闻查询
+	 * @createTime 2018年5月24
+	 * @param topicId
+	 * @return
+	 */
+	@Query(value="select news.* from news_info news,topic_and_news topic where news.data_status = 2 and news.is_to_top =1 and topic.topic_uniqueID = ?1 and topic.news_id = news.news_id order by news_sort desc,publish_time DESC",nativeQuery= true)
+	List<NewsInfo> selectTopicNewsToTopBytopicId(String topicId);
+	
 	
 	@Query(value="select news.* from news_info news,topic_and_news topic where news.data_status = 2 and topic.topic_uniqueID = ?1 and topic.news_id = news.news_id and publish_time < ?4 order by publish_time DESC limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectTopicNewsByNewsId( String topicId, int pageNo, int pageSize ,Date publishTime);
+	/**
+	 * 新增   api/1.1/getTopicNews
+	 * @createTime 2018年5月24
+	 * @param topicId
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	@Query(value="select news.* from news_info news,topic_and_news topic where news.data_status = 2 and  news.is_to_top=0 and topic.topic_uniqueID = ?1 and topic.news_id = news.news_id and publish_time < ?4 order by publish_time DESC limit ?2,?3",nativeQuery= true)
+	List<NewsInfo> selectTopicNewsByNewsId2( String topicId, int pageNo, int pageSize ,Date publishTime);
 	
 	@Query(value="select count(*) from news_info news where news.topic_id = ?1 ",nativeQuery= true)
 	int countTopicNewsByNewsInfoId( String topicId );
@@ -106,7 +135,7 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
     @Query("delete from NewsInfo news where news.newsId in ( :list)")
 	int deleteByNewsID(@Param("list") List<String> list); 
 	
-    @Query(value="select * from news_info news where news.news_id in (:list)",nativeQuery = true)
+    @Query(value="select * from news_info news where news.news_id in ( :list)",nativeQuery = true)
     List<NewsInfo>  selectByNewsID(@Param("list") List<String> list); 
 	
 	@Transactional

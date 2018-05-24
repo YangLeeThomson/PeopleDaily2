@@ -22,13 +22,16 @@ public interface NewsInfoService {
 
 	public RongLianResult inserNewsInfo(NewsInfo newsInfo);
 	
-	public PageResult findNewsList(int pageSize,int pageNo,String channelUniqueId,String newsId); 
+//	public PageResult findNewsList(int pageSize,int pageNo,String channelUniqueId,String newsId); 
+	public PageCountResult findNewsList(int pageSize,int pageNo,String channelUniqueId,String newsId);
 	
 	public RongLianResult findTopnewsList(String channelUniqueId);
 	
 	public RongLianResult findEditorNewsList(String channelUniqueId);
 	
 	public PageCountResult findTopicNewsList(String topicId,int pageSize,int pageNo,String newsId);
+	
+	public PageCountResult findTopicNewsList2(String topicId,int pageSize,int pageNo,String newsId);
 	
 	public RongLianResult getNewsInfoContent(String newsId) throws JsonParseException, JsonMappingException, IOException;
 	
@@ -39,4 +42,11 @@ public interface NewsInfoService {
 	public RongLianResult getTopnewsAhead();
 	
 	public RongLianResult getNewsInfoList(String[] newsIds);
+	/**
+	 * 新增专题置顶新闻查询
+	 * @createTime 2018年5月24
+	 * @param topicId
+	 * @return
+	 */
+	public RongLianResult findTopicNewsToTop(String topicId);
 }

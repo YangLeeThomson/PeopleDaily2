@@ -82,7 +82,7 @@ public class NewsInfoController {
 	 * 获取channel新闻列表接口
 	 * */
 	@RequestMapping(value="/1.0/getChannelNews",method=RequestMethod.GET)
-	public PageResult getNewsList(@RequestParam(value="pageSize",defaultValue="5",required=false)Integer pageSize,
+	public PageCountResult getNewsList(@RequestParam(value="pageSize",defaultValue="5",required=false)Integer pageSize,
 			@RequestParam(value="pageNo",defaultValue="1",required=false)Integer pageNo,
 			String newsId,String channelUniqueId){
 		return this.newsInfoService.findNewsList(pageSize, pageNo, channelUniqueId,newsId);
@@ -121,5 +121,24 @@ public class NewsInfoController {
 			return PageCountResult.error(200, "请求参数topicId不能为空", pageNo, pageSize);
 		}
 		return this.newsInfoService.findTopicNewsList(topicId,pageNo,pageSize,newsId);
+	}
+	/**
+	 * topic专题 新闻列表输出接口(1.1版本)
+	 * */
+	@RequestMapping(value="/1.1/getTopicNews",method=RequestMethod.GET)
+	public PageCountResult getTopicNewsList2(String topicId,String newsId,
+			@RequestParam(value="pageSize",required=false,defaultValue="5")int pageSize,
+			@RequestParam(value="pageNo",required=false,defaultValue="1")int pageNo){
+		if(topicId == null){
+			return PageCountResult.error(200, "请求参数topicId不能为空", pageNo, pageSize);
+		}
+		return this.newsInfoService.findTopicNewsList(topicId,pageNo,pageSize,newsId);
+	}
+	/**
+	 * 专题置顶接口
+	 * */
+	@RequestMapping(value="/1.0/getTopicNewsToTop  ",method=RequestMethod.GET)
+	public RongLianResult getTopicNewsToTop(String topicId){
+		return this.newsInfoService.findTopicNewsToTop(topicId);
 	}
 }

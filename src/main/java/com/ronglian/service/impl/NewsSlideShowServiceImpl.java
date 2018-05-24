@@ -78,11 +78,17 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 		list = this.slideShowDao.selectSlideShowByChannel(channelUniqueId);
 		// String channelName =
 		// this.channelDao.selectChannelByUniqueId(channelUniqueId);
+		if(list == null && list.size() == 0){
+			return RongLianResult.build(200, "Servers have not found any sliding pictures!");
+		}
 		List<String> newsIdList = new ArrayList<String>();
 		for (NewsSlideshow slideShow : list) {
 			newsIdList.add(slideShow.getNewsId());
 		}
 		List<NewsInfo> newsInfoList = this.newsInfoDao.selectByNewsID(newsIdList);
+		if(newsInfoList == null && newsInfoList.size() == 0){
+			return RongLianResult.build(200, "Servers have not found any newsInfo about mapping sliding pictures!");
+		}
 		Map<String, NewsInfoBody> temp = new HashMap<String, NewsInfoBody>();
 		for (NewsInfo newsInfo : newsInfoList) {
 			NewsInfoBody newsInfoBody = new NewsInfoBody();

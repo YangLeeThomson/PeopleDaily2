@@ -25,15 +25,16 @@ public class PageCountResult {
    private int pageNo;
    
  //数据条目
-   private int totalNewsCount;
+   private Integer totalNewsCount;
    
    
 
-public int getTotalNewsCount() {
+
+public Integer getTotalNewsCount() {
 	return totalNewsCount;
 }
 
-public void setTotalNewsCount(int totalNewsCount) {
+public void setTotalNewsCount(Integer totalNewsCount) {
 	this.totalNewsCount = totalNewsCount;
 }
 
@@ -51,7 +52,7 @@ public void setTotalNewsCount(int totalNewsCount) {
 	 * @param pageSize
 	 * @param pageNo
 	 */
-	public PageCountResult(Integer code, String msg, Object data, int totalNewsCount,int pageSize, int pageNo) {
+	public PageCountResult(Integer code, String msg, Object data, Integer totalNewsCount,int pageSize, int pageNo) {
 		super();
 		this.code = code;
 		this.msg = msg;
@@ -115,7 +116,7 @@ public PageCountResult(Integer code, String msg, int pageSize, int pageNo) {
 	this.pageNo = pageNo;
 }
 
-public static  PageCountResult build(int code,String msg,int totalNewsCount,int pageNo,int pageSize,Object data){
+public static  PageCountResult build(int code,String msg,Integer totalNewsCount,int pageNo,int pageSize,Object data){
 	  return new PageCountResult(code, msg, data, totalNewsCount, pageSize, pageNo);
   }
 

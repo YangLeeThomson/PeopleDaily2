@@ -131,6 +131,7 @@ public class CommentServiceImpl implements CommentService {
 			this.newsInfoDao.updateCommentNum(comment.getNewsId());
 			//移除统配的key
 			this.jedisDao.remove("comment"+comment.getNewsId()+"*");
+			this.jedisDao.del("newsContent"+comment.getNewsId());
 			return RongLianResult.ok(result);
 		} else {
 			return RongLianResult.build(200, "request param is error");

@@ -17,6 +17,7 @@ import com.ronglian.dao.NewsInfoDao;
 import com.ronglian.dao.NewsShareDao;
 import com.ronglian.entity.NewsInfo;
 import com.ronglian.entity.NewsShare;
+import com.ronglian.jedis.JedisDao;
 import com.ronglian.service.NewsShareService;
 import com.ronglian.utils.RongLianResult;
 
@@ -31,7 +32,9 @@ public class NewsShareServiceImpl implements NewsShareService {
 	private NewsShareDao shareDao;
 	@Autowired
 	private NewsInfoDao newsInfoDao;
-
+	@Autowired
+	private JedisDao jedisDao;
+	
 	@Override
 	@Transactional
 	public RongLianResult countNewsShare(NewsShare newsShare) {
@@ -68,6 +71,7 @@ public class NewsShareServiceImpl implements NewsShareService {
 		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
 		Map resultMap = new HashMap();
 		resultMap.put("count", newsInfo.getShareNum());
+		this.jedisDao.del("newsContent"+newsShare.getNewsId());
 		return RongLianResult.ok(resultMap);
 
 	}
