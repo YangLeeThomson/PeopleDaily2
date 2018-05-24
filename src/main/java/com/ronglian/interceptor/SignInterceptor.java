@@ -13,16 +13,17 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.NamedThreadLocal;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ronglian.service.APPManagerConfigService;
 import com.ronglian.service.impl.APPManagerConfigServiceImpl;
 import com.ronglian.utils.GetRequestJsonUtils;
 import com.ronglian.utils.HttpRequestUtils;
@@ -43,22 +44,23 @@ public class SignInterceptor implements HandlerInterceptor{
 	private static final String SALT = RongLianConstant.SALT;
 	private static final long INTERVAL = RongLianConstant.INTERVAL;
 	private static final String PASSURL = RongLianConstant.TOKEN_URI;
-	
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+	private static final ThreadLocal<Long> startTimeThreadLocal = new NamedThreadLocal<Long>("ThreadLocal StartTime");
 	@Resource
 	private APPManagerConfigServiceImpl tokenService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
-		
-		
+		//获取用户真实IP地址
+		String ip = HttpRequestUtils.getIpAddress(request);
+		 log.info("用户请求的Ip:"+ip,ip);
+//		 System.out.println("用户请求的Ip:"+ip);
 		//放行请求令牌tokenId的请求
 		StringBuffer url = request.getRequestURL();
 		if(url.toString().indexOf(PASSURL) != -1){
 			return true;
 		}
-		
 		
 		//获取请求参数
 		Map<String, Object> requestParams = new HashMap<String, Object>();
