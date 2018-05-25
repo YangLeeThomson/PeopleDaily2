@@ -78,8 +78,8 @@ public class NewsSlideShowServiceImpl implements NewsSlideShowService {
 		list = this.slideShowDao.selectSlideShowByChannel(channelUniqueId);
 		// String channelName =
 		// this.channelDao.selectChannelByUniqueId(channelUniqueId);
-		if(list == null && list.size() == 0){
-			return RongLianResult.build(200, "Servers have not found any sliding pictures!");
+		if(list == null || list.size() == 0){
+			return RongLianResult.ok(null);
 		}
 		List<String> newsIdList = new ArrayList<String>();
 		for (NewsSlideshow slideShow : list) {

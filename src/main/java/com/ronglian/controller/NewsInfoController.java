@@ -132,12 +132,12 @@ public class NewsInfoController {
 		if(topicId == null){
 			return PageCountResult.error(200, "请求参数topicId不能为空", pageNo, pageSize);
 		}
-		return this.newsInfoService.findTopicNewsList(topicId,pageNo,pageSize,newsId);
+		return this.newsInfoService.findTopicNewsList2(topicId,pageNo,pageSize,newsId);
 	}
 	/**
 	 * 专题置顶接口
 	 * */
-	@RequestMapping(value="/1.0/getTopicNewsToTop  ",method=RequestMethod.GET)
+	@RequestMapping(value="/1.0/getTopicNewsToTop",method=RequestMethod.GET)
 	public RongLianResult getTopicNewsToTop(String topicId){
 		return this.newsInfoService.findTopicNewsToTop(topicId);
 	}

@@ -737,7 +737,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 					this.jedisDao.del("editrecommen");
 					this.jedisDao.del("channelTop"+newsInfo.getChannelUniqueId());
 					this.jedisDao.del("topnewshead");
-					this.jedisDao.remove("topicNews"+newsInfo.getTopicUniqueId()+"*");
+					this.jedisDao.remove("topicNews"+"*");
+					
 				return RongLianResult.ok();
 			}
 		} else {
