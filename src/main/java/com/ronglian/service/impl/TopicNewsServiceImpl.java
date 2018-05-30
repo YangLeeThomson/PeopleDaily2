@@ -42,7 +42,9 @@ public class TopicNewsServiceImpl implements TopicNewsService {
 		if(entities == null){
 			return RongLianResult.build(200, "saved error");
 		}
-			this.jedisDao.remove("topicNews"+topicNewses.get(0).getTopicUniqueID()+"*");
+			this.jedisDao.remove("topicNews"+"*");
+			this.jedisDao.remove("channelNews"+"*");
+			this.jedisDao.remove("channelTop*");
 			return RongLianResult.ok();
 	}
 

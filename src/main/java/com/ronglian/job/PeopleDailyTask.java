@@ -1,10 +1,8 @@
 package com.ronglian.job;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,16 +20,16 @@ public class PeopleDailyTask {
 	@Autowired
 	private NewsInfoDao newsInfoDao;
     //每天23点59分59秒时执行
-//	@Scheduled(cron = "59 59 23 * * ?")
-	@Scheduled(cron = "30 30 19 * * ?")
+	@Scheduled(cron = "59 59 23 * * ?")
+//	@Scheduled(cron = "30 30 19 * * ?")
 	public void updateAccessNum(){
-		 System.out.println("current time : "+new Date());
-		 System.out.println(jedisDao);
-		 System.out.println(newsInfoDao);
+//		 System.out.println("current time : "+new Date());
+//		 System.out.println(jedisDao);
+//		 System.out.println(newsInfoDao);
 		Set<String> keys =  this.jedisDao.getKeys("accessNum*");
 		Iterator<String> it = keys.iterator();
 		 //持久化redis数据到mysql
-		long start = System.currentTimeMillis();
+//		long start = System.currentTimeMillis();
         while(it.hasNext()){  
             String keyStr = it.next();
             String AccessNum = this.jedisDao.get(keyStr);
@@ -40,8 +38,8 @@ public class PeopleDailyTask {
             this.jedisDao.del(keyStr);
             this.newsInfoDao.updateReadNumByAccessNum(newsId, Integer.parseInt(AccessNum));
         }  
-        long end = System.currentTimeMillis();
-        System.out.println("Job的阅读技术task所用时间:"+ (end - start)/60 +"分钟");
+//        long end = System.currentTimeMillis();
+//        System.out.println("Job的阅读技术task所用时间:"+ (end - start)/60 +"分钟");
 	}
 //    @Scheduled(cron = "0/5 * * * * *")
 //    public void scheduled(){

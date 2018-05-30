@@ -47,6 +47,7 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 
 	@Query(value="select news.* from news_info news,topic_and_news topic where news.data_status = 2 and topic.topic_uniqueID = ?1 and topic.news_id = news.news_id order by publish_time DESC limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectTopicNewsByNewsInfoId( String topicId, int pageNo, int pageSize );
+	
 	/**
 	 * 新增   api/1.1/getTopicNews
 	 * @createTime 2018年5月24
@@ -55,7 +56,7 @@ public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
 	 * @param pageSize
 	 * @return
 	 */
-	@Query(value="select news.* from news_info news,topic_and_news topic where news.data_status = 2 and  news.is_to_top=0 and topic.topic_uniqueID = ?1 and topic.news_id = news.news_id order by publish_time DESC limit ?2,?3",nativeQuery= true)
+	@Query(value="select news.* from news_info news,topic_and_news topic where news.data_status = 2 and  news.is_to_top = 0 and topic.topic_uniqueID = ?1 and topic.news_id = news.news_id order by publish_time DESC limit ?2,?3",nativeQuery= true)
 	List<NewsInfo> selectTopicNewsByNewsInfoId2( String topicId, int pageNo, int pageSize );
 	/**
 	 * 新增专题置顶新闻查询

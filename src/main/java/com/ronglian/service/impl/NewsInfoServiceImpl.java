@@ -1062,8 +1062,8 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 	 * 
 	 */
 	@Override
-	public PageCountResult findTopicNewsList2(String topicId, int pageSize,
-			int pageNo, String newsId) {
+	public PageCountResult findTopicNewsList2(String topicId, int pageNo,
+			int pageSize, String newsId) {
 		// TODO Auto-generated method stub
 		if (topicId == null) {
 			return PageCountResult.error(200, "topicId can not be null ",
@@ -1094,7 +1094,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			Date dd = news.getPublishTime();
 			newsInfoList = this.newsInfoDao.selectTopicNewsByNewsId2(topicId,start, pageSize, dd);
 		}
-		counter = this.newsInfoDao.selectTopicNewsByNewsInfoId(topicId, 0,200).size();
+		counter = this.newsInfoDao.selectTopicNewsByNewsInfoId2(topicId, 0,200).size();
 		jedisDao.set("topicNews2"+topicId+"counter", counter+"");
 		jedisDao.expire("topicNews2"+topicId+"counter", RongLianConstant.REDIS_NEWS_EXPIRE);
 		
