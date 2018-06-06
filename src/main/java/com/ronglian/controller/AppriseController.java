@@ -148,4 +148,12 @@ public class AppriseController {
 			return RongLianResult.build(500, "failed to catch appriselist");
 		}
 	}
+	/**
+	 * 是否新闻点赞
+	 */
+	@RequestMapping(value = "/1.0/isapprise", method = RequestMethod.GET)
+	public boolean isApprised(String deviceId, String newsId,Integer good) {
+		
+		return this.appriseService.isApprised( deviceId, newsId, good);
+	}
 }

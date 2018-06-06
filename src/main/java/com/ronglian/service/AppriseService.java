@@ -10,7 +10,6 @@ import com.ronglian.utils.RongLianResult;
 
 /**
  * @author liyang
- * @createTime 2018Äê1ÔÂ2ÈÕ
  */
 public interface AppriseService {
 
@@ -27,4 +26,7 @@ public interface AppriseService {
 	 * @return
 	 */
 	public RongLianResult getAppriseList(String deviceId, String userId);
+	
+
+	public boolean isApprised(String deviceId, String newsId,Integer good);
 }

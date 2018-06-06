@@ -138,4 +138,17 @@ public class AppriseServiceImpl implements AppriseService {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.ronglian.service.AppriseService#isApprised(java.lang.String, java.lang.String, java.lang.Integer)
+	 */
+	@Override
+	public boolean isApprised(String deviceId, String newsId, Integer good) {
+		// TODO Auto-generated method stub
+		NewsInfoApprise entity = null;
+		entity = this.appriseDao.selectIsApprised(deviceId, good, newsId);
+		if(entity != null){
+			return true;
+		}
+		return false;
+	}
 }
