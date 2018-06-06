@@ -144,9 +144,9 @@ public class AppriseServiceImpl implements AppriseService {
 	@Override
 	public boolean isApprised(String deviceId, String newsId, Integer good) {
 		// TODO Auto-generated method stub
-		NewsInfoApprise entity = null;
-		entity = this.appriseDao.selectIsApprised(deviceId, good, newsId);
-		if(entity != null){
+		List<NewsInfoApprise> list = null;
+		list = this.appriseDao.selectIsApprised(deviceId, good, newsId);
+		if(list != null && list.size() >= 1){
 			return true;
 		}
 		return false;

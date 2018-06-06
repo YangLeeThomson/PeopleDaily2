@@ -27,7 +27,7 @@ public interface AppriseDao extends CrudRepository<NewsInfoApprise, String> {
 	public NewsInfoApprise getNewsInfoApprise(@Param("deviceId")String deviceId, @Param("userId")String userId,@Param("newsId") String newsId);
 	
 	@Query("select  apprise from NewsInfoApprise apprise where deviceId = :deviceId and good = :good and newsId = :newsId")
-	public NewsInfoApprise selectIsApprised(@Param("deviceId")String deviceId, @Param("good")Integer good,@Param("newsId") String newsId);
+	public List<NewsInfoApprise> selectIsApprised(@Param("deviceId")String deviceId, @Param("good")Integer good,@Param("newsId") String newsId);
 
 	@Query("select  apprise from NewsInfoApprise apprise where deviceId = :deviceId and userId = :userId")
 	public List<NewsInfoApprise> selectAppriseList(@Param("deviceId")String deviceId,@Param("userId")String userId);
