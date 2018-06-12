@@ -285,7 +285,7 @@ public class NewsInfoServiceImpl implements NewsInfoService {
 			HttpClientUtil.doGet(RongLianConstant.ACCKNOWLEDAGE_IMEDIA_URL, param);
 			return RongLianResult.ok(data);
 		}
-		NewsInfo newsInfo = this.newsInfoDao.findOne(newsId);
+		NewsInfo newsInfo = this.newsInfoDao.selectNewsInfo(newsId);
 		if (newsInfo == null) {
 			return RongLianResult.build(200, "The content of newsInfo is null ");
 		}

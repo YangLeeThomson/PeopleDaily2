@@ -20,6 +20,8 @@ import com.ronglian.entity.NewsInfo;
  * @createTime 2017年12月27
  */
 public interface NewsInfoDao extends CrudRepository<NewsInfo, String> {
+	@Query(value="select * from news_info news where news.data_status = 2 and news_id = ?1 ",nativeQuery=true)
+	NewsInfo selectNewsInfo(String id);
 
 	@Query(value="select * from news_info news where news.data_status = 2 and is_topnews = 1 and is_topnews_totop = 1 and now() < edit_expire order by topnews_sort desc,publish_time desc",nativeQuery=true)
 	List<NewsInfo> selectTopnewsAhead();
