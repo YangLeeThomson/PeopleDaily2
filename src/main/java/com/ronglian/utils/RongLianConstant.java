@@ -41,4 +41,15 @@ public class RongLianConstant {
 		//阿里巴巴图片适配服务器
 		public static final String PICTURE_URL_END = "?x-oss-process=image/info";
 		
+		//Google adwords服务，推送设备信息
+		public static final String GOOGLE_ADWORDS_URL = "https://www.googleadservices.com/pagead/conversion/app/1.0";
+		
+		//Google link id for ios
+		public static final String iOS_KEY = "D3624E74F7002A020C937AB87BF82FC8";
+		//Google link id for android
+		public static final String Android_KEY = "B89535BA3B846B9773D343674F64CE91";
+		//Google dev_token
+		public static final String DEV_TOKEN = "uE4EDjoAQKyKWWulrvyqpQ";
+		//app_event_type
+		public static final String APP_EVENT_TYPE = "first_open";
 }
