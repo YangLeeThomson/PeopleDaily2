@@ -8,6 +8,7 @@
 package com.ronglian.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +27,13 @@ import javax.persistence.Table;
 @NamedQuery(name="DeviceFromadwords.findAll", query="SELECT n FROM DeviceFromadwords n")
 public class DeviceFromadwords implements Serializable{
 
+	
+	/**
+	 * defaultConstructor
+	 */
+	public DeviceFromadwords() {
+		super();
+	}
 	/*
 	 * advertisingid (Android 设备) 
 	 * idfa (iOS 设备)
@@ -74,7 +82,7 @@ public class DeviceFromadwords implements Serializable{
 	@Column(name="creative_id")
 	private String creative_id;
 	@Column(name="timestamp")
-	private Float timestamp;
+	private BigDecimal timestamp;
 	public String getRdid() {
 		return rdid;
 	}
@@ -183,10 +191,73 @@ public class DeviceFromadwords implements Serializable{
 	public void setCreative_id(String creative_id) {
 		this.creative_id = creative_id;
 	}
-	public Float getTimestamp() {
+	public BigDecimal getTimestamp() {
 		return timestamp;
 	}
-	public void setTimestamp(Float timestamp) {
+	public void setTimestamp(BigDecimal timestamp) {
 		this.timestamp = timestamp;
 	}
+	private DeviceFromadwords(Builder build){
+		 this.rdid = build.rdid;
+	     this.ad_event_id = build.ad_event_id;
+	     this.conversion_metric = build.conversion_metric;
+	     this.interaction_type = build.interaction_type;
+	     this.campaign_type = build.campaign_type;
+	     this.campaign_id = build.campaign_id;
+	     this.campaign_name = build.campaign_name;
+	     this.ad_type = build.ad_type;
+			this.external_customer_id = build.external_customer_id;
+			this.location = build.location;
+			this.network_type = build.network_type;
+			this.network_subtype = build.network_subtype;
+			this.video_id = build.video_id;
+			this.keyword = build.keyword;
+			this.match_type = build.match_type;
+			this.placement = build.placement;
+			this.ad_group_id = build.ad_group_id;
+			this.creative_id = build.creative_id;
+			this.timestamp = build.timestamp; 
+	  }
+	public  static class Builder{
+			private String rdid = null;
+			public Builder setRdid(String rdid){this.rdid=rdid;return this;}
+			private String ad_event_id = null;
+			public Builder setAd_event_id(String ad_event_id){this.ad_event_id=ad_event_id;return this;}
+			private String conversion_metric = null;
+			public Builder setConversion_metric(String conversion_metric){this.conversion_metric=conversion_metric;return this;}
+			private String interaction_type = null;
+			public Builder setInteraction_type(String interaction_type){this.interaction_type=interaction_type;return this;}
+			private String campaign_type = null;
+			public Builder setCampaign_type(String campaign_type){this.campaign_type=campaign_type;return this;}
+			private String campaign_id = null;
+			public Builder setCampaign_id(String campaign_id){this.campaign_id=campaign_id;return this;}
+			private String campaign_name = null;
+			public Builder setCampaign_name(String campaign_name){this.campaign_name=campaign_name;return this;}
+			private String ad_type = null;
+			public Builder setAd_type(String ad_type){this.ad_type=ad_type;return this;}
+			private String external_customer_id = null;
+			public Builder setExternal_customer_id(String external_customer_id){this.external_customer_id=external_customer_id;return this;}
+			private String location = null;
+			public Builder setLocation(String location){this.location=location;return this;}
+			private String network_type = null;
+			public Builder setNetwork_type(String network_type){this.network_type=network_type;return this;}
+			private String network_subtype = null;
+			public Builder setNetwork_subtype(String network_subtype){this.network_subtype=network_subtype;return this;}
+			private String video_id = null;
+			public Builder setVideo_id(String video_id){this.video_id=video_id;return this;}
+			private String keyword = null;
+			public Builder setKeyword(String keyword){this.keyword=keyword;return this;}
+			private String match_type = null;
+			public Builder setMatch_type(String match_type){this.match_type=match_type;return this;}
+			private String placement = null;
+			public Builder setPlacement(String placement){this.placement=placement;return this;}
+			private String ad_group_id = null;
+			public Builder setAd_group_id(String ad_group_id){this.ad_group_id=ad_group_id;return this;}
+			private String creative_id = null;
+			public Builder setCreative_id(String creative_id){this.creative_id=creative_id;return this;}
+			private BigDecimal timestamp = null; 
+			public Builder setTimestamp(BigDecimal timestamp){this.timestamp=timestamp;return this;}
+		    public Builder(){};
+		    public DeviceFromadwords build(){return new DeviceFromadwords(this);}
+	 }
 }

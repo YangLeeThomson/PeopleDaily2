@@ -81,7 +81,7 @@ public class Device implements Serializable{
 	 * （以秒为单位，精确到微秒）
 	 * */
 	@Column(name="timestamp")
-	private Float timestamp;
+	private BigDecimal timestamp;
 	
 
 	/*
@@ -154,11 +154,12 @@ public class Device implements Serializable{
 		this.sdk_version = sdk_version;
 	}
 
-	public Float getTimestamp() {
+
+	public BigDecimal getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Float timestamp) {
+	public void setTimestamp(BigDecimal timestamp) {
 		this.timestamp = timestamp;
 	}
 
